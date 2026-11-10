@@ -7,11 +7,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-
-/**
- * Clase de arranque de la aplicación JavaFX.
- * Carga la vista FXML principal y le aplica la hoja de estilos CSS.
- */
 public class ActivaApplication extends Application {
 
     @Override
