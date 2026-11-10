@@ -29,12 +29,4 @@
             <Label fx:id="lblEstado" styleClass="estado" wrapText="true"/>
         </VBox>
     </center>
-
-    <bottom>
-        <Label text="Configuración del proyecto JavaFX" styleClass="pie">
-            <BorderPane.margin>
-                <Insets bottom="12"/>
-            </BorderPane.margin>
-        </Label>
-    </bottom>
 </BorderPane>
