@@ -11,10 +11,10 @@ public class ActivaApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("inicio-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("/org/example/activa/inicio-view.fxml"));
         Scene scene = new Scene(loader.load(), 640, 420);
         scene.getStylesheets().add(
-                Objects.requireNonNull(ActivaApplication.class.getResource("styles.css")).toExternalForm());
+                Objects.requireNonNull(ActivaApplication.class.getResource("/org/example/activa/styles.css")).toExternalForm());
 
         stage.setTitle("Activa - Gestión de eventos comunitarios");
         stage.setMinWidth(480);
