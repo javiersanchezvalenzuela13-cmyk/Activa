@@ -1,0 +1,5 @@
+# Normaliza los finales de línea para que Windows y Mac/Linux no generen cambios falsos
+* text=auto
+*.cmd text eol=crlf
+mvnw text eol=lf
+*.jar binary
