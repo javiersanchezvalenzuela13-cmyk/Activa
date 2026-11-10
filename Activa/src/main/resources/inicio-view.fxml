@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.activa.InicioController" styleClass="raiz">
+
+    <top>
+        <HBox styleClass="cabecera" alignment="CENTER_LEFT">
+            <Label text="Activa" styleClass="logo"/>
+            <Label text="Gestión de eventos comunitarios" styleClass="subtitulo"/>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox styleClass="tarjeta" alignment="CENTER" spacing="16">
+            <BorderPane.margin>
+                <Insets top="32" right="32" bottom="32" left="32"/>
+            </BorderPane.margin>
+            <Label text="¡Bienvenido a Activa!" styleClass="titulo"/>
+            <Label text="Consulta actividades de tu comunidad e inscríbete en las que te interesen."
+                   styleClass="texto" wrapText="true"/>
+            <Button fx:id="btnProbarConexion" text="Probar conexión con la base de datos"
+                    styleClass="boton-principal" onAction="#onProbarConexion"/>
+            <Label fx:id="lblEstado" styleClass="estado" wrapText="true"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <Label text="Configuración del proyecto JavaFX" styleClass="pie">
+            <BorderPane.margin>
+                <Insets bottom="12"/>
+            </BorderPane.margin>
+        </Label>
+    </bottom>
+</BorderPane>
