@@ -10,5 +10,6 @@ Aplicación de escritorio desarrollada en **JavaFx**, **Maven** y **MySQL** para
 ## Clonar repositorio
 Abre la terminal y ejecuta el siguiente comando para descargar el proyecto en tu equipo:
 ```bash
-git clone [https://github.com/javiersanchezvalenzuela13-cmyk/Proyecto-Desarrollo-Interfaces.git](https://github.com/javiersanchezvalenzuela13-cmyk/Proyecto-Desarrollo-Interfaces.git)
-cd Proyecto-Desarrollo-Interfaces
+```bash
+git clone [https://github.com/javiersanchezvalenzuela13-cmyk/Activa.git(https://github.com/javiersanchezvalenzuela13-cmyk/Activa.git)
+cd Activa
