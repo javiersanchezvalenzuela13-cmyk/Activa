@@ -1,0 +1,58 @@
+CREATE DATABASE IF NOT EXISTS gestion_eventos_db
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE gestion_eventos_db;
+
+-- 1. Tabla USUARIO
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL,
+    rol ENUM('USUARIO', 'ADMINISTRADOR') NOT NULL DEFAULT 'USUARIO',
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- 2. Tabla ACTIVIDAD
+CREATE TABLE actividad (
+    id_actividad INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_actividad VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    lugar VARCHAR(100) NOT NULL,
+    fecha_actividad DATE NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+    precio DECIMAL(6,2) NOT NULL DEFAULT 0.00 CHECK (precio >= 0),
+    cupo_actual INT NOT NULL DEFAULT 0 CHECK (cupo_actual >= 0),
+    cupo_max INT NOT NULL CHECK (cupo_max > 0),
+    id_usuario INT NOT NULL,
+    CONSTRAINT fk_actividad_usuario FOREIGN KEY (id_usuario)
+        REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    CONSTRAINT chk_cupo_valido CHECK (cupo_actual <= cupo_max)
+) ENGINE=InnoDB;
+-- 3. Tabla INSCRIPCION
+CREATE TABLE inscripcion (
+    id_inscripcion INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado_inscripcion ENUM('CONFIRMADA', 'CANCELADA', 'PENDIENTE_PAGO') NOT NULL DEFAULT 'CONFIRMADA',
+    id_actividad INT NOT NULL,
+    id_usuario INT NOT NULL,
+    CONSTRAINT fk_inscripcion_actividad FOREIGN KEY (id_actividad)
+        REFERENCES actividad(id_actividad) ON DELETE CASCADE,
+    CONSTRAINT fk_inscripcion_usuario FOREIGN KEY (id_usuario)
+        REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    CONSTRAINT uq_usuario_actividad UNIQUE (id_usuario, id_actividad)
+) ENGINE=InnoDB;
+
+-- 4. Tabla PAGO
+CREATE TABLE pago (
+    id_pago INT AUTO_INCREMENT PRIMARY KEY,
+    fecha_pago TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado_pago ENUM('PENDIENTE', 'COMPLETADO', 'REEMBOLSADO', 'FALLIDO') NOT NULL DEFAULT 'COMPLETADO',
+    metodo_pago ENUM('TARJETA', 'BIZUM', 'EFECTIVO') NOT NULL,
+    total DECIMAL(6,2) NOT NULL CHECK (total >= 0),
+    id_inscripcion INT NOT NULL,
+    CONSTRAINT fk_pago_inscripcion FOREIGN KEY (id_inscripcion)
+        REFERENCES inscripcion(id_inscripcion) ON DELETE CASCADE
+) ENGINE=InnoDB;
