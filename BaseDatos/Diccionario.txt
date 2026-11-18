@@ -1,0 +1,164 @@
+1. TABLA: usuario
+==================================================
+Descripción: Almacena los datos de los usuarios registrados en el sistema (administradores y vecinos/ciudadanos).
+
+CAMPOS:
+
+id_usuario
+Tipo: INT
+Claves: PK (Auto Increment)
+Permite Nulo: NO
+Descripción: Identificador único del usuario.
+
+nombre
+Tipo: VARCHAR(100)
+Permite Nulo: NO
+Descripción: Nombre completo del usuario.
+
+email
+Tipo: VARCHAR(100)
+Claves: UNIQUE
+Permite Nulo: NO
+Descripción: Correo electrónico de inicio de sesión.
+
+password
+Tipo: VARCHAR(255)
+Permite Nulo: NO
+Descripción: Contraseña cifrada del usuario.
+
+rol
+Tipo: ENUM('ADMINISTRADOR', 'VECINO')
+Permite Nulo: NO
+Descripción: Rol del usuario en el sistema.
+
+fecha_registro
+Tipo: TIMESTAMP
+Claves: Default CURRENT_TIMESTAMP
+Permite Nulo: NO
+Descripción: Fecha de alta en el sistema.
+
+==================================================
+2. TABLA: actividad
+Descripción: Registra los eventos y actividades comunitarias creados por los administradores.
+
+CAMPOS:
+
+id_actividad
+Tipo: INT
+Claves: PK (Auto Increment)
+Permite Nulo: NO
+Descripción: Identificador único de la actividad.
+
+titulo
+Tipo: VARCHAR(150)
+Permite Nulo: NO
+Descripción: Nombre o título del evento.
+
+descripcion
+Tipo: TEXT
+Permite Nulo: SI
+Descripción: Detalle completo de la actividad.
+
+fecha_hora
+Tipo: DATETIME
+Permite Nulo: NO
+Descripción: Fecha y hora programada de la actividad.
+
+lugar
+Tipo: VARCHAR(150)
+Permite Nulo: NO
+Descripción: Ubicación física o recinto del evento.
+
+precio
+Tipo: DECIMAL(8,2)
+Claves: CHECK (precio >= 0)
+Permite Nulo: NO
+Descripción: Coste de inscripción en euros (0.00 para gratuitas).
+
+cupo_maximo
+Tipo: INT
+Claves: CHECK (cupo_maximo > 0)
+Permite Nulo: NO
+Descripción: Número máximo de participantes permitidos.
+
+id_organizador
+Tipo: INT
+Claves: FK (usuario.id_usuario, ON DELETE CASCADE)
+Permite Nulo: NO
+Descripción: Usuario administrador que creó la actividad.
+
+==================================================
+3. TABLA: inscripcion
+Descripción: Gestiona la vinculación entre los usuarios (vecinos) y las actividades a las que se apuntan.
+
+CAMPOS:
+
+id_inscripcion
+Tipo: INT
+Claves: PK (Auto Increment)
+Permite Nulo: NO
+Descripción: Identificador único del registro de inscripción.
+
+id_usuario
+Tipo: INT
+Claves: FK (usuario.id_usuario, ON DELETE CASCADE), UNIQUE (compuesta)
+Permite Nulo: NO
+Descripción: Identificador del vecino inscrito.
+
+id_actividad
+Tipo: INT
+Claves: FK (actividad.id_actividad, ON DELETE CASCADE), UNIQUE (compuesta)
+Permite Nulo: NO
+Descripción: Identificador de la actividad elegida.
+
+fecha_inscripcion
+Tipo: TIMESTAMP
+Permite Nulo: NO
+Descripción: Fecha en la que se realizó la solicitud.
+
+estado
+Tipo: ENUM('PENDIENTE', 'CONFIRMADA', 'CANCELADA')
+Permite Nulo: NO
+Descripción: Estado actual de la plaza.
+
+NOTA DE RESTRICCION:
+Clave compuesta UNIQUE (id_usuario, id_actividad) para evitar inscripciones duplicadas de un mismo usuario en la misma actividad.
+
+==================================================
+4. TABLA: pago
+Descripción: Almacena las transacciones y comprobantes de pago de las actividades con coste.
+
+CAMPOS:
+
+id_pago
+Tipo: INT
+Claves: PK (Auto Increment)
+Permite Nulo: NO
+Descripción: Identificador único del pago.
+
+id_inscripcion
+Tipo: INT
+Claves: FK (inscripcion.id_inscripcion, ON DELETE CASCADE)
+Permite Nulo: NO
+Descripción: Inscripción a la que corresponde el pago.
+
+total
+Tipo: DECIMAL(8,2)
+Claves: CHECK (total >= 0)
+Permite Nulo: NO
+Descripción: Importe pagado en euros.
+
+fecha_pago
+Tipo: TIMESTAMP
+Permite Nulo: NO
+Descripción: Fecha y hora de la transacción.
+
+metodo_pago
+Tipo: ENUM('TARJETA', 'BIZUM')
+Permite Nulo: NO
+Descripción: Método de pago seleccionado.
+
+estado_pago
+Tipo: ENUM('PENDIENTE', 'COMPLETADO', 'RECHAZADO')
+Permite Nulo: NO
+Descripción: Estado del cobro.

@@ -31,8 +31,7 @@ public final class ConexionBD {
 
     private static Properties cargarConfiguracion() throws SQLException {
         if (!Files.exists(ARCHIVO_CONFIG)) {
-            throw new SQLException("No se encuentra " + ARCHIVO_CONFIG.toAbsolutePath()
-                    + ". Copia db.properties.example como db.properties y rellena tus datos.");
+            throw new SQLException("No se encuentra " + ARCHIVO_CONFIG.toAbsolutePath() + ". Copia db.properties.example como db.properties y rellena tus datos.");
         }
         Properties props = new Properties();
         try (InputStream in = Files.newInputStream(ARCHIVO_CONFIG)) {
