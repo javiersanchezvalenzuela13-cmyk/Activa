@@ -1,0 +1,131 @@
+.cal-contenedor {
+    -fx-background-color: #F7F5EE;
+    -fx-padding: 25 30 25 30;
+}
+
+/* Textos de cabecera y panel derecho */
+.cal-subtitulo {
+    -fx-text-fill: #7A7F78;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.cal-titulo-mes {
+    -fx-text-fill: #1A241E;
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+}
+
+.cal-titulo-dia {
+    -fx-text-fill: #1A241E;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.cal-texto-secundario {
+    -fx-text-fill: #7A7F78;
+    -fx-font-size: 13px;
+}
+
+/* Botones de navegación  */
+.cal-btn-nav {
+    -fx-background-color: #EFECE2;
+    -fx-text-fill: #1A241E;
+    -fx-border-color: #E2DDD0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 14;
+    -fx-cursor: hand;
+}
+
+.cal-btn-nav:hover {
+    -fx-background-color: #E2DDD0;
+}
+
+/* Filtros superiores  */
+.cal-filtro-pill {
+    -fx-background-radius: 15;
+    -fx-padding: 5 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-opacity: 0.45;
+}
+
+.cal-filtro-pill:selected {
+    -fx-opacity: 1.0;
+    -fx-font-weight: bold;
+}
+
+/* Colores de categorías */
+.cal-cat-deporte {
+    -fx-background-color: #CBE3F5;
+    -fx-text-fill: #1E4E79;
+}
+
+.cal-cat-arte {
+    -fx-background-color: #F5CFC3;
+    -fx-text-fill: #7C331E;
+}
+
+.cal-cat-cultura {
+    -fx-background-color: #F5E6B3;
+    -fx-text-fill: #735B14;
+}
+
+.cal-cat-comunidad {
+    -fx-background-color: #E4CEF0;
+    -fx-text-fill: #5B2B75;
+}
+
+/* Contenedores tipo tarjeta */
+.cal-tarjeta {
+    -fx-background-color: #FDFBF7;
+    -fx-border-color: #E2DDD0;
+    -fx-border-radius: 14;
+    -fx-background-radius: 14;
+}
+
+.cal-panel-derecho {
+    -fx-padding: 20;
+}
+
+/* Cabecera de los días de la semana */
+.cal-cabecera-dias {
+    -fx-background-color: #EFECE2;
+    -fx-background-radius: 14 14 0 0;
+    -fx-padding: 10 0 10 10;
+}
+
+.cal-dia-semana {
+    -fx-text-fill: #6E736C;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+
+.cal-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.cal-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+/* Clases para usar luego desde CalendarioController */
+.cal-dia-hoy {
+    -fx-background-color: #1B4632;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 50;
+    -fx-min-width: 24px;
+    -fx-min-height: 24px;
+    -fx-alignment: center;
+}
+
+.cal-evento-pill {
+    -fx-background-radius: 6;
+    -fx-padding: 2 6;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
