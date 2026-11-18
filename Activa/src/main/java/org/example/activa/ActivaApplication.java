@@ -11,8 +11,9 @@ public class ActivaApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("/org/example/activa/fxml/inicio-view.fxml"));
-        Scene scene = new Scene(loader.load(), 640, 420);
+        FXMLLoader loader = new FXMLLoader(
+                ActivaApplication.class.getResource("/org/example/activa/fxml/usuario/inicio-view.fxml"));
+        Scene scene = new Scene(loader.load(), 1100, 720);
         scene.getStylesheets().add(
                 Objects.requireNonNull(ActivaApplication.class.getResource("/org/example/activa/css/styles.css")).toExternalForm());
 

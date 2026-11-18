@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="raiz" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.activa.controller.usuario.InicioController">
+
+    <!-- Barra superior -->
+    <top>
+        <HBox styleClass="barra-superior" alignment="CENTER_LEFT" spacing="16">
+            <Label text="activa" styleClass="marca"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="txtBuscar" promptText="Buscar actividad o lugar..."
+                       styleClass="buscador" prefWidth="300"/>
+        </HBox>
+    </top>
+
+    <!-- Contenido con scroll -->
+    <center>
+        <ScrollPane fitToWidth="true" styleClass="scroll">
+            <VBox spacing="20" styleClass="contenido">
+
+                <VBox spacing="4">
+                    <Label text="Próximas actividades" styleClass="seccion-titulo"/>
+                    <Label fx:id="lblResumen" styleClass="seccion-subtitulo"/>
+                </VBox>
+
+                <!-- Aquí se añaden las tarjetas desde el controlador -->
+                <FlowPane fx:id="panelTarjetas" hgap="20" vgap="20"/>
+
+                <Label fx:id="lblVacio" text="No hay actividades que coincidan con tu búsqueda."
+                       styleClass="vacio" visible="false" managed="false"/>
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

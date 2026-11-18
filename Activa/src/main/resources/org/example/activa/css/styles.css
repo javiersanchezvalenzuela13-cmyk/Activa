@@ -84,3 +84,203 @@
     -fx-text-fill: #8A9890;
     -fx-font-size: 12px;
 }
+/* Pantalla de inicio */
+.barra-superior {
+    -fx-background-color: #2E7D5B;
+    -fx-padding: 14 28;
+}
+
+.marca {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.buscador {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 8 14;
+}
+
+.scroll,
+.scroll > .viewport {
+    -fx-background-color: #F4F7F5;
+}
+
+.contenido {
+    -fx-padding: 28;
+    -fx-background-color: #F4F7F5;
+}
+
+.seccion-titulo {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E2A24;
+}
+
+.seccion-subtitulo,
+.vacio {
+    -fx-text-fill: #6B7A72;
+}
+
+/* Tarjetas */
+.tarjeta-actividad {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 18;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 12, 0, 0, 3);
+}
+
+.tarjeta-actividad:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.16), 16, 0, 0, 5);
+}
+
+.tarjeta-nombre {
+    -fx-font-size: 17px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E2A24;
+}
+
+.tarjeta-dato {
+    -fx-text-fill: #4A5A52;
+}
+
+.etiqueta-precio {
+    -fx-background-color: #FCEFD9;
+    -fx-text-fill: #7A4E0A;
+    -fx-background-radius: 10;
+    -fx-padding: 3 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-precio.gratis {
+    -fx-background-color: #DCEFE4;
+    -fx-text-fill: #1F5A41;
+}
+
+/* Barra de plazas */
+.barra-plazas > .track {
+    -fx-background-color: #E6ECE8;
+    -fx-background-radius: 4;
+}
+
+.barra-plazas > .bar {
+    -fx-background-color: #2E7D5B;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+}
+
+.barra-plazas.pocas > .bar {
+    -fx-background-color: #D9902B;
+}
+
+.barra-plazas.llena > .bar {
+    -fx-background-color: #C62828;
+}
+
+.texto-plazas {
+    -fx-font-size: 12px;
+    -fx-text-fill: #6B7A72;
+}
+
+/* Botones */
+.boton-apuntarme {
+    -fx-background-color: #2E7D5B;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 9 16;
+    -fx-cursor: hand;
+}
+
+.boton-apuntarme:hover {
+    -fx-background-color: #1F5A41;
+}
+
+.boton-apuntarme:disabled {
+    -fx-background-color: #B8C4BD;
+    -fx-opacity: 1;
+}
+
+.boton-cancelar {
+    -fx-background-color: transparent;
+    -fx-border-color: #C62828;
+    -fx-text-fill: #C62828;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+/* Tarjeta clicable */
+.tarjeta-actividad {
+    -fx-cursor: hand;
+}
+
+/* Pantalla de detalle */
+.boton-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2E7D5B;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.boton-volver:hover {
+    -fx-underline: true;
+}
+
+.cabecera-detalle {
+    -fx-background-color: linear-gradient(to right, #1F5A41, #2E7D5B 60%, #4E9C78);
+    -fx-background-radius: 16;
+    -fx-padding: 32;
+}
+
+.detalle-titulo {
+    -fx-text-fill: white;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
+
+.detalle-subtitulo {
+    -fx-text-fill: #D7EDE2;
+    -fx-font-size: 15px;
+}
+
+.bloque {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 12, 0, 0, 3);
+}
+
+.bloque-titulo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E2A24;
+}
+
+.dato-nombre {
+    -fx-text-fill: #6B7A72;
+    -fx-font-weight: bold;
+}
+
+.plazas-numero {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E2A24;
+}
+
+.estado-inscripcion {
+    -fx-background-color: #DCEFE4;
+    -fx-text-fill: #1F5A41;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+}
+
+.estado-inscripcion.pendiente {
+    -fx-background-color: #FCEFD9;
+    -fx-text-fill: #7A4E0A;
+}
