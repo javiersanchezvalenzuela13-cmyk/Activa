@@ -1,0 +1,86 @@
+.root {
+    -activa-primario: #2E7D5B;
+    -activa-primario-oscuro: #1F5A41;
+    -activa-fondo: #F4F7F5;
+    -activa-texto: #1E2A24;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -fx-font-size: 14px;
+}
+
+.raiz {
+    -fx-background-color: -activa-fondo;
+}
+
+.cabecera {
+    -fx-background-color: -activa-primario;
+    -fx-padding: 14 24;
+    -fx-spacing: 14;
+}
+
+.logo {
+    -fx-text-fill: white;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+.subtitulo {
+    -fx-text-fill: #D7EDE2;
+    -fx-font-size: 14px;
+}
+
+.tarjeta {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 32;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 16, 0, 0, 4);
+}
+
+.titulo {
+    -fx-text-fill: -activa-texto;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.texto {
+    -fx-text-fill: #4A5A52;
+    -fx-text-alignment: center;
+}
+
+.boton-principal {
+    -fx-background-color: -activa-primario;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+}
+
+.boton-principal:hover {
+    -fx-background-color: -activa-primario-oscuro;
+}
+
+.boton-principal:disabled {
+    -fx-opacity: 0.6;
+}
+
+.estado {
+    -fx-text-alignment: center;
+    -fx-text-fill: #6B7A72;
+}
+
+.estado-ok {
+    -fx-text-fill: #2E7D32;
+}
+
+.estado-error {
+    -fx-text-fill: #C62828;
+}
+
+.estado-info {
+    -fx-text-fill: #1565C0;
+}
+
+.pie {
+    -fx-text-fill: #8A9890;
+    -fx-font-size: 12px;
+}

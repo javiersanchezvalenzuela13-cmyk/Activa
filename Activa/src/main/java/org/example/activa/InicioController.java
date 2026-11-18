@@ -9,9 +9,6 @@ import org.example.activa.db.ConexionBD;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 
-/**
- * Controlador de la vista inicio-view.fxml.
- */
 public class InicioController {
 
     @FXML

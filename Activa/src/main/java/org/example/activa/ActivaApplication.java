@@ -7,19 +7,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-
-/**
- * Clase de arranque de la aplicación JavaFX.
- * Carga la vista FXML principal y le aplica la hoja de estilos CSS.
- */
 public class ActivaApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("inicio-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("/org/example/activa/fxml/inicio-view.fxml"));
         Scene scene = new Scene(loader.load(), 640, 420);
         scene.getStylesheets().add(
-                Objects.requireNonNull(ActivaApplication.class.getResource("styles.css")).toExternalForm());
+                Objects.requireNonNull(ActivaApplication.class.getResource("/org/example/activa/styles.css")).toExternalForm());
 
         stage.setTitle("Activa - Gestión de eventos comunitarios");
         stage.setMinWidth(480);
