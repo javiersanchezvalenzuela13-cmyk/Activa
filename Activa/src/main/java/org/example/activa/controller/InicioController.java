@@ -1,4 +1,4 @@
-package org.example.activa;
+package org.example.activa.controller;
 
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;

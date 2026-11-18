@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.activa.InicioController" styleClass="raiz">
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.activa.controller.InicioController" styleClass="raiz">
 
     <top>
         <HBox styleClass="cabecera" alignment="CENTER_LEFT">

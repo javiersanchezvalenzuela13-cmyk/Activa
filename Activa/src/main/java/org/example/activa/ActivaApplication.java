@@ -14,7 +14,7 @@ public class ActivaApplication extends Application {
         FXMLLoader loader = new FXMLLoader(ActivaApplication.class.getResource("/org/example/activa/fxml/inicio-view.fxml"));
         Scene scene = new Scene(loader.load(), 640, 420);
         scene.getStylesheets().add(
-                Objects.requireNonNull(ActivaApplication.class.getResource("/org/example/activa/styles.css")).toExternalForm());
+                Objects.requireNonNull(ActivaApplication.class.getResource("/org/example/activa/css/styles.css")).toExternalForm());
 
         stage.setTitle("Activa - Gestión de eventos comunitarios");
         stage.setMinWidth(480);
