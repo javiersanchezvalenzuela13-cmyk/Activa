@@ -1,86 +1,735 @@
+/* Activa · estilos copiados del prototipo HTML */
+
+/* Colores del prototipo */
 .root {
-    -activa-primario: #2E7D5B;
-    -activa-primario-oscuro: #1F5A41;
-    -activa-fondo: #F4F7F5;
-    -activa-texto: #1E2A24;
-    -fx-font-family: "Segoe UI", "Helvetica Neue", sans-serif;
+    -paper: #f5f0e3;
+    -paper-2: #ece4cf;
+    -card: #fffcf4;
+    -ink: #1d2a23;
+    -ink-2: #4b5a51;
+    -ink-3: #7a857d;
+    -line: #e0d6bd;
+    -forest: #1f5a45;
+    -forest-hover: #174a38;
+    -sage-soft: #dde9dd;
+    -side: #173a2e;
+    -side-2: #21493a;
+    -side-ink: #efe7d2;
+    -side-mut: #9fb8a8;
+    -cream: #fff8ea;
+    -lago: #2f6f8f;
+    -lago-s: #cfe3ec;
+    -terra: #c0603b;
+    -terra-s: #f3d6c6;
+    -mostaza: #c8920f;
+    -mostaza-s: #f2e0b2;
+    -ciruela: #7d4a78;
+    -ciruela-s: #ead3e6;
+    -ok: #2f7d55;
+    -ok-soft: #dcefe2;
+    -warn: #a8720c;
+    -warn-soft: #f6e8c8;
+    -danger: #b03a2e;
+    -danger-soft: #f7dfda;
+
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
+    -fx-background-color: -paper;
 }
 
-.raiz {
-    -fx-background-color: -activa-fondo;
+/* Iconos */
+.icono {
+    -fx-fill: transparent;
+    -fx-stroke: -ink-2;
+    -fx-stroke-width: 2;
+    -fx-stroke-line-cap: round;
+    -fx-stroke-line-join: round;
 }
 
-.cabecera {
-    -fx-background-color: -activa-primario;
-    -fx-padding: 14 24;
-    -fx-spacing: 14;
+/* Estructura */
+.app,
+.main {
+    -fx-background-color: -paper;
 }
 
-.logo {
-    -fx-text-fill: white;
-    -fx-font-size: 24px;
+/* Barra lateral */
+.side {
+    -fx-background-color: -side;
+    -fx-padding: 24 16;
+}
+
+.brand {
+    -fx-padding: 0 8;
+}
+
+.brand-mark {
+    -fx-min-width: 34;
+    -fx-min-height: 34;
+    -fx-max-width: 34;
+    -fx-max-height: 34;
+    -fx-background-color: -cream;
+    -fx-background-radius: 11 11 11 3;
+}
+
+.brand-mark .icono {
+    -fx-stroke: -forest;
+}
+
+.brand-texto {
+    -fx-font-family: "Georgia";
+    -fx-font-style: italic;
     -fx-font-weight: bold;
+    -fx-font-size: 26px;
+    -fx-text-fill: -side-ink;
 }
 
-.subtitulo {
-    -fx-text-fill: #D7EDE2;
+.nav-eyebrow {
+    -fx-text-fill: -side-mut;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 12 6 12;
+}
+
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-padding: 10 12;
+    -fx-text-fill: -side-ink;
     -fx-font-size: 14px;
-}
-
-.tarjeta {
-    -fx-background-color: white;
-    -fx-background-radius: 12;
-    -fx-padding: 32;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 16, 0, 0, 4);
-}
-
-.titulo {
-    -fx-text-fill: -activa-texto;
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-}
-
-.texto {
-    -fx-text-fill: #4A5A52;
-    -fx-text-alignment: center;
-}
-
-.boton-principal {
-    -fx-background-color: -activa-primario;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-background-radius: 8;
-    -fx-padding: 10 20;
+    -fx-alignment: CENTER-LEFT;
+    -fx-graphic-text-gap: 12;
     -fx-cursor: hand;
 }
 
-.boton-principal:hover {
-    -fx-background-color: -activa-primario-oscuro;
+.nav-item .icono {
+    -fx-stroke: -side-ink;
 }
 
-.boton-principal:disabled {
-    -fx-opacity: 0.6;
+.nav-item:hover {
+    -fx-background-color: -side-2;
 }
 
-.estado {
-    -fx-text-alignment: center;
-    -fx-text-fill: #6B7A72;
+.nav-item.activo {
+    -fx-background-color: -cream;
+    -fx-text-fill: -forest;
+    -fx-font-weight: bold;
 }
 
-.estado-ok {
-    -fx-text-fill: #2E7D32;
+.nav-item.activo .icono {
+    -fx-stroke: -forest;
 }
 
-.estado-error {
-    -fx-text-fill: #C62828;
+/* Caja de ayuda */
+.helpbox {
+    -fx-background-color: -side-2;
+    -fx-background-radius: 16;
 }
 
-.estado-info {
-    -fx-text-fill: #1565C0;
+.helpbox-contenido {
+    -fx-padding: 16;
 }
 
-.pie {
-    -fx-text-fill: #8A9890;
+.helpbox-circulo {
+    -fx-fill: -mostaza;
+    -fx-opacity: 0.9;
+}
+
+.helpbox-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: -side-ink;
+}
+
+.helpbox-texto {
     -fx-font-size: 12px;
+    -fx-text-fill: -side-mut;
+}
+
+.helpbox-online {
+    -fx-font-size: 11px;
+    -fx-text-fill: -side-mut;
+}
+
+.punto-online {
+    -fx-fill: #6cc39a;
+}
+
+.helpbox-boton {
+    -fx-background-color: -cream;
+    -fx-text-fill: -forest;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-background-radius: 9;
+    -fx-padding: 8 12;
+    -fx-graphic-text-gap: 8;
+    -fx-cursor: hand;
+}
+
+.helpbox-boton .icono {
+    -fx-stroke: -forest;
+}
+
+/* Barra superior */
+.top {
+    -fx-background-color: -paper;
+    -fx-padding: 14 28;
+    -fx-border-color: transparent transparent -line transparent;
+}
+
+.search {
+    -fx-background-color: -card;
+    -fx-background-radius: 12;
+    -fx-border-color: -line;
+    -fx-border-radius: 12;
+    -fx-padding: 3 14;
+}
+
+.search .icono {
+    -fx-stroke: -ink-3;
+}
+
+.search-campo {
+    -fx-background-color: transparent;
+    -fx-padding: 7 0;
+    -fx-text-fill: -ink;
+    -fx-prompt-text-fill: -ink-3;
+}
+
+.iconbtn {
+    -fx-min-width: 42;
+    -fx-min-height: 42;
+    -fx-max-width: 42;
+    -fx-max-height: 42;
+    -fx-background-color: -card;
+    -fx-background-radius: 12;
+    -fx-border-color: -line;
+    -fx-border-radius: 12;
+    -fx-cursor: hand;
+}
+
+.iconbtn:hover {
+    -fx-border-color: -ink-3;
+}
+
+.me {
+    -fx-background-color: transparent;
+    -fx-background-radius: 14;
+    -fx-border-color: transparent;
+    -fx-border-radius: 14;
+    -fx-padding: 4 6 4 4;
+    -fx-cursor: hand;
+}
+
+.me:hover,
+.me:showing {
+    -fx-background-color: -card;
+    -fx-border-color: -line;
+}
+
+.me > .arrow-button > .arrow {
+    -fx-background-color: -ink-3;
+}
+
+.me-nombre {
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-text-fill: -ink;
+}
+
+.me-rol {
+    -fx-font-size: 11px;
+    -fx-text-fill: -ink-3;
+}
+
+.avatar {
+    -fx-min-width: 38;
+    -fx-min-height: 38;
+    -fx-max-width: 38;
+    -fx-max-height: 38;
+    -fx-background-color: -mostaza-s;
+    -fx-background-radius: 19;
+    -fx-text-fill: #6d4f08;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER;
+}
+
+/* Menú desplegable del usuario */
+.context-menu {
+    -fx-background-color: -card;
+    -fx-background-radius: 14;
+    -fx-border-color: -line;
+    -fx-border-radius: 14;
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(60, 45, 10, 0.18), 24, 0, 0, 8);
+}
+
+.context-menu .menu-item {
+    -fx-padding: 9 12;
+    -fx-background-radius: 10;
+}
+
+.context-menu .menu-item:focused {
+    -fx-background-color: -paper-2;
+}
+
+.context-menu .menu-item .label {
+    -fx-text-fill: -ink;
+}
+
+.context-menu .menu-item.salir .label {
+    -fx-text-fill: -danger;
+}
+
+.context-menu .separator .line {
+    -fx-border-color: -line transparent transparent transparent;
+}
+
+/* Contenido y scroll */
+.scroll,
+.scroll > .viewport {
+    -fx-background-color: -paper;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -line;
+    -fx-background-radius: 99;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-padding: 0;
+}
+
+.contenido {
+    -fx-padding: 28 28 64 28;
+    -fx-background-color: -paper;
+}
+
+.seccion-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 24px;
+    -fx-text-fill: -ink;
+}
+
+.seccion-subtitulo,
+.vacio {
+    -fx-text-fill: -ink-3;
+}
+
+/* Tarjetas de actividad */
+.tarjeta-actividad {
+    -fx-background-color: -card;
+    -fx-background-radius: 20;
+    -fx-border-color: -line;
+    -fx-border-radius: 20;
+    -fx-padding: 16;
+    -fx-spacing: 9;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(60, 45, 10, 0.12), 20, 0, 0, 6);
+}
+
+.tarjeta-nombre {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 18px;
+    -fx-text-fill: -ink;
+}
+
+.tarjeta-dato {
+    -fx-text-fill: -ink-2;
+    -fx-font-size: 13px;
+}
+
+.etiqueta-precio {
+    -fx-background-color: -mostaza-s;
+    -fx-text-fill: #6d4f08;
+    -fx-background-radius: 99;
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.etiqueta-precio.gratis {
+    -fx-background-color: -ok-soft;
+    -fx-text-fill: -ok;
+}
+
+/* Barra de plazas */
+.barra-plazas {
+    -fx-pref-height: 6;
+}
+
+.barra-plazas > .track {
+    -fx-background-color: -paper-2;
+    -fx-background-radius: 99;
+}
+
+.barra-plazas > .bar {
+    -fx-background-color: -forest;
+    -fx-background-radius: 99;
+    -fx-background-insets: 0;
+}
+
+.barra-plazas.pocas > .bar {
+    -fx-background-color: -warn;
+}
+
+.barra-plazas.llena > .bar {
+    -fx-background-color: -lago;
+}
+
+.texto-plazas {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -ok;
+}
+
+/* Botones */
+.boton-apuntarme {
+    -fx-background-color: -forest;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 11;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.boton-apuntarme:hover {
+    -fx-background-color: -forest-hover;
+}
+
+.boton-apuntarme:disabled {
+    -fx-opacity: 0.5;
+}
+
+.boton-cancelar {
+    -fx-background-color: -danger-soft;
+    -fx-text-fill: -danger;
+    -fx-font-weight: bold;
+    -fx-background-radius: 11;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.boton-volver {
+    -fx-background-color: transparent;
+    -fx-text-fill: -forest;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.boton-volver:hover {
+    -fx-underline: true;
+}
+
+/* Detalle de actividad */
+.cabecera-detalle {
+    -fx-background-color: -forest;
+    -fx-background-radius: 26;
+    -fx-padding: 32;
+}
+
+.detalle-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 34px;
+    -fx-text-fill: -cream;
+}
+
+.detalle-subtitulo {
+    -fx-text-fill: -sage-soft;
+    -fx-font-size: 15px;
+}
+
+.bloque {
+    -fx-background-color: -card;
+    -fx-background-radius: 20;
+    -fx-border-color: -line;
+    -fx-border-radius: 20;
+    -fx-padding: 20;
+}
+
+.bloque-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 18px;
+    -fx-text-fill: -ink;
+}
+
+.dato-nombre {
+    -fx-text-fill: -ink-3;
+    -fx-font-weight: bold;
+}
+
+.plazas-numero {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 30px;
+    -fx-text-fill: -ink;
+}
+
+.estado-inscripcion {
+    -fx-background-color: -ok-soft;
+    -fx-text-fill: -ok;
+    -fx-background-radius: 10;
+    -fx-padding: 8 12;
+    -fx-font-weight: bold;
+}
+
+.estado-inscripcion.pendiente {
+    -fx-background-color: -warn-soft;
+    -fx-text-fill: -warn;
+}
+
+/* Tablas */
+.tabla {
+    -fx-background-color: -card;
+    -fx-background-radius: 20;
+    -fx-border-color: -line;
+    -fx-border-radius: 20;
+    -fx-padding: 6;
+}
+
+.tabla .column-header-background,
+.tabla .column-header,
+.tabla .filler {
+    -fx-background-color: -card;
+}
+
+.tabla .column-header {
+    -fx-border-color: transparent transparent -line transparent;
+}
+
+.tabla .column-header .label {
+    -fx-text-fill: -ink-3;
+    -fx-font-weight: bold;
+}
+
+.tabla .table-row-cell {
+    -fx-cell-size: 50;
+    -fx-background-color: -card;
+    -fx-border-color: transparent transparent -paper-2 transparent;
+}
+
+.tabla .table-row-cell:hover {
+    -fx-background-color: -paper;
+}
+
+.tabla .table-row-cell:selected {
+    -fx-background-color: -sage-soft;
+}
+
+.tabla .table-row-cell:selected .text {
+    -fx-fill: -ink;
+}
+
+.tabla .table-cell {
+    -fx-alignment: CENTER-LEFT;
+    -fx-text-fill: -ink;
+}
+
+/* Etiquetas de estado */
+.estado-chip {
+    -fx-background-radius: 99;
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.estado-chip.confirmada {
+    -fx-background-color: -ok-soft;
+    -fx-text-fill: -ok;
+}
+
+.estado-chip.pendiente {
+    -fx-background-color: -warn-soft;
+    -fx-text-fill: -warn;
+}
+
+.estado-chip.cancelada {
+    -fx-background-color: -danger-soft;
+    -fx-text-fill: -danger;
+}
+
+.estado-chip.pasada {
+    -fx-background-color: -paper-2;
+    -fx-text-fill: -ink-2;
+}
+
+.boton-cancelar-pequeno {
+    -fx-background-color: -danger-soft;
+    -fx-text-fill: -danger;
+    -fx-font-weight: bold;
+    -fx-background-radius: 9;
+    -fx-padding: 7 11;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+/* Desplegables */
+.combo-box {
+    -fx-background-color: -card;
+    -fx-background-radius: 11;
+    -fx-border-color: -line;
+    -fx-border-radius: 11;
+}
+/* Títulos grandes */
+.eyebrow {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -ink-3;
+}
+
+.h1 {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 38px;
+    -fx-fill: -ink;
+}
+
+.h1-em {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 38px;
+    -fx-font-style: italic;
+    -fx-fill: -forest;
+}
+
+/* Pestañas */
+.seg {
+    -fx-background-color: -paper-2;
+    -fx-background-radius: 12;
+    -fx-padding: 4;
+}
+
+.seg-boton {
+    -fx-background-color: transparent;
+    -fx-background-radius: 9;
+    -fx-padding: 8 14;
+    -fx-text-fill: -ink-2;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.seg-boton:selected {
+    -fx-background-color: -card;
+    -fx-text-fill: -forest;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.10), 4, 0, 0, 1);
+}
+
+/* Panel con lista */
+.panel {
+    -fx-background-color: -card;
+    -fx-background-radius: 18;
+    -fx-border-color: -line;
+    -fx-border-radius: 18;
+}
+
+.panel-h {
+    -fx-background-color: -paper-2;
+    -fx-padding: 10 18;
+}
+
+.panel-h.acento {
+    -fx-background-color: -sage-soft;
+}
+
+.panel-h.acento .eyebrow {
+    -fx-text-fill: -forest;
+}
+
+.fila-lista {
+    -fx-padding: 14 18;
+    -fx-border-color: transparent transparent -line transparent;
+    -fx-cursor: hand;
+}
+
+.fila-lista:hover {
+    -fx-background-color: -paper;
+}
+
+.fila-nombre {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: -ink;
+}
+
+.fila-datos {
+    -fx-font-size: 12px;
+    -fx-text-fill: -ink-3;
+}
+
+/* Miniaturas de color */
+.miniatura {
+    -fx-background-radius: 12;
+}
+
+.miniatura.cat-lago { -fx-background-color: -lago-s; }
+.miniatura.cat-terra { -fx-background-color: -terra-s; }
+.miniatura.cat-mostaza { -fx-background-color: -mostaza-s; }
+.miniatura.cat-ciruela { -fx-background-color: -ciruela-s; }
+
+.cat-lago .icono { -fx-stroke: -lago; }
+.cat-terra .icono { -fx-stroke: -terra; }
+.cat-mostaza .icono { -fx-stroke: -mostaza; }
+.cat-ciruela .icono { -fx-stroke: -ciruela; }
+
+/* Etiquetas (pills) */
+.pill {
+    -fx-background-radius: 99;
+    -fx-padding: 4 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.pill.ok { -fx-background-color: -ok-soft; -fx-text-fill: -ok; }
+.pill.warn { -fx-background-color: -warn-soft; -fx-text-fill: -warn; }
+.pill.bad { -fx-background-color: -danger-soft; -fx-text-fill: -danger; }
+.pill.neu { -fx-background-color: -paper-2; -fx-text-fill: -ink-2; }
+.pill.info { -fx-background-color: -lago-s; -fx-text-fill: -lago; }
+
+/* Estado vacío */
+.vacio-caja {
+    -fx-padding: 40 20;
+}
+
+.vacio-icono {
+    -fx-min-width: 56;
+    -fx-min-height: 56;
+    -fx-max-width: 56;
+    -fx-max-height: 56;
+    -fx-background-color: -sage-soft;
+    -fx-background-radius: 28;
+}
+
+.vacio-icono .icono {
+    -fx-stroke: -forest;
+}
+
+.vacio-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 22px;
+    -fx-text-fill: -ink;
+}
+
+.vacio-texto {
+    -fx-text-fill: -ink-2;
+    -fx-text-alignment: center;
+}
+.boton-ghost {
+    -fx-background-color: transparent;
+    -fx-text-fill: -ink;
+    -fx-font-weight: bold;
+    -fx-background-radius: 11;
+    -fx-padding: 10 16;
+    -fx-cursor: hand;
+}
+
+.boton-ghost:hover {
+    -fx-background-color: -paper-2;
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.activa.controller.usuario.InicioController"
+            fitToWidth="true" styleClass="scroll">
+
+    <VBox spacing="20" styleClass="contenido">
+
+        <!-- Título -->
+        <VBox spacing="4">
+            <Label text="Próximas actividades" styleClass="seccion-titulo"/>
+            <Label fx:id="lblResumen" styleClass="seccion-subtitulo"/>
+        </VBox>
+
+        <!-- Tarjetas -->
+        <FlowPane fx:id="panelTarjetas" hgap="20" vgap="20"/>
+
+        <Label fx:id="lblVacio" text="No hay actividades que coincidan con tu búsqueda."
+               styleClass="vacio" visible="false" managed="false"/>
+    </VBox>
+</ScrollPane>
