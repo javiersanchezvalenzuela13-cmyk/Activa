@@ -56,3 +56,21 @@ CREATE TABLE pago (
     CONSTRAINT fk_pago_inscripcion FOREIGN KEY (id_inscripcion)
         REFERENCES inscripcion(id_inscripcion) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- 5. Tabla USUARIO_ETIQUETA
+CREATE TABLE usuario_etiqueta (
+    id_usuario INT NOT NULL,
+    etiqueta VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id_usuario, etiqueta),
+    CONSTRAINT fk_ue_usuario FOREIGN KEY (id_usuario) 
+        REFERENCES usuario(id_usuario) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- 6. Tabla ACTIVIDAD_ETIQUETA
+CREATE TABLE actividad_etiqueta (
+    id_actividad INT NOT NULL,
+    etiqueta VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id_actividad, etiqueta),
+    CONSTRAINT fk_ae_actividad FOREIGN KEY (id_actividad) 
+        REFERENCES actividad(id_actividad) ON DELETE CASCADE
+) ENGINE=InnoDB;

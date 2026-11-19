@@ -162,3 +162,45 @@ estado_pago
 Tipo: ENUM('PENDIENTE', 'COMPLETADO', 'RECHAZADO')
 Permite Nulo: NO
 Descripción: Estado del cobro.
+
+==================================================
+5. TABLA: usuario_etiqueta
+Descripción: Almacena las etiquetas (intereses) seleccionadas por los usuarios al registrarse o en su perfil.
+
+CAMPOS:
+
+id_usuario
+Tipo: INT
+Claves: PK (compuesta), FK (usuario.id_usuario, ON DELETE CASCADE)
+Permite Nulo: NO
+Descripción: Identificador del usuario asociado a la etiqueta.
+
+etiqueta
+Tipo: VARCHAR(50)
+Claves: PK (compuesta)
+Permite Nulo: NO
+Descripción: Nombre de la etiqueta de interés seleccionada (ej. Deportes, Cultura).
+
+NOTA DE RESTRICCION:
+Clave primaria compuesta (id_usuario, etiqueta) para evitar que un mismo usuario tenga la misma etiqueta duplicada.
+
+==================================================
+6. TABLA: actividad_etiqueta
+Descripción: Almacena las etiquetas (categorías) asociadas a cada actividad creada.
+
+CAMPOS:
+
+id_actividad
+Tipo: INT
+Claves: PK (compuesta), FK (actividad.id_actividad, ON DELETE CASCADE)
+Permite Nulo: NO
+Descripción: Identificador de la actividad asociada.
+
+etiqueta
+Tipo: VARCHAR(50)
+Claves: PK (compuesta)
+Permite Nulo: NO
+Descripción: Nombre de la etiqueta asignada al evento (ej. Senderismo, Taller).
+
+NOTA DE RESTRICCION:
+Clave primaria compuesta (id_actividad, etiqueta) para evitar que una misma actividad repita la misma etiqueta de categorización.
