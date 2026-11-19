@@ -34,7 +34,10 @@
                         styleClass="nav-item" onAction="#onInicio"/>
                 <Button fx:id="btnMisInscripciones" text="Mis inscripciones" maxWidth="Infinity"
                         styleClass="nav-item" onAction="#onMisInscripciones"/>
-                <!-- Persona 3: Calendario, Historial, Pagos -->
+                <Button fx:id="btnCalendario" text="Calendario" maxWidth="Infinity"
+                        styleClass="nav-item" onAction="#onCalendario"/>
+                <Button fx:id="btnPagos" text="Pagos" maxWidth="Infinity"
+                        styleClass="nav-item" onAction="#onPagos"/>
             </VBox>
 
             <!-- Administración (solo se ve si el usuario es admin) -->

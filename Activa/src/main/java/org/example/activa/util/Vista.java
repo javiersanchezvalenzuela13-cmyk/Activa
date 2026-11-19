@@ -12,12 +12,12 @@ public enum Vista {
     // Persona 2
     INICIO("usuario/inicio-view.fxml"),
     DETALLE_ACTIVIDAD("usuario/detalle-actividad-view.fxml"),
-    MIS_INSCRIPCIONES("usuario/mis-inscripciones-view.fxml");
+    MIS_INSCRIPCIONES("usuario/mis-inscripciones-view.fxml"),
 
     // Persona 3: CALENDARIO, PAGOS, HISTORIAL...
-    //CALENDARIO("usuario/calendario-view.fxml"),
+    CALENDARIO("usuario/calendario-view.fxml"),
     // HISTORIAL("usuario/historial-view.fxml"),
-    //PAGOS("usuario/pagos-view.fxml"),
+    PAGOS("usuario/pagos-view.fxml");
 
     private final String ruta;
 

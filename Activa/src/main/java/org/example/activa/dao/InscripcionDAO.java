@@ -1,7 +1,7 @@
 package org.example.activa.dao;
 
 import org.example.activa.db.ConexionBD;
-import org.example.activa.model.EstadoInscripcion;
+import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
 
 import java.sql.Connection;

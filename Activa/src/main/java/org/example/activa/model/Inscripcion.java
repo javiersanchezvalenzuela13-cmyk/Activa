@@ -1,5 +1,7 @@
 package org.example.activa.model;
 
+import org.example.activa.model.enums.EstadoInscripcion;
+
 import java.time.LocalDateTime;
 
 public class Inscripcion {
