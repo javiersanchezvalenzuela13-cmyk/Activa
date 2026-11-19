@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox styleClass="root-container" stylesheets="@login-view.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.auth.LoginController">
+<HBox styleClass="root-container" stylesheets="@auth.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.auth.LoginController">
 
     <VBox alignment="CENTER_LEFT" prefWidth="450" spacing="20">
         <padding>
@@ -75,9 +75,9 @@
          </rowConstraints>
         </GridPane>
 
-        <VBox alignment="CENTER_LEFT" maxHeight="100" maxWidth="250" spacing="5" styleClass="floating-card" StackPane.alignment="CENTER">
-            <Label prefHeight="19.0" prefWidth="231.0" style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;" text="142 actividades este mes cerca de ti." />
-            <Label style="-fx-font-size: 11px; -fx-text-fill: #666;" text="Yoga en el parque, talleres, rutas y huertos. Apúntate en dos toques." wrapText="true" />
+        <VBox styleClass="floating-card" maxWidth="350" maxHeight="100" alignment="CENTER_LEFT" spacing="5" StackPane.alignment="CENTER">
+            <Label text="142 actividades este mes cerca de ti." style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;" wrapText="true"/>
+            <Label text="Yoga en el parque, talleres, rutas y huertos. Apúntate en dos toques." style="-fx-font-size: 11px; -fx-text-fill: #666;" wrapText="true"/>
         </VBox>
     </StackPane>
 
