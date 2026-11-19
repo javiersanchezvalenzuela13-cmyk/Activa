@@ -12,6 +12,8 @@ import org.example.activa.model.Actividad;
 import org.example.activa.model.Inscripcion;
 import org.example.activa.service.ActividadService;
 import org.example.activa.service.InscripcionService;
+import org.example.activa.util.Acceso;
+import org.example.activa.util.Sesion;
 
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
@@ -66,11 +68,11 @@ public class DetalleActividadController {
         try {
             actividad = actividadService.buscarPorId(actividad.getIdActividad());
 
-            miInscripcion = inscripcionService.listarMisInscripciones(ID_USUARIO_PRUEBA).stream()
+            miInscripcion = !Sesion.haySesion() ? null
+                    : inscripcionService.listarMisInscripciones(Sesion.getIdUsuario()).stream()
                     .filter(i -> i.getIdActividad() == actividad.getIdActividad() && i.estaActiva())
                     .findFirst()
                     .orElse(null);
-
             pintar();
         } catch (ActividadException | InscripcionException e) {
             mostrarError(e.getMessage());
@@ -146,6 +148,10 @@ public class DetalleActividadController {
     // Botón principal: apuntarme o cancelar
     @FXML
     private void onAccion() {
+        if (!Sesion.haySesion()) {
+            Acceso.pedirLogin("apuntarte");
+            return;
+        }
         if (miInscripcion != null) {
             cancelar();
         } else {

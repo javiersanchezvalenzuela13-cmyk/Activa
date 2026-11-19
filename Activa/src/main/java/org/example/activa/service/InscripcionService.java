@@ -123,6 +123,15 @@ public class InscripcionService {
             throw new InscripcionException("Error al consultar la inscripción.", e);
         }
     }
+    // Inscripción activa de un usuario en una actividad (null si no tiene)
+    public Inscripcion obtenerInscripcion(int idUsuario, int idActividad) throws InscripcionException {
+        try {
+            Inscripcion i = inscripcionDAO.buscarPorUsuarioYActividad(idUsuario, idActividad);
+            return (i != null && i.estaActiva()) ? i : null;
+        } catch (SQLException e) {
+            throw new InscripcionException("Error al consultar la inscripción.", e);
+        }
+    }
 
     // Inscripciones de un usuario (pantalla "Mis inscripciones")
     public List<Inscripcion> listarMisInscripciones(int idUsuario) throws InscripcionException {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.activa.controller.usuario.MisInscripcionesController"
+            fitToWidth="true" styleClass="scroll">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoFiltro"/>
+    </fx:define>
+
+    <VBox spacing="24" styleClass="contenido">
+
+        <!-- Título -->
+        <VBox spacing="6">
+            <Label text="MIS INSCRIPCIONES" styleClass="eyebrow"/>
+            <TextFlow>
+                <Text text="Tus planes, " styleClass="h1"/>
+                <Text text="apuntados" styleClass="h1-em"/>
+                <Text text="." styleClass="h1"/>
+            </TextFlow>
+        </VBox>
+
+        <!-- Pestañas -->
+        <HBox spacing="4" maxWidth="-Infinity" styleClass="seg">
+            <ToggleButton fx:id="tabProximas" text="Próximas" selected="true"
+                          toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+            <ToggleButton fx:id="tabRealizadas" text="Realizadas"
+                          toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+            <ToggleButton fx:id="tabCanceladas" text="Canceladas"
+                          toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+            <ToggleButton fx:id="tabTodas" text="Todas"
+                          toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+        </HBox>
+
+        <!-- Panel con la lista (se rellena desde el controlador) -->
+        <VBox fx:id="panel" styleClass="panel"/>
+    </VBox>
+</ScrollPane>
