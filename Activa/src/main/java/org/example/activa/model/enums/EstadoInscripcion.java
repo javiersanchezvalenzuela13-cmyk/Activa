@@ -1,4 +1,4 @@
-package org.example.activa.model;
+package org.example.activa.model.enums;
 
 public enum EstadoInscripcion {
     CONFIRMADA,

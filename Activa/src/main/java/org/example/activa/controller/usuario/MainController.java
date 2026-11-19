@@ -24,6 +24,8 @@ public class MainController {
     @FXML private StackPane marca;
     @FXML private Button btnInicio;
     @FXML private Button btnMisInscripciones;
+    @FXML private Button btnCalendario;
+    @FXML private Button btnPagos;
     @FXML private VBox grupoAdmin;
     @FXML private StackPane ayuda;
     @FXML private Button btnAsistente;
@@ -70,6 +72,16 @@ public class MainController {
         Navegador.irA(Vista.MIS_INSCRIPCIONES);
     }
 
+    @FXML
+    private void onCalendario() {
+        Navegador.irA(Vista.CALENDARIO);
+    }
+
+    @FXML
+    private void onPagos() {
+        Navegador.irA(Vista.PAGOS);
+    }
+
     // Botones de invitado
 
     @FXML
@@ -114,6 +126,8 @@ public class MainController {
         marca.getChildren().add(Iconos.crear("leaf", 18));
         btnInicio.setGraphic(Iconos.crear("house", 18));
         btnMisInscripciones.setGraphic(Iconos.crear("listcheck", 18));
+        btnCalendario.setGraphic(Iconos.crear("calendar", 18));
+        btnPagos.setGraphic(Iconos.crear("card", 18));
         btnAsistente.setGraphic(Iconos.crear("chat", 15));
         btnGuardados.setGraphic(Iconos.crear("heart", 18));
         btnNotificaciones.setGraphic(Iconos.crear("bell", 18));
@@ -135,10 +149,14 @@ public class MainController {
         vistaActual = vista;
         btnInicio.getStyleClass().remove("activo");
         btnMisInscripciones.getStyleClass().remove("activo");
+        btnCalendario.getStyleClass().remove("activo");
+        btnPagos.getStyleClass().remove("activo");
 
         switch (vista) {
             case INICIO, DETALLE_ACTIVIDAD -> btnInicio.getStyleClass().add("activo");
             case MIS_INSCRIPCIONES -> btnMisInscripciones.getStyleClass().add("activo");
+            case CALENDARIO -> btnCalendario.getStyleClass().add("activo");
+            case PAGOS -> btnPagos.getStyleClass().add("activo");
             default -> { }
         }
     }

@@ -129,3 +129,41 @@
     -fx-font-size: 11px;
     -fx-font-weight: bold;
 }
+/* Celdas del calendario */
+.cal-celda {
+    -fx-cursor: hand;
+}
+
+.cal-celda:hover {
+    -fx-background-color: #F4F1E8;
+}
+
+.cal-celda-seleccionada {
+    -fx-background-color: #EFECE2;
+}
+
+.cal-numero-dia {
+    -fx-text-fill: #1A241E;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.cal-celda-otro-mes .cal-numero-dia {
+    -fx-text-fill: #B3B6AE;
+    -fx-font-weight: normal;
+}
+
+/* Tarjetas del panel derecho */
+.cal-tarjeta-evento {
+    -fx-background-color: #F7F5EE;
+    -fx-border-color: #E2DDD0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 12;
+}
+
+.cal-titulo-evento {
+    -fx-text-fill: #1A241E;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}

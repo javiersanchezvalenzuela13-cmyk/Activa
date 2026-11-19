@@ -18,7 +18,7 @@ import javafx.scene.shape.Rectangle;
 import org.example.activa.exception.ActividadException;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
-import org.example.activa.model.EstadoInscripcion;
+import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
 import org.example.activa.service.ActividadService;
 import org.example.activa.service.InscripcionService;
