@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToWidth="true" styleClass="pag-scroll" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.usuario.PagoController">
+
+    <content>
+        <VBox spacing="22.0" styleClass="pag-root">
+            <padding>
+                <Insets bottom="36.0" left="36.0" right="36.0" top="28.0" />
+            </padding>
+
+            <HBox alignment="CENTER_LEFT">
+                <VBox spacing="2.0">
+                    <Label styleClass="pag-kicker" text="PAGOS" />
+                    <HBox alignment="BASELINE_LEFT">
+                        <Label styleClass="pag-title" text="Cuentas " />
+                        <Label styleClass="pag-title-accent" text="claras" />
+                    </HBox>
+                </VBox>
+
+                <Region HBox.hgrow="ALWAYS" />
+
+                <Button fx:id="btnMetodosPago" onAction="#abrirMetodosPago" styleClass="pag-btn-outline" text="💳  Métodos de pago" />
+            </HBox>
+
+            <HBox fx:id="bannerPendiente" alignment="CENTER_LEFT" spacing="14.0" styleClass="pag-banner">
+                <StackPane styleClass="pag-banner-icon-circle">
+                    <Label styleClass="pag-banner-icon" text="!" />
+                </StackPane>
+
+                <VBox spacing="3.0" HBox.hgrow="ALWAYS">
+                    <Label fx:id="lblBannerTitulo" styleClass="pag-banner-title" text="Tienes 1 pago pendiente" />
+                    <Label fx:id="lblBannerDetalle" styleClass="pag-banner-sub" text="Taller de cerámica · 12,00 €. Págalo antes de la actividad para mantener tu plaza." />
+                </VBox>
+
+                <Button fx:id="btnPagarAhora" onAction="#pagarSiguientePendiente" styleClass="pag-btn-primary" text="Pagar ahora" />
+            </HBox>
+
+            <HBox spacing="18.0">
+                <VBox maxWidth="Infinity" spacing="8.0" styleClass="pag-kpi-card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="pag-kpi-label" text="💳  Pagado este año" />
+                    <Label fx:id="lblTotalPagado" styleClass="pag-kpi-amount" text="21,50 €" />
+                    <Label fx:id="lblCountPagado" styleClass="pag-kpi-sub" text="3 actividades" />
+                </VBox>
+
+                <VBox maxWidth="Infinity" spacing="8.0" styleClass="pag-kpi-card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="pag-kpi-label" text="🕒  Pendiente" />
+                    <Label fx:id="lblTotalPendiente" styleClass="pag-kpi-amount" text="12,00 €" />
+                    <Label fx:id="lblCountPendiente" styleClass="pag-kpi-sub" text="1 pago" />
+                </VBox>
+
+                <VBox maxWidth="Infinity" spacing="8.0" styleClass="pag-kpi-card" HBox.hgrow="ALWAYS">
+                    <Label styleClass="pag-kpi-label" text="↺  Reembolsado" />
+                    <Label fx:id="lblTotalReembolsado" styleClass="pag-kpi-amount" text="5,00 €" />
+                    <Label fx:id="lblCountReembolsado" styleClass="pag-kpi-sub" text="1 devolución" />
+                </VBox>
+            </HBox>
+
+            <VBox styleClass="pag-table-box">
+                <HBox alignment="CENTER_LEFT" styleClass="pag-table-header">
+                    <Label maxWidth="Infinity" styleClass="pag-th" text="ACTIVIDAD" HBox.hgrow="ALWAYS" />
+                    <Label prefWidth="110.0" styleClass="pag-th" text="FECHA" />
+                    <Label prefWidth="160.0" styleClass="pag-th" text="MÉTODO" />
+                    <Label alignment="CENTER_RIGHT" prefWidth="110.0" styleClass="pag-th" text="IMPORTE" />
+                    <Label prefWidth="150.0" styleClass="pag-th-estado" text="ESTADO" />
+                    <Region prefWidth="110.0" />
+                </HBox>
+
+                <VBox fx:id="contenedorFilasPagos">
+
+                    <HBox alignment="CENTER_LEFT" styleClass="pag-row">
+                        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" HBox.hgrow="ALWAYS">
+                            <StackPane styleClass="pag-cat-icon, pag-cat-arte">
+                                <Label styleClass="pag-cat-emoji" text="🏺" />
+                            </StackPane>
+                            <VBox spacing="2.0">
+                                <Label styleClass="pag-act-title" text="Taller de cerámica" />
+                                <Label styleClass="pag-act-cat" text="Arte" />
+                            </VBox>
+                        </HBox>
+                        <Label prefWidth="110.0" styleClass="pag-cell-text" text="08 nov" />
+                        <Label prefWidth="160.0" styleClass="pag-cell-muted" text="—" />
+                        <Label alignment="CENTER_RIGHT" prefWidth="110.0" styleClass="pag-cell-amount" text="12,00 €" />
+                        <HBox alignment="CENTER_LEFT" prefWidth="150.0" styleClass="pag-cell-estado">
+                            <Label styleClass="pag-badge, pag-badge-pendiente" text="Pendiente" />
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefWidth="110.0">
+                            <Button styleClass="pag-btn-primary-sm" text="Pagar" />
+                        </HBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" styleClass="pag-row">
+                        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" HBox.hgrow="ALWAYS">
+                            <StackPane styleClass="pag-cat-icon, pag-cat-deporte">
+                                <Label styleClass="pag-cat-emoji" text="⛰" />
+                            </StackPane>
+                            <VBox spacing="2.0">
+                                <Label styleClass="pag-act-title" text="Ruta de senderismo" />
+                                <Label styleClass="pag-act-cat" text="Deporte" />
+                            </VBox>
+                        </HBox>
+                        <Label prefWidth="110.0" styleClass="pag-cell-text" text="27 sep" />
+                        <Label prefWidth="160.0" styleClass="pag-cell-text" text="Tarjeta" />
+                        <Label alignment="CENTER_RIGHT" prefWidth="110.0" styleClass="pag-cell-amount" text="8,00 €" />
+                        <HBox alignment="CENTER_LEFT" prefWidth="150.0" styleClass="pag-cell-estado">
+                            <Label styleClass="pag-badge, pag-badge-pagado" text="Pagado" />
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefWidth="110.0">
+                            <Button styleClass="pag-btn-outline-sm" text="⬇  Recibo" />
+                        </HBox>
+                    </HBox>
+
+                    <HBox alignment="CENTER_LEFT" styleClass="pag-row, pag-row-last">
+                        <HBox alignment="CENTER_LEFT" maxWidth="Infinity" spacing="14.0" HBox.hgrow="ALWAYS">
+                            <StackPane styleClass="pag-cat-icon, pag-cat-arte">
+                                <Label styleClass="pag-cat-emoji" text="📷" />
+                            </StackPane>
+                            <VBox spacing="2.0">
+                                <Label styleClass="pag-act-title" text="Fotografía urbana" />
+                                <Label styleClass="pag-act-cat" text="Arte" />
+                            </VBox>
+                        </HBox>
+                        <Label prefWidth="110.0" styleClass="pag-cell-text" text="19 sep" />
+                        <Label prefWidth="160.0" styleClass="pag-cell-text" text="Bizum" />
+                        <Label alignment="CENTER_RIGHT" prefWidth="110.0" styleClass="pag-cell-amount" text="5,00 €" />
+                        <HBox alignment="CENTER_LEFT" prefWidth="150.0" styleClass="pag-cell-estado">
+                            <Label styleClass="pag-badge, pag-badge-reembolsado" text="Reembolsado" />
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefWidth="110.0">
+                            <Button styleClass="pag-btn-outline-sm" text="⬇  Recibo" />
+                        </HBox>
+                    </HBox>
+
+                </VBox>
+            </VBox>
+
+        </VBox>
+    </content>
+   <stylesheets>
+      <URL value="@../../css/pagos.css" />
+      <URL value="@../../css/pagos.css" />
+   </stylesheets>
+</ScrollPane>

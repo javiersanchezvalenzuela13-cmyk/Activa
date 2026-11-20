@@ -4,7 +4,7 @@ import org.example.activa.dao.ActividadDAO;
 import org.example.activa.dao.InscripcionDAO;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
-import org.example.activa.model.EstadoInscripcion;
+import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
 
 import java.sql.SQLException;
