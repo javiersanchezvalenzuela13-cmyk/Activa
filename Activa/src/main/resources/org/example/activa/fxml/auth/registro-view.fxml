@@ -1,77 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<HBox styleClass="root-container" stylesheets="@auth.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.auth.RegistroController">
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.activa.controller.auth.RegistroController"
+      stylesheets="@../../css/auth.css"
+      styleClass="root-container">
 
-    <VBox alignment="CENTER_LEFT" prefWidth="480" spacing="18">
-        <padding><Insets bottom="40" left="50" right="50" top="40" /></padding>
+    <VBox spacing="18" alignment="CENTER_LEFT" prefWidth="480">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
 
-        <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;" text="activa" />
+        <Label text="activa"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
 
-        <HBox prefHeight="4" spacing="8">
-            <Region style="-fx-background-color: #215745; -fx-background-radius: 2;" HBox.hgrow="ALWAYS" />
-            <Region style="-fx-background-color: #DCD7C5; -fx-background-radius: 2;" HBox.hgrow="ALWAYS" />
+        <HBox spacing="8" prefHeight="4">
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #215745; -fx-background-radius: 2;"/>
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #DCD7C5; -fx-background-radius: 2;"/>
         </HBox>
 
         <VBox spacing="5">
-            <Label styleClass="subtitle" text="PASO 1 DE 2" />
+            <Label text="PASO 1 DE 2" styleClass="subtitle"/>
             <TextFlow>
-                <Text styleClass="title" text="Crea tu " />
-                <Text styleClass="title-accent" text="cuenta." />
+                <Text text="Crea tu " styleClass="title"/>
+                <Text text="cuenta." styleClass="title-accent"/>
             </TextFlow>
-            <Label styleClass="description-text" text="Solo te pedimos lo necesario para apuntarte a actividades." wrapText="true" />
+            <Label text="Solo te pedimos lo necesario para apuntarte a actividades." wrapText="true"
+                   styleClass="description-text"/>
         </VBox>
 
         <VBox spacing="12">
             <VBox spacing="4">
-                <Label styleClass="label-form" text="Nombre" />
-                <TextField fx:id="nombreField" promptText="Nombre" styleClass="custom-text-field" />
+                <Label text="Nombre" styleClass="label-form"/>
+                <TextField fx:id="nombreField" promptText="Nombre"
+                           styleClass="custom-text-field"/>
             </VBox>
 
             <VBox spacing="4">
-                <Label styleClass="label-form" text="Correo electrónico" />
-                <TextField fx:id="emailField" promptText="Correo electrónico" styleClass="custom-text-field" />
+                <Label text="Correo electrónico" styleClass="label-form"/>
+                <TextField fx:id="emailField" promptText="Correo electrónico"
+                           styleClass="custom-text-field"/>
             </VBox>
 
             <VBox spacing="4">
-                <Label styleClass="label-form" text="Contraseña" />
-                <PasswordField fx:id="passwordField" promptText="Contraseña" styleClass="custom-text-field" />
-                <Label style="-fx-font-size: 11px; -fx-text-fill: #888;" text="Mínimo 8 caracteres, con al menos un número." />
+                <Label text="Contraseña" styleClass="label-form"/>
+                <PasswordField fx:id="passwordField" promptText="Contraseña"
+                               styleClass="custom-text-field"/>
+                <Label text="Mínimo 8 caracteres, con al menos un número."
+                       style="-fx-font-size: 11px; -fx-text-fill: #888;"/>
             </VBox>
 
-            <CheckBox fx:id="terminosCheck" style="-fx-font-size: 12px; -fx-text-fill: #444;" text="Acepto las normas de la comunidad y la política de privacidad" wrapText="true" />
+            <CheckBox fx:id="terminosCheck" text="Acepto las normas de la comunidad y la política de privacidad" wrapText="true"
+                      style="-fx-font-size: 12px; -fx-text-fill: #444;"/>
 
-            <Button maxWidth="Infinity" onAction="#handleContinuar" styleClass="btn-primary" text="Continuar →" />
+            <Button text="Continuar →" maxWidth="Infinity"
+                    styleClass="btn-primary" onAction="#handleContinuar"/>
         </VBox>
 
-        <HBox alignment="CENTER_LEFT" spacing="5">
-            <Label styleClass="description-text" text="¿Ya tienes cuenta?" />
-            <Hyperlink onAction="#handleIrLogin" style="-fx-text-fill: #215745; -fx-font-weight: bold;" text="Inicia sesión" />
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="¿Ya tienes cuenta?" styleClass="description-text"/>
+            <Hyperlink text="Inicia sesión"
+                       style="-fx-text-fill: #215745; -fx-font-weight: bold;"
+                       onAction="#handleIrLogin"/>
         </HBox>
     </VBox>
 
-    <StackPane styleClass="right-panel" HBox.hgrow="ALWAYS">
-        <GridPane alignment="CENTER" hgap="15" vgap="15">
-            <Region prefHeight="290" prefWidth="240" style="-fx-background-color: #C39938; -fx-background-radius: 20;" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Region prefHeight="290" prefWidth="240" style="-fx-background-color: #386A8B; -fx-background-radius: 20;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Region prefHeight="290" prefWidth="240" style="-fx-background-color: #C39938; -fx-background-radius: 20;" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Region prefHeight="290" prefWidth="240" style="-fx-background-color: #7D5B8C; -fx-background-radius: 20;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
+    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel">
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    style="-fx-background-color: #C39938; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                    style="-fx-background-color: #386A8B; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                    style="-fx-background-color: #C39938; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-background-color: #7D5B8C; -fx-background-radius: 20;"/>
         </GridPane>
 
-        <VBox alignment="CENTER_LEFT" maxHeight="90" maxWidth="260" styleClass="floating-card" StackPane.alignment="CENTER">
-            <Label style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;" text="Más de 3.000 vecinos ya se mueven con Activa." wrapText="true" />
+        <VBox maxWidth="260" maxHeight="90" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card">
+            <Label text="Más de 3.000 vecinos ya se mueven con Activa." wrapText="true"
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
         </VBox>
     </StackPane>
 </HBox>

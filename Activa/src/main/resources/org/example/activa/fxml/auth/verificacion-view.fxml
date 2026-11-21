@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.activa.controller.auth.VerificacionController"
+      stylesheets="@../../css/auth.css"
+      styleClass="root-container">
+
+    <VBox spacing="15" alignment="CENTER_LEFT" prefWidth="480">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="activa"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+            <Label text="Administración" styleClass="badge-admin"/>
+        </HBox>
+
+        <VBox spacing="4">
+            <Label text="VERIFICACIÓN EN DOS PASOS" styleClass="subtitle"/>
+            <TextFlow>
+                <Text text="Confirma que " styleClass="title"/>
+                <Text text="eres tú." styleClass="title-accent-purple"/>
+            </TextFlow>
+            <Label text="Esta cuenta tiene permisos de administrador. Introduce el código de 6 dígitos de tu app de verificación. También lo hemos enviado a l••••@activa.app" wrapText="true"
+                   styleClass="description-text"/>
+        </VBox>
+
+        <VBox spacing="20" VBox.vgrow="ALWAYS">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <TextField fx:id="codigo1" styleClass="code-input"/>
+                <TextField fx:id="codigo2" styleClass="code-input"/>
+                <TextField fx:id="codigo3" styleClass="code-input"/>
+                <TextField fx:id="codigo4" styleClass="code-input"/>
+                <TextField fx:id="codigo5" styleClass="code-input"/>
+                <TextField fx:id="codigo6" styleClass="code-input"/>
+            </HBox>
+
+            <Button fx:id="btnVerificar" text="✓ Verificar y entrar" maxWidth="Infinity"
+                    styleClass="btn-admin" onAction="#handleVerificarAdmin"/>
+
+            <VBox styleClass="info-box">
+                <Label text="ⓘ El código cambia cada 30 segundos y solo funciona una vez. Sin él nadie puede entrar en modo administrador, aunque conozca la contraseña." wrapText="true"
+                       styleClass="description-text"/>
+            </VBox>
+        </VBox>
+
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Hyperlink text="Usar otra cuenta"
+                       style="-fx-text-fill: #666; -fx-underline: false;"
+                       onAction="#handleUsarOtraCuenta"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink text="Reenviar por correo"
+                       style="-fx-text-fill: #73486E; -fx-underline: false;"
+                       onAction="#handleReenviar"/>
+        </HBox>
+    </VBox>
+
+    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel-admin">
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    style="-fx-background-color: #8C5C86; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                    style="-fx-background-color: #A3729C; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                    style="-fx-background-color: #5C3858; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-background-color: #B889B1; -fx-background-radius: 20;"/>
+        </GridPane>
+
+        <VBox maxWidth="270" maxHeight="90" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card">
+            <Label text="Acceso restringido al panel de control." wrapText="true"
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </VBox>
+    </StackPane>
+</HBox>

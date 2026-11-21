@@ -1,58 +1,5 @@
 * {
     -fx-primary-green: #215745;
-    -fx-bg-beige: #F4F1E1;
-    -fx-text-dark: #1A1A1A;
-    -fx-text-gray: #666666;
-    -fx-border-light: #E5E5E5;
-}
-
-.root-container {
-    -fx-background-color: -fx-bg-beige;
-}
-
-.right-panel {
-    -fx-background-color: -fx-primary-green;
-}
-
-.title {
-    -fx-font-family: "Georgia";
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-text-dark;
-}
-
-.title-accent {
-    -fx-font-family: "Georgia";
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-font-style: italic;
-    -fx-text-fill: -fx-primary-green;
-}
-
-.subtitle {
-    -fx-font-size: 10px;
-    -fx-font-weight: bold;
-    -fx-text-fill: -fx-text-gray;
-    -fx-spacing: 2;
-}
-
-.label-form {
-    -fx-font-size: 12px;
-    -fx-text-fill: -fx-text-dark;
-    -fx-font-weight: bold;
-}
-
-.custom-text-field {
-    -fx-background-color: white;
-    -fx-background-radius: 8;
-    -fx-border-color: -fx-border-light;
-    -fx-border-radius: 8;
-    -fx-padding: 12;
-    -fx-font-size: 14px;
-}
-
-* {
-    -fx-primary-green: #215745;
     -fx-primary-green-hover: #1a4537;
     -fx-admin-purple: #73486E;
     -fx-admin-purple-hover: #5c3858;
@@ -75,7 +22,6 @@
     -fx-background-color: -fx-admin-purple;
 }
 
-/* Tipografía */
 .title {
     -fx-font-family: "Georgia";
     -fx-font-size: 34px;
@@ -110,7 +56,6 @@
     -fx-text-fill: -fx-text-gray;
 }
 
-/* Inputs y Formularios */
 .label-form {
     -fx-font-size: 12px;
     -fx-text-fill: -fx-text-dark;
@@ -130,7 +75,6 @@
     -fx-border-color: -fx-primary-green;
 }
 
-/* Cajas de 6 dígitos (2FA y Recuperación) */
 .code-input {
     -fx-background-color: white;
     -fx-background-radius: 8;
@@ -148,7 +92,6 @@
     -fx-border-color: -fx-primary-green;
 }
 
-/* Botones */
 .btn-primary {
     -fx-background-color: -fx-primary-green;
     -fx-text-fill: white;
@@ -184,7 +127,6 @@
     -fx-padding: 0;
 }
 
-/* Cajas de aviso / información */
 .info-box {
     -fx-background-color: -fx-info-bg;
     -fx-background-radius: 8;
@@ -200,7 +142,6 @@
     -fx-background-radius: 12;
 }
 
-/* Píldoras de Intereses (ToggleButton) */
 .chip-toggle {
     -fx-background-color: white;
     -fx-text-fill: -fx-text-dark;
@@ -227,7 +168,6 @@
     -fx-background-radius: 15;
 }
 
-/* Tarjeta flotante derecha */
 .floating-card {
     -fx-background-color: -fx-bg-beige;
     -fx-background-radius: 12;

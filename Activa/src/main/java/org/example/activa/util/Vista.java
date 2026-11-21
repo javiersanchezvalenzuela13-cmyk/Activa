@@ -8,6 +8,10 @@ public enum Vista {
     // Persona 1: LOGIN, REGISTRO, PERFIL, AJUSTES...
     LOGIN("auth/login-view.fxml"),
     REGISTRO("auth/registro-view.fxml"),
+    INTERESES("auth/intereses-view.fxml"),
+    RECUPERAR_CLAVE("auth/recuperar-clave-view.fxml"),
+    NUEVA_CLAVE("auth/nueva-clave-view.fxml"),
+    VERIFICACION("auth/verificacion-view.fxml"),
 
     // Persona 2
     INICIO("usuario/inicio-view.fxml"),

@@ -2,18 +2,17 @@ package org.example.activa.controller.auth;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import java.io.IOException;
-
-import org.example.activa.dao.UsuarioDAO;
-import org.example.activa.util.SesionUsuarioUtil;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
+import org.example.activa.exception.AuthException;
+import org.example.activa.model.Usuario;
+import org.example.activa.service.AuthService;
+import org.example.activa.util.Sesion;
+import org.example.activa.util.Navegador;
+import org.example.activa.util.Vista;
 
 public class LoginController {
 
@@ -23,74 +22,84 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
-    private UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private final AuthService authService = new AuthService();
 
-    // Se ejecuta al cargar la pantalla
+    // Inicializa el controlador de la vista
     @FXML
     public void initialize() {
     }
 
-    // Valida las credenciales e inicia sesión en la aplicación
+    // Autentica al usuario y abre la sesión o pide verificación 2FA si es admin
     @FXML
     public void handleLogin(ActionEvent event) {
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        try {
+            String emailIngresado = emailField.getText();
 
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Campos incompletos", "Por favor, introduce tu correo y contraseña.");
-            return;
-        }
+            // Si el correo tiene .admin, lo quitamos para poder buscar el correo real en la BD
+            String emailReal = emailIngresado.replace(".admin@", "@");
+            boolean intentoAdmin = emailIngresado.contains(".admin@");
 
-        boolean esValido = usuarioDAO.validarCredenciales(email, password);
+            // Pasamos el correo real a la validación
+            Usuario usuario = authService.login(emailReal, passwordField.getText());
 
-        if (esValido) {
-            SesionUsuarioUtil.emailActual = email;
-            cambiarPantalla(event, "/org/example/activa/fxml/main-view.fxml", "Activa - Inicio");
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "Acceso denegado", "El correo o la contraseña son incorrectos.");
+            // Comprobamos si es admin real en la BD o si usó el truco del .admin
+            if (usuario.esAdmin() || intentoAdmin) {
+                cargarVerificacionAdmin(usuario);
+            } else {
+                Sesion.iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), false);
+                Navegador.mostrarPantallaCompleta(Vista.MAIN);
+            }
+        } catch (AuthException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de acceso", e.getMessage());
         }
     }
 
-    // Accede a la pantalla principal en modo invitado
+    // Inicia la aplicación en modo invitado asegurando que no hay sesión abierta
     @FXML
     public void handleExplorarSinCuenta(ActionEvent event) {
-        cambiarPantalla(event, "/org/example/activa/fxml/main-view.fxml", "Activa - Explorar");
+        Sesion.cerrar();
+        Navegador.mostrarPantallaCompleta(Vista.MAIN);
     }
 
-    // Muestra un aviso informativo para el inicio de sesión con Google
+    // Gestiona el acceso mediante cuenta de Google
     @FXML
     public void handleGoogleLogin(ActionEvent event) {
-        mostrarAlerta(Alert.AlertType.INFORMATION, "Próximamente", "El inicio de sesión con Google estará disponible pronto.");
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Inicio de sesión con Google");
+        dialog.setHeaderText("Simulación de Google Login");
+        dialog.setContentText("Introduce tu correo de Gmail:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(emailGoogle -> {
+            try {
+                Usuario usuario = authService.loginConGoogle(emailGoogle);
+                Sesion.iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.esAdmin());
+                Navegador.mostrarPantallaCompleta(Vista.MAIN);
+            } catch (AuthException e) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", e.getMessage());
+            }
+        });
     }
 
-    // Navega a la pantalla de creación de cuenta
+    // Navega hacia la pantalla de registro
     @FXML
     public void handleCrearCuenta(ActionEvent event) {
-        cambiarPantalla(event, "/org/example/activa/fxml/auth/registro-view.fxml", "Activa - Crear cuenta");
+        Navegador.mostrarPantallaCompleta(Vista.REGISTRO);
     }
 
-    // Navega a la pantalla de recuperación de contraseña
+    // Navega hacia la pantalla de recuperación de contraseña
     @FXML
     public void handleOlvidarContrasena(ActionEvent event) {
-        cambiarPantalla(event, "/org/example/activa/fxml/auth/recuperar-clave-view.fxml", "Activa - Recuperar contraseña");
+        Navegador.mostrarPantallaCompleta(Vista.RECUPERAR_CLAVE);
     }
 
-    // Método auxiliar para cambiar de escena
-    private void cambiarPantalla(ActionEvent event, String rutaFxml, String titulo) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFxml));
-            Parent root = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(titulo);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de carga", "No se pudo abrir la pantalla: " + titulo + "\nRuta intentada: " + rutaFxml);
-        }
+    // Carga la vista de verificación 2FA pasándole los datos del administrador
+    private void cargarVerificacionAdmin(Usuario admin) {
+        VerificacionController.setAdminPendienteTemporal(admin);
+        Navegador.mostrarPantallaCompleta(Vista.VERIFICACION);
     }
 
-    // Método auxiliar para mostrar ventanas emergentes
+    // Muestra una ventana emergente con el mensaje indicado
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.activa.controller.auth.RecuperarClaveController"
+      stylesheets="@../../css/auth.css"
+      styleClass="root-container">
+
+    <VBox spacing="15" alignment="CENTER_LEFT" prefWidth="480">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
+
+        <Label text="activa"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+
+        <HBox spacing="8" prefHeight="4">
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #215745; -fx-background-radius: 2;"/>
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #E5E5E5; -fx-background-radius: 2;"/>
+        </HBox>
+
+        <VBox spacing="4">
+            <Label text="RECUPERAR ACCESO - PASO 1 DE 2" styleClass="subtitle"/>
+            <TextFlow>
+                <Text text="¿Olvidaste tu " styleClass="title"/>
+                <Text text="contraseña?" styleClass="title-accent"/>
+            </TextFlow>
+            <Label text="Escribe el correo de tu cuenta y te enviaremos un código para crear una nueva." wrapText="true"
+                   styleClass="description-text"/>
+        </VBox>
+
+        <VBox spacing="20" VBox.vgrow="ALWAYS">
+            <VBox spacing="5">
+                <Label text="Correo electrónico" styleClass="label-form"/>
+                <TextField fx:id="emailField" promptText="Introduzca su correo electrónico"
+                           styleClass="custom-text-field"/>
+            </VBox>
+
+            <Button fx:id="btnEnviarCodigo" text="Enviarme el código →" maxWidth="Infinity"
+                    styleClass="btn-primary" onAction="#handleEnviarCodigo"/>
+
+            <VBox styleClass="info-box">
+                <Label text="ⓘ Por seguridad mostramos el mismo mensaje exista o no una cuenta con ese correo." wrapText="true"
+                       styleClass="description-text"/>
+            </VBox>
+        </VBox>
+
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Hyperlink text="← Volver a iniciar sesión"
+                       style="-fx-text-fill: #666; -fx-underline: false;"
+                       onAction="#handleVolverLogin"/>
+        </HBox>
+    </VBox>
+
+    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel">
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    style="-fx-background-color: #2A6A54; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                    style="-fx-background-color: #388B6E; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                    style="-fx-background-color: #1A4537; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-background-color: #43A583; -fx-background-radius: 20;"/>
+        </GridPane>
+
+        <VBox maxWidth="270" maxHeight="90" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card">
+            <Label text="Recupera tu acceso de forma segura y rápida." wrapText="true"
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </VBox>
+    </StackPane>
+</HBox>
