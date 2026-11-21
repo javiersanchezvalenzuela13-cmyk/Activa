@@ -17,6 +17,9 @@ public enum Vista {
     INICIO("usuario/inicio-view.fxml"),
     DETALLE_ACTIVIDAD("usuario/detalle-actividad-view.fxml"),
     MIS_INSCRIPCIONES("usuario/mis-inscripciones-view.fxml"),
+    PANEL_ADMIN("admin/panel-admin-view.fxml"),
+    EDITOR_ACTIVIDAD("admin/editor-actividad-view.fxml"),
+    GESTIONAR_INSCRITOS("admin/gestionar-inscritos-view.fxml"),
 
     // Persona 3: CALENDARIO, PAGOS, HISTORIAL...
     CALENDARIO("usuario/calendario-view.fxml"),

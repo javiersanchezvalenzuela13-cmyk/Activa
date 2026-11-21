@@ -4,6 +4,7 @@ import org.example.activa.dao.ActividadDAO;
 import org.example.activa.dao.InscripcionDAO;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
+import org.example.activa.model.Inscrito;
 import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
 
@@ -146,6 +147,14 @@ public class InscripcionService {
     public List<Inscripcion> listarInscritos(int idActividad) throws InscripcionException {
         try {
             return inscripcionDAO.listarPorActividad(idActividad);
+        } catch (SQLException e) {
+            throw new InscripcionException("Error al cargar los inscritos.", e);
+        }
+    }
+    // Inscritos de una actividad con nombre y email (pantalla "Gestionar inscritos")
+    public List<Inscrito> listarInscritosConDatos(int idActividad) throws InscripcionException {
+        try {
+            return inscripcionDAO.listarInscritosConUsuario(idActividad);
         } catch (SQLException e) {
             throw new InscripcionException("Error al cargar los inscritos.", e);
         }

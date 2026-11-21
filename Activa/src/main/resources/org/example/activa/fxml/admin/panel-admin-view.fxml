@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<ScrollPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.activa.controller.admin.PanelAdminController"
+            fitToWidth="true" styleClass="scroll">
+
+    <fx:define>
+        <ToggleGroup fx:id="grupoFiltro"/>
+    </fx:define>
+
+    <VBox fx:id="contenido" spacing="24" styleClass="contenido">
+
+        <!-- Título y botón crear -->
+        <HBox spacing="12" alignment="BOTTOM_LEFT">
+            <VBox spacing="6" HBox.hgrow="ALWAYS">
+                <Label text="ADMINISTRACIÓN" styleClass="eyebrow"/>
+                <TextFlow>
+                    <Text text="Panel de " styleClass="h1"/>
+                    <Text text="gestión" styleClass="h1-em-admin"/>
+                </TextFlow>
+            </VBox>
+            <Button fx:id="btnCrear" text="Crear actividad" styleClass="boton-apuntarme" onAction="#onCrear"/>
+        </HBox>
+
+        <!-- Tarjetas de resumen (se rellenan desde el controlador) -->
+        <HBox fx:id="kpis" spacing="14"/>
+
+        <!-- Tabla de actividades -->
+        <VBox fx:id="panel" styleClass="panel">
+
+            <HBox spacing="10" alignment="CENTER_LEFT" styleClass="panel-cabecera">
+                <Label text="Actividades" styleClass="panel-titulo"/>
+                <Label fx:id="lblTotal"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <HBox spacing="4" styleClass="seg">
+                    <ToggleButton fx:id="tabProximas" text="Próximas" selected="true"
+                                  toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+                    <ToggleButton fx:id="tabPasadas" text="Pasadas"
+                                  toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+                    <ToggleButton fx:id="tabTodas" text="Todas"
+                                  toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
+                </HBox>
+            </HBox>
+
+            <!-- Cabecera de columnas -->
+            <HBox fx:id="cabeceraTabla" spacing="16" alignment="CENTER_LEFT" styleClass="tabla-cabecera"/>
+
+            <!-- Filas -->
+            <VBox fx:id="filas"/>
+        </VBox>
+    </VBox>
+</ScrollPane>

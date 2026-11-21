@@ -44,7 +44,9 @@
             <!-- Administración (solo se ve si el usuario es admin) -->
             <VBox fx:id="grupoAdmin" spacing="3">
                 <Label text="ADMINISTRACIÓN" styleClass="nav-eyebrow"/>
-                <!-- Persona 2: Panel admin, Crear actividad · Persona 1: Usuarios -->
+                <Button fx:id="btnPanelAdmin" text="Panel admin" maxWidth="Infinity"
+                        styleClass="nav-item" onAction="#onPanelAdmin"/>
+                <!-- Persona 1: Usuarios -->
             </VBox>
 
             <!-- Preferencias -->

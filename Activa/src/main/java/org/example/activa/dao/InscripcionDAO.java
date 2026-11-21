@@ -1,6 +1,7 @@
 package org.example.activa.dao;
 
 import org.example.activa.db.ConexionBD;
+import org.example.activa.model.Inscrito;
 import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
 
@@ -33,6 +34,12 @@ public class InscripcionDAO {
 
     private static final String DELETE =
             "DELETE FROM inscripcion WHERE id_inscripcion = ?";
+    private static final String SELECT_INSCRITOS_CON_USUARIO =
+            "SELECT i.id_inscripcion, i.id_usuario, i.fecha_inscripcion, i.estado_inscripcion, "
+                    + "u.nombre_usuario, u.email "
+                    + "FROM inscripcion i JOIN usuario u ON u.id_usuario = i.id_usuario "
+                    + "WHERE i.id_actividad = ? "
+                    + "ORDER BY i.fecha_inscripcion";
 
     // Buscar la inscripción de un usuario en una actividad (null si no tiene)
     public Inscripcion buscarPorUsuarioYActividad(int idUsuario, int idActividad) throws SQLException {
@@ -55,6 +62,28 @@ public class InscripcionDAO {
     // Todas las inscripciones de una actividad (pantalla "Gestionar inscritos" del admin)
     public List<Inscripcion> listarPorActividad(int idActividad) throws SQLException {
         return listar(SELECT_POR_ACTIVIDAD, idActividad);
+    }
+    // Inscritos de una actividad con su nombre y email (pantalla "Gestionar inscritos")
+    public List<Inscrito> listarInscritosConUsuario(int idActividad) throws SQLException {
+        List<Inscrito> lista = new ArrayList<>();
+        try (Connection con = ConexionBD.getConexion();
+             PreparedStatement ps = con.prepareStatement(SELECT_INSCRITOS_CON_USUARIO)) {
+
+            ps.setInt(1, idActividad);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Timestamp fecha = rs.getTimestamp("fecha_inscripcion");
+                    lista.add(new Inscrito(
+                            rs.getInt("id_inscripcion"),
+                            rs.getInt("id_usuario"),
+                            rs.getString("nombre_usuario"),
+                            rs.getString("email"),
+                            fecha == null ? null : fecha.toLocalDateTime(),
+                            EstadoInscripcion.valueOf(rs.getString("estado_inscripcion"))));
+                }
+            }
+        }
+        return lista;
     }
 
     // Insertar una nueva y devolver el id que le ha dado MySQL
