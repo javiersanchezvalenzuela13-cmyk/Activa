@@ -26,6 +26,16 @@ Tipo: VARCHAR(255)
 Permite Nulo: NO
 Descripción: Contraseña cifrada del usuario.
 
+telefono
+Tipo: VARCHAR(9)
+Permite Nulo: SI
+Descripción: Número de teléfono de contacto del usuario.
+
+sobre_mi
+Tipo: TEXT
+Permite Nulo: SI
+Descripción: Breve biografía o descripción personal del usuario.
+
 rol
 Tipo: ENUM('ADMINISTRADOR', 'VECINO')
 Permite Nulo: NO
