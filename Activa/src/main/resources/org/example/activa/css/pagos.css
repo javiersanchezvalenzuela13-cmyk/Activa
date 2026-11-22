@@ -1,42 +1,45 @@
 /* Fondo general */
 .pag-scroll {
-    -fx-background-color: #F8F6F0;
-    -fx-background: #F8F6F0;
+    -fx-background-color: -paper;
+    -fx-background: -paper;
     -fx-border-color: transparent;
 }
 
 .pag-scroll > .viewport {
-    -fx-background-color: #F8F6F0;
+    -fx-background-color: -paper;
 }
 
 .pag-root {
-    -fx-background-color: #F8F6F0;
+    -fx-background-color: -paper;
 }
 
 /* Cabecera */
 .pag-kicker {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-font-weight: bold;
-    -fx-text-fill: #8C857B;
+    -fx-text-fill: -ink-3;
 }
 
 .pag-title {
     -fx-font-family: "Georgia", "Serif";
-    -fx-font-size: 32px;
+    -fx-font-size: 2.3em;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2421;
+    -fx-text-fill: -ink;
 }
 
 .pag-title-accent {
     -fx-font-family: "Georgia", "Serif";
-    -fx-font-size: 32px;
+    -fx-font-size: 2.3em;
     -fx-font-style: italic;
-    -fx-text-fill: #1E4D3B;
+    -fx-text-fill: -forest;
 }
 
 /* Banner de aviso de pago pendiente */
 .pag-banner {
-    -fx-background-color: #F7E7C4;
+    -fx-background-color: -warn-soft;
+    -fx-border-color: -warn;
+    -fx-border-width: 1px;
+    -fx-border-radius: 14px;
     -fx-background-radius: 14px;
     -fx-padding: 16px 20px;
 }
@@ -47,32 +50,32 @@
     -fx-max-width: 24px;
     -fx-max-height: 24px;
     -fx-background-color: transparent;
-    -fx-border-color: #3D3528;
+    -fx-border-color: -warn;
     -fx-border-width: 1.5px;
     -fx-border-radius: 12px;
 }
 
 .pag-banner-icon {
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
     -fx-font-weight: bold;
-    -fx-text-fill: #3D3528;
+    -fx-text-fill: -warn;
 }
 
 .pag-banner-title {
-    -fx-font-size: 15px;
+    -fx-font-size: 1.07em;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2421;
+    -fx-text-fill: -ink;
 }
 
 .pag-banner-sub {
-    -fx-font-size: 13px;
-    -fx-text-fill: #4F483C;
+    -fx-font-size: 0.93em;
+    -fx-text-fill: -ink-2;
 }
 
 /* Tarjetas KPI */
 .pag-kpi-card {
-    -fx-background-color: #FCFBF7;
-    -fx-border-color: #E5E0D5;
+    -fx-background-color: -card;
+    -fx-border-color: -line;
     -fx-border-width: 1px;
     -fx-border-radius: 14px;
     -fx-background-radius: 14px;
@@ -80,59 +83,59 @@
 }
 
 .pag-kpi-label {
-    -fx-font-size: 13px;
-    -fx-text-fill: #6E685F;
+    -fx-font-size: 0.93em;
+    -fx-text-fill: -ink-3;
 }
 
 .pag-kpi-amount {
     -fx-font-family: "Georgia", "Serif";
-    -fx-font-size: 28px;
+    -fx-font-size: 2em;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2421;
+    -fx-text-fill: -ink;
 }
 
 .pag-kpi-sub {
-    -fx-font-size: 12px;
-    -fx-text-fill: #8C857B;
+    -fx-font-size: 0.85em;
+    -fx-text-fill: -ink-3;
 }
 
 /* Contenedor de tabla */
 .pag-table-box {
-    -fx-background-color: #FCFBF7;
-    -fx-border-color: #E5E0D5;
+    -fx-background-color: -card;
+    -fx-border-color: -line;
     -fx-border-width: 1px;
     -fx-border-radius: 14px;
     -fx-background-radius: 14px;
 }
 
 .pag-table-header {
-    -fx-background-color: #ECE7DB;
+    -fx-background-color: -paper-2;
     -fx-background-radius: 14px 14px 0 0;
     -fx-padding: 14px 22px;
 }
 
 .pag-th {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-font-weight: bold;
-    -fx-text-fill: #787268;
+    -fx-text-fill: -ink-3;
 }
 
 .pag-th-estado {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-font-weight: bold;
-    -fx-text-fill: #787268;
+    -fx-text-fill: -ink-3;
     -fx-padding: 0 0 0 28px;
 }
 
 /* Filas de pagos */
 .pag-row {
     -fx-padding: 16px 22px;
-    -fx-border-color: transparent transparent #EDE8DD transparent;
+    -fx-border-color: transparent transparent -line transparent;
     -fx-border-width: 1px;
 }
 
 .pag-row:hover {
-    -fx-background-color: #F6F3EB;
+    -fx-background-color: -paper;
 }
 
 .pag-row-last {
@@ -150,43 +153,43 @@
 }
 
 .pag-cat-arte {
-    -fx-background-color: #C86D51;
+    -fx-background-color: -terra;
 }
 
 .pag-cat-deporte {
-    -fx-background-color: #3B7A8C;
+    -fx-background-color: -lago;
 }
 
 .pag-cat-emoji {
-    -fx-font-size: 18px;
+    -fx-font-size: 1.3em;
     -fx-text-fill: white;
 }
 
 .pag-act-title {
-    -fx-font-size: 14px;
+    -fx-font-size: 1em;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2421;
+    -fx-text-fill: -ink;
 }
 
 .pag-act-cat {
-    -fx-font-size: 12px;
-    -fx-text-fill: #8C857B;
+    -fx-font-size: 0.85em;
+    -fx-text-fill: -ink-3;
 }
 
 .pag-cell-text {
-    -fx-font-size: 13px;
-    -fx-text-fill: #2B302D;
+    -fx-font-size: 0.93em;
+    -fx-text-fill: -ink-2;
 }
 
 .pag-cell-muted {
-    -fx-font-size: 13px;
-    -fx-text-fill: #8C857B;
+    -fx-font-size: 0.93em;
+    -fx-text-fill: -ink-3;
 }
 
 .pag-cell-amount {
-    -fx-font-size: 14px;
+    -fx-font-size: 1em;
     -fx-font-weight: bold;
-    -fx-text-fill: #1F2421;
+    -fx-text-fill: -ink;
 }
 
 .pag-cell-estado {
@@ -195,32 +198,32 @@
 
 /* Etiquetas de estado (Pills) */
 .pag-badge {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
     -fx-padding: 5px 12px;
     -fx-background-radius: 20px;
 }
 
 .pag-badge-pendiente {
-    -fx-background-color: #F7E7C4;
-    -fx-text-fill: #8A5A00;
+    -fx-background-color: -warn-soft;
+    -fx-text-fill: -warn;
 }
 
 .pag-badge-pagado {
-    -fx-background-color: #DDF2E6;
-    -fx-text-fill: #1E5E3A;
+    -fx-background-color: -ok-soft;
+    -fx-text-fill: -ok;
 }
 
 .pag-badge-reembolsado {
-    -fx-background-color: #DCEBF7;
-    -fx-text-fill: #24587A;
+    -fx-background-color: -lago-s;
+    -fx-text-fill: -lago;
 }
 
 /* Botones */
 .pag-btn-primary {
-    -fx-background-color: #1E4D3B;
+    -fx-background-color: -forest;
     -fx-text-fill: white;
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
     -fx-font-weight: bold;
     -fx-padding: 10px 20px;
     -fx-background-radius: 10px;
@@ -228,13 +231,13 @@
 }
 
 .pag-btn-primary:hover {
-    -fx-background-color: #163A2C;
+    -fx-background-color: -forest-hover;
 }
 
 .pag-btn-primary-sm {
-    -fx-background-color: #1E4D3B;
+    -fx-background-color: -forest;
     -fx-text-fill: white;
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
     -fx-font-weight: bold;
     -fx-padding: 7px 16px;
     -fx-background-radius: 9px;
@@ -242,39 +245,52 @@
 }
 
 .pag-btn-primary-sm:hover {
-    -fx-background-color: #163A2C;
+    -fx-background-color: -forest-hover;
 }
 
 .pag-btn-outline {
-    -fx-background-color: #FCFBF7;
-    -fx-border-color: #DCD6C8;
+    -fx-background-color: -card;
+    -fx-border-color: -line;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-text-fill: #1F2421;
-    -fx-font-size: 13px;
+    -fx-text-fill: -ink;
+    -fx-font-size: 0.93em;
     -fx-font-weight: bold;
     -fx-padding: 9px 16px;
     -fx-cursor: hand;
 }
 
 .pag-btn-outline:hover {
-    -fx-background-color: #F0ECE1;
+    -fx-background-color: -paper-2;
 }
 
 .pag-btn-outline-sm {
-    -fx-background-color: #FCFBF7;
-    -fx-border-color: #DCD6C8;
+    -fx-background-color: -card;
+    -fx-border-color: -line;
     -fx-border-width: 1px;
     -fx-border-radius: 9px;
     -fx-background-radius: 9px;
-    -fx-text-fill: #1F2421;
-    -fx-font-size: 12px;
+    -fx-text-fill: -ink;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
     -fx-padding: 6px 12px;
     -fx-cursor: hand;
 }
 
 .pag-btn-outline-sm:hover {
-    -fx-background-color: #F0ECE1;
+    -fx-background-color: -paper-2;
+}
+
+/* Densidad compacta */
+.densidad-compacta .pag-kpi-card {
+    -fx-padding: 12px 16px;
+}
+
+.densidad-compacta .pag-table-header {
+    -fx-padding: 10px 16px;
+}
+
+.densidad-compacta .pag-row {
+    -fx-padding: 10px 16px;
 }

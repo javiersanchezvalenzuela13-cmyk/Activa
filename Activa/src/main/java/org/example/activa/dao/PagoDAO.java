@@ -2,6 +2,7 @@ package org.example.activa.dao;
 
 import org.example.activa.db.ConexionBD;
 import org.example.activa.model.Pago;
+import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.enums.EstadoPago;
 import org.example.activa.model.enums.MetodoPago;
 
@@ -10,19 +11,21 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-//Clase DAO que se encarga de las operaciones CRUD del pago
+// Clase DAO que se encarga de las operaciones CRUD de la tabla pago
 public class PagoDAO {
 
-    //Al insertar el id de un usuario muestra todos los pagos de este y la actividad de cada uno
+    // Lista todos los pagos de un usuario junto con el nombre de cada actividad
     public List<Pago> listarPorUsuario(int idUsuario) {
         List<Pago> lista = new ArrayList<>();
         String sql = """
-                SELECT p.id_pago, p.id_inscripcion, p.importe, p.metodo_pago, p.estado, p.fecha_pago, a.titulo AS titulo_actividad
+                SELECT p.id_pago, p.id_inscripcion, p.total, p.metodo_pago, p.estado_pago, p.fecha_pago,
+                       a.nombre_actividad AS titulo_actividad
                 FROM pago p
                 INNER JOIN inscripcion i ON p.id_inscripcion = i.id_inscripcion
                 INNER JOIN actividad a ON i.id_actividad = a.id_actividad
                 WHERE i.id_usuario = ?
-                ORDER BY p.id_pago DESC""";
+                ORDER BY p.id_pago DESC
+                """;
 
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -34,14 +37,14 @@ public class PagoDAO {
                     Pago pago = new Pago();
                     pago.setIdPago(rs.getInt("id_pago"));
                     pago.setIdInscripcion(rs.getInt("id_inscripcion"));
-                    pago.setImporte(rs.getDouble("importe"));
+                    pago.setImporte(rs.getDouble("total"));
 
                     String metodoStr = rs.getString("metodo_pago");
                     if (metodoStr != null) {
                         pago.setMetodoPago(MetodoPago.valueOf(metodoStr.toUpperCase()));
                     }
 
-                    String estadoStr = rs.getString("estado");
+                    String estadoStr = rs.getString("estado_pago");
                     if (estadoStr != null) {
                         pago.setEstado(EstadoPago.valueOf(estadoStr.toUpperCase()));
                     }
@@ -61,10 +64,10 @@ public class PagoDAO {
         return lista;
     }
 
-    //Metodo para guardar un nuevo pago
+    // Guarda un nuevo registro de pago en la base de datos
     public boolean insertarPago(Pago pago) {
         String sql = """
-                INSERT INTO pago (id_inscripcion, importe, metodo_pago, estado, fecha_pago)
+                INSERT INTO pago (id_inscripcion, total, metodo_pago, estado_pago, fecha_pago)
                 VALUES (?, ?, ?, ?, ?)
                 """;
 
@@ -73,14 +76,13 @@ public class PagoDAO {
 
             ps.setInt(1, pago.getIdInscripcion());
             ps.setDouble(2, pago.getImporte());
-            //Si el pago ya tiene metodo elegido pone el nombre con name(), si es null muestra null
-            ps.setString(3, pago.getMetodoPago() != null ? pago.getMetodoPago().name() : null);
+            ps.setString(3, pago.getMetodoPago() != null ? pago.getMetodoPago().name() : MetodoPago.TARJETA.name());
             ps.setString(4, pago.getEstado().name());
-            //Un if q comprueba si existe fecha de pago para mostrarlo, si no null
+
             if (pago.getFechaPago() != null) {
                 ps.setTimestamp(5, Timestamp.valueOf(pago.getFechaPago()));
             } else {
-                ps.setNull(5, Types.TIMESTAMP);
+                ps.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             }
 
             return ps.executeUpdate() > 0;
@@ -90,22 +92,55 @@ public class PagoDAO {
         }
     }
 
-    //Metodo que marca un pago pendiente como completado y le añade una fecha
+    // Marca un pago pendiente como completado y confirma la inscripción asociada
     public boolean completarPago(int idPago, MetodoPago metodo) {
-        String sql = """
+        String sqlPago = """
                 UPDATE pago
-                SET estado = ?, metodo_pago = ?, fecha_pago = ?
+                SET estado_pago = ?, metodo_pago = ?, fecha_pago = ?
                 WHERE id_pago = ?
                 """;
+        String sqlInscripcion = """
+                UPDATE inscripcion i
+                INNER JOIN pago p ON i.id_inscripcion = p.id_inscripcion
+                SET i.estado_inscripcion = ?
+                WHERE p.id_pago = ?
+                """;
+
+        try (Connection conn = ConexionBD.getConexion()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement psPago = conn.prepareStatement(sqlPago);
+                 PreparedStatement psInsc = conn.prepareStatement(sqlInscripcion)) {
+
+                psPago.setString(1, EstadoPago.COMPLETADO.name());
+                psPago.setString(2, metodo.name());
+                psPago.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                psPago.setInt(4, idPago);
+                int filasPago = psPago.executeUpdate();
+
+                psInsc.setString(1, EstadoInscripcion.CONFIRMADA.name());
+                psInsc.setInt(2, idPago);
+                psInsc.executeUpdate();
+
+                conn.commit();
+                return filasPago > 0;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+    // Elimina el pago pendiente si el usuario cancela la inscripción antes de abonarla
+    public boolean eliminarPagoPendiente(int idInscripcion) {
+        String sql = "DELETE FROM pago WHERE id_inscripcion = ? AND estado_pago = 'PENDIENTE'";
 
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, EstadoPago.COMPLETADO.name());
-            ps.setString(2, metodo.name());
-            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            ps.setInt(4, idPago);
-
+            ps.setInt(1, idInscripcion);
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
