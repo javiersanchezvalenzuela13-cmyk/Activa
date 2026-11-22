@@ -1,4 +1,5 @@
 package org.example.activa.service;
+
 import org.example.activa.dao.ActividadDAO;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
@@ -8,27 +9,30 @@ import org.example.activa.model.Pago;
 import org.example.activa.model.enums.EstadoPago;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 // Servicio que recopila los avisos del usuario (actividades de mañana y estado de pagos)
 public class NotificacionService {
 
-    // Servicios y DAOs necesarios para consultar inscripciones, pagos y actividades
     private final InscripcionService inscripcionService = new InscripcionService();
     private final PagoService pagoService = new PagoService();
     private final ActividadDAO actividadDAO = new ActividadDAO();
 
-    // Formatos de hora y fecha para mostrar en las tarjetas
     private static final DateTimeFormatter FORMATO_HORA = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter FORMATO_FECHA =
             DateTimeFormatter.ofPattern("d MMM", new Locale("es", "ES"));
+    private static final Locale LOCALE_ES = new Locale("es", "ES");
 
     // Genera la lista de notificaciones del usuario que tiene la sesión iniciada
     public List<Notificacion> obtenerParaUsuarioActual() {
@@ -39,8 +43,9 @@ public class NotificacionService {
 
         int idUsuario = Sesion.getIdUsuario();
         LocalDate manana = LocalDate.now().plusDays(1);
+        Set<Integer> pendientesAvisados = new HashSet<>();
 
-        //Actividades inscritas que se celebran mañana
+        // 1. Actividades inscritas: recordatorio de mañana y pagos pendientes de inscripción
         try {
             for (Inscripcion ins : inscripcionService.listarMisInscripciones(idUsuario)) {
                 if (!ins.estaActiva()) {
@@ -48,32 +53,67 @@ public class NotificacionService {
                 }
 
                 Actividad act = actividadDAO.buscarPorId(ins.getIdActividad());
-                if (act != null && manana.equals(act.getFechaActividad())) {
+                if (act == null) {
+                    continue;
+                }
+
+                // Aviso si la actividad es mañana
+                if (manana.equals(act.getFechaActividad())) {
                     String hora = act.getHoraInicio() != null ? act.getHoraInicio().format(FORMATO_HORA) : "";
                     String lugar = act.getLugar() != null ? act.getLugar() : "";
-                    String detalle = act.getNombreActividad() + (hora.isEmpty() ? "" : " · " + hora) + (lugar.isEmpty() ? "" : " · " + lugar);
+                    String detalle = act.getNombreActividad()
+                            + (hora.isEmpty() ? "" : " · " + hora)
+                            + (lugar.isEmpty() ? "" : " · " + lugar);
 
                     lista.add(new Notificacion(
-                            "Mañana tienes plan", detalle, "mañana", "clock", Vista.MIS_INSCRIPCIONES
+                            "Mañana tienes plan",
+                            detalle,
+                            "mañana",
+                            "clock",
+                            Vista.MIS_INSCRIPCIONES
                     ));
+                }
+
+                // Aviso si la inscripción está pendiente de pago
+                if (ins.estaPendienteDePago()) {
+                    BigDecimal precio = act.getPrecio() != null ? act.getPrecio() : BigDecimal.ZERO;
+                    String detalle = act.getNombreActividad() + " · " + String.format(LOCALE_ES, "%.2f €", precio);
+
+                    lista.add(new Notificacion(
+                            "Pago pendiente",
+                            detalle,
+                            formatearTiempo(ins.getFechaInscripcion(), "pendiente"),
+                            "alertCircle",
+                            Vista.PAGOS
+                    ));
+                    pendientesAvisados.add(ins.getIdInscripcion());
                 }
             }
         } catch (InscripcionException | SQLException e) {
             e.printStackTrace();
         }
 
-        //Pagos pendientes y pagos realizados
+        // 2. Pagos registrados en la tabla pago
         for (Pago pago : pagoService.obtenerPagosDeUsuario(idUsuario)) {
             String actividad = pago.getTituloActividad() != null ? pago.getTituloActividad() : "Actividad";
-            String detalle = actividad + " · " + String.format(new Locale("es", "ES"), "%.2f €", pago.getImporte());
+            String detalle = actividad + " · " + String.format(LOCALE_ES, "%.2f €", pago.getImporte());
 
-            if (pago.getEstado() == EstadoPago.PENDIENTE) {
+            if (pago.getEstado() == EstadoPago.PENDIENTE
+                    && !pendientesAvisados.contains(pago.getIdInscripcion())) {
                 lista.add(new Notificacion(
-                        "Pago pendiente", detalle, formatearTiempo(pago.getFechaPago(), "pendiente"), "alertCircle", Vista.PAGOS
+                        "Pago pendiente",
+                        detalle,
+                        formatearTiempo(pago.getFechaPago(), "pendiente"),
+                        "alertCircle",
+                        Vista.PAGOS
                 ));
             } else if (pago.getEstado() == EstadoPago.COMPLETADO) {
                 lista.add(new Notificacion(
-                        "Pago realizado", detalle, formatearTiempo(pago.getFechaPago(), "pagado"), "check", Vista.PAGOS
+                        "Pago realizado",
+                        detalle,
+                        formatearTiempo(pago.getFechaPago(), "pagado"),
+                        "check",
+                        Vista.PAGOS
                 ));
             }
         }
@@ -86,7 +126,7 @@ public class NotificacionService {
         return !obtenerParaUsuarioActual().isEmpty();
     }
 
-    // Convierte la fecha del pago en un texto corto ("hoy", "ayer" o "13 nov")
+    // Convierte la fecha en un texto corto ("hoy", "ayer" o "13 nov")
     private String formatearTiempo(LocalDateTime fechaHora, String porDefecto) {
         if (fechaHora == null) {
             return porDefecto;

@@ -87,7 +87,7 @@
 
                     <Region HBox.hgrow="ALWAYS"/>
 
-                    <Button fx:id="btnNotificaciones" styleClass="iconbtn"/>
+                    <Button fx:id="btnNotificaciones" onAction="#onNotificaciones" styleClass="iconbtn"/>
 
                     <HBox fx:id="botonesInvitado" spacing="8" alignment="CENTER_LEFT"
                           visible="false" managed="false">
@@ -109,7 +109,7 @@
                             <MenuItem text="Mi perfil"/>
                             <MenuItem text="Mis etiquetas"/>
                             <MenuItem text="Métodos de pago"/>
-                            <MenuItem text="Notificaciones"/>
+                            <MenuItem text="Notificaciones" onAction="#onNotificaciones"/>
                             <SeparatorMenuItem/>
                             <MenuItem text="Cerrar sesión" styleClass="salir" onAction="#onCerrarSesion"/>
                         </items>
