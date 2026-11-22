@@ -52,7 +52,8 @@
             <!-- Preferencias -->
             <VBox spacing="3">
                 <Label text="PREFERENCIAS" styleClass="nav-eyebrow"/>
-                <!-- Persona 1: Ajustes -->
+                <Button fx:id="btnAjustes" text="Ajustes" maxWidth="Infinity"
+                        styleClass="nav-item" onAction="#onAjustes"/>
             </VBox>
 
             <Region VBox.vgrow="ALWAYS"/>

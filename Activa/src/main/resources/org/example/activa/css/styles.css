@@ -79,13 +79,13 @@
     -fx-font-family: "Georgia";
     -fx-font-style: italic;
     -fx-font-weight: bold;
-    -fx-font-size: 26px;
+    -fx-font-size: 1.85em;
     -fx-text-fill: -side-ink;
 }
 
 .nav-eyebrow {
     -fx-text-fill: -side-mut;
-    -fx-font-size: 10px;
+    -fx-font-size: 0.72em;
     -fx-font-weight: bold;
     -fx-padding: 0 12 6 12;
 }
@@ -95,7 +95,7 @@
     -fx-background-radius: 10;
     -fx-padding: 10 12;
     -fx-text-fill: -side-ink;
-    -fx-font-size: 14px;
+    -fx-font-size: 1em;
     -fx-alignment: CENTER-LEFT;
     -fx-graphic-text-gap: 12;
     -fx-cursor: hand;
@@ -137,17 +137,17 @@
 .helpbox-titulo {
     -fx-font-family: "Georgia";
     -fx-font-weight: bold;
-    -fx-font-size: 16px;
+    -fx-font-size: 1.15em;
     -fx-text-fill: -side-ink;
 }
 
 .helpbox-texto {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-text-fill: -side-mut;
 }
 
 .helpbox-online {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-text-fill: -side-mut;
 }
 
@@ -159,7 +159,7 @@
     -fx-background-color: -cream;
     -fx-text-fill: -forest;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-background-radius: 9;
     -fx-padding: 8 12;
     -fx-graphic-text-gap: 8;
@@ -233,12 +233,12 @@
 
 .me-nombre {
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
     -fx-text-fill: -ink;
 }
 
 .me-rol {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-text-fill: -ink-3;
 }
 
@@ -251,7 +251,7 @@
     -fx-background-radius: 19;
     -fx-text-fill: #6d4f08;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-alignment: CENTER;
 }
 
@@ -317,7 +317,7 @@
 
 .seccion-titulo {
     -fx-font-family: "Georgia";
-    -fx-font-size: 24px;
+    -fx-font-size: 1.7em;
     -fx-text-fill: -ink;
 }
 
@@ -340,13 +340,13 @@
 
 .tarjeta-nombre {
     -fx-font-family: "Georgia";
-    -fx-font-size: 18px;
+    -fx-font-size: 1.3em;
     -fx-text-fill: -ink;
 }
 
 .tarjeta-dato {
     -fx-text-fill: -ink-2;
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
 }
 
 .etiqueta-precio {
@@ -354,7 +354,7 @@
     -fx-text-fill: #6d4f08;
     -fx-background-radius: 99;
     -fx-padding: 4 10;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
 }
 
@@ -388,7 +388,7 @@
 }
 
 .texto-plazas {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
     -fx-text-fill: -ok;
 }
@@ -441,13 +441,13 @@
 
 .detalle-titulo {
     -fx-font-family: "Georgia";
-    -fx-font-size: 34px;
+    -fx-font-size: 2.45em;
     -fx-text-fill: -cream;
 }
 
 .detalle-subtitulo {
     -fx-text-fill: -sage-soft;
-    -fx-font-size: 15px;
+    -fx-font-size: 1.07em;
 }
 
 .bloque {
@@ -460,7 +460,7 @@
 
 .bloque-titulo {
     -fx-font-family: "Georgia";
-    -fx-font-size: 18px;
+    -fx-font-size: 1.3em;
     -fx-text-fill: -ink;
 }
 
@@ -471,7 +471,7 @@
 
 .plazas-numero {
     -fx-font-family: "Georgia";
-    -fx-font-size: 30px;
+    -fx-font-size: 2.15em;
     -fx-text-fill: -ink;
 }
 
@@ -539,7 +539,7 @@
 .estado-chip {
     -fx-background-radius: 99;
     -fx-padding: 4 10;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
 }
 
@@ -569,7 +569,7 @@
     -fx-font-weight: bold;
     -fx-background-radius: 9;
     -fx-padding: 7 11;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-cursor: hand;
 }
 
@@ -580,22 +580,23 @@
     -fx-border-color: -line;
     -fx-border-radius: 11;
 }
+
 /* Títulos grandes */
 .eyebrow {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-font-weight: bold;
     -fx-text-fill: -ink-3;
 }
 
 .h1 {
     -fx-font-family: "Georgia";
-    -fx-font-size: 38px;
+    -fx-font-size: 2.7em;
     -fx-fill: -ink;
 }
 
 .h1-em {
     -fx-font-family: "Georgia";
-    -fx-font-size: 38px;
+    -fx-font-size: 2.7em;
     -fx-font-style: italic;
     -fx-fill: -forest;
 }
@@ -655,12 +656,12 @@
 
 .fila-nombre {
     -fx-font-weight: bold;
-    -fx-font-size: 14px;
+    -fx-font-size: 1em;
     -fx-text-fill: -ink;
 }
 
 .fila-datos {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-text-fill: -ink-3;
 }
 
@@ -683,7 +684,7 @@
 .pill {
     -fx-background-radius: 99;
     -fx-padding: 4 10;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
 }
 
@@ -713,7 +714,7 @@
 
 .vacio-titulo {
     -fx-font-family: "Georgia";
-    -fx-font-size: 22px;
+    -fx-font-size: 1.57em;
     -fx-text-fill: -ink;
 }
 
@@ -721,6 +722,7 @@
     -fx-text-fill: -ink-2;
     -fx-text-alignment: center;
 }
+
 .boton-ghost {
     -fx-background-color: transparent;
     -fx-text-fill: -ink;
@@ -733,10 +735,11 @@
 .boton-ghost:hover {
     -fx-background-color: -paper-2;
 }
+
 /* Panel de administración */
 .h1-em-admin {
     -fx-font-family: "Georgia";
-    -fx-font-size: 38px;
+    -fx-font-size: 2.7em;
     -fx-font-style: italic;
     -fx-fill: -ciruela;
 }
@@ -751,7 +754,7 @@
 }
 
 .kpi-titulo {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-font-weight: bold;
     -fx-text-fill: -ink-3;
     -fx-graphic-text-gap: 6;
@@ -763,12 +766,12 @@
 
 .kpi-valor {
     -fx-font-family: "Georgia";
-    -fx-font-size: 30px;
+    -fx-font-size: 2.15em;
     -fx-text-fill: -ink;
 }
 
 .kpi-comentario {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-text-fill: -ink-3;
 }
 
@@ -780,7 +783,7 @@
 
 .panel-titulo {
     -fx-font-family: "Georgia";
-    -fx-font-size: 18px;
+    -fx-font-size: 1.3em;
     -fx-text-fill: -ink;
 }
 
@@ -791,7 +794,7 @@
 }
 
 .th {
-    -fx-font-size: 11px;
+    -fx-font-size: 0.78em;
     -fx-font-weight: bold;
     -fx-text-fill: -ink-3;
 }
@@ -815,7 +818,7 @@
     -fx-background-color: -sage-soft;
     -fx-text-fill: -forest;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-background-radius: 9;
     -fx-padding: 7 11;
     -fx-graphic-text-gap: 6;
@@ -854,15 +857,16 @@
 .boton-apuntarme {
     -fx-graphic-text-gap: 8;
 }
+
 /* Formularios */
 .campo-etiqueta {
-    -fx-font-size: 13px;
+    -fx-font-size: 0.93em;
     -fx-font-weight: bold;
     -fx-text-fill: -ink-2;
 }
 
 .campo-ayuda {
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-text-fill: -warn;
 }
 
@@ -875,7 +879,7 @@
     -fx-background-radius: 10;
     -fx-border-color: -line;
     -fx-border-radius: 10;
-    -fx-font-size: 14px;
+    -fx-font-size: 1em;
 }
 
 .formulario .text-field,
@@ -935,10 +939,11 @@
 .tarjeta-dato {
     -fx-graphic-text-gap: 8;
 }
+
 /* Gestionar inscritos */
 .titulo-gestion {
     -fx-font-family: "Georgia";
-    -fx-font-size: 32px;
+    -fx-font-size: 2.3em;
     -fx-text-fill: -ink;
 }
 
@@ -950,7 +955,7 @@
     -fx-background-radius: 18;
     -fx-alignment: CENTER;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
 }
 
 .avatar-persona.cat-lago { -fx-background-color: -lago-s; -fx-text-fill: -lago; }
@@ -962,7 +967,7 @@
     -fx-background-color: -danger-soft;
     -fx-text-fill: -danger;
     -fx-font-weight: bold;
-    -fx-font-size: 12px;
+    -fx-font-size: 0.85em;
     -fx-background-radius: 9;
     -fx-padding: 7 11;
     -fx-graphic-text-gap: 6;
@@ -991,4 +996,112 @@
 
 .panel-cabecera .search {
     -fx-padding: 0 12;
+}
+
+/* =========================================================
+   MODO OSCURO GLOBAL
+   ========================================================= */
+.tema-oscuro {
+    -paper: #131715;
+    -paper-2: #1b211e;
+    -card: #1d2420;
+    -ink: #edf2ee;
+    -ink-2: #b4c0b9;
+    -ink-3: #7f8d85;
+    -line: #2d3732;
+
+    -forest: #3b9c76;
+    -forest-hover: #48b087;
+    -sage-soft: #1f332a;
+
+    -side: #0e1210;
+    -side-2: #171e1b;
+    -side-ink: #e8ece9;
+    -side-mut: #7f8d85;
+    -cream: #efe7d2;
+
+    -lago: #5aa3c7;
+    -lago-s: #1c313b;
+    -terra: #e07a54;
+    -terra-s: #3a231b;
+    -mostaza: #e5b132;
+    -mostaza-s: #362b13;
+    -ciruela: #b87bb2;
+    -ciruela-s: #311f2f;
+
+    -ok: #4cc38a;
+    -ok-soft: #193125;
+    -warn: #e5a93b;
+    -warn-soft: #352913;
+    -danger: #e56b5e;
+    -danger-soft: #381d1a;
+
+    -fx-background: -paper;
+    -fx-background-color: -paper;
+}
+
+.tema-oscuro .avatar,
+.tema-oscuro .etiqueta-precio {
+    -fx-text-fill: #f5cf6b;
+}
+
+.tema-oscuro .cabecera-detalle {
+    -fx-background-color: #193d2f;
+}
+
+.tema-oscuro .detalle-subtitulo {
+    -fx-text-fill: #cde3d8;
+}
+
+.tema-oscuro .nav-item.activo {
+    -fx-background-color: -forest;
+    -fx-text-fill: white;
+}
+
+.tema-oscuro .nav-item.activo .icono {
+    -fx-stroke: white;
+}
+
+.tema-oscuro .dialog-pane,
+.tema-oscuro .dialog-pane > .content,
+.tema-oscuro .dialog-pane .header-panel {
+    -fx-background-color: -card;
+}
+
+.tema-oscuro .dialog-pane .label {
+    -fx-text-fill: -ink;
+}
+
+/* =========================================================
+   DENSIDAD COMPACTA
+   ========================================================= */
+.densidad-compacta .contenido {
+    -fx-padding: 16 20 36 20;
+}
+
+.densidad-compacta .top {
+    -fx-padding: 8 20;
+}
+
+.densidad-compacta .side {
+    -fx-padding: 16 12;
+}
+
+.densidad-compacta .nav-item {
+    -fx-padding: 7 10;
+}
+
+.densidad-compacta .tarjeta-actividad {
+    -fx-padding: 11;
+    -fx-spacing: 5;
+}
+
+.densidad-compacta .bloque,
+.densidad-compacta .kpi {
+    -fx-padding: 12 14;
+}
+
+.densidad-compacta .fila-lista,
+.densidad-compacta .fila-tabla {
+    -fx-padding: 9 14;
 }

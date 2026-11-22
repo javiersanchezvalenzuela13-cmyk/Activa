@@ -26,6 +26,21 @@ Tipo: VARCHAR(255)
 Permite Nulo: NO
 Descripción: Contraseña cifrada del usuario.
 
+telefono
+Tipo: VARCHAR(9)
+Permite Nulo: SI
+Descripción: Número de teléfono de contacto del usuario.
+
+sobre_mi
+Tipo: TEXT
+Permite Nulo: SI
+Descripción: Breve biografía o descripción personal del usuario.
+
+foto_perfil
+Tipo: VARCHAR(255)
+Permite Nulo: SI
+Descripción: Ruta o URI de la imagen de perfil del usuario.
+
 rol
 Tipo: ENUM('ADMINISTRADOR', 'VECINO')
 Permite Nulo: NO
@@ -204,3 +219,47 @@ Descripción: Nombre de la etiqueta asignada al evento (ej. Senderismo, Taller).
 
 NOTA DE RESTRICCION:
 Clave primaria compuesta (id_actividad, etiqueta) para evitar que una misma actividad repita la misma etiqueta de categorización.
+
+==================================================
+7. TABLA: usuario_metodo_pago
+Descripción: Almacena los métodos de pago guardados por cada usuario en su perfil para agilizar futuras inscripciones.
+
+CAMPOS:
+
+id_metodo_pago
+Tipo: INT
+Claves: PK (Auto Increment)
+Permite Nulo: NO
+Descripción: Identificador único del método de pago guardado.
+
+id_usuario
+Tipo: INT
+Claves: FK (usuario.id_usuario, ON DELETE CASCADE)
+Permite Nulo: NO
+Descripción: Identificador del usuario propietario del método de pago.
+
+tipo
+Tipo: ENUM('TARJETA', 'BIZUM')
+Permite Nulo: NO
+Descripción: Tipo de método de pago guardado.
+
+titular
+Tipo: VARCHAR(100)
+Permite Nulo: SI
+Descripción: Nombre del titular de la tarjeta o cuenta asociada.
+
+identificador
+Tipo: VARCHAR(50)
+Permite Nulo: NO
+Descripción: Dato enmascarado del método de pago (ej. últimos 4 dígitos de la tarjeta o teléfono de Bizum).
+
+fecha_caducidad
+Tipo: VARCHAR(7)
+Permite Nulo: SI
+Descripción: Fecha de caducidad de la tarjeta en formato MM/AAAA (nulo si es Bizum).
+
+es_predeterminado
+Tipo: BOOLEAN
+Claves: Default FALSE
+Permite Nulo: NO
+Descripción: Indica si es el método de pago principal seleccionado por defecto.
