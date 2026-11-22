@@ -23,7 +23,6 @@
 
         <Button text="← Volver al panel" styleClass="boton-volver" onAction="#onVolver"/>
 
-        <!-- Cabecera de la actividad -->
         <HBox spacing="18" alignment="CENTER_LEFT">
             <StackPane fx:id="cajaMiniatura"/>
             <VBox spacing="6" HBox.hgrow="ALWAYS">
@@ -33,10 +32,8 @@
             <Button fx:id="btnEditar" text="Editar" styleClass="boton-ghost-borde" onAction="#onEditar"/>
         </HBox>
 
-        <!-- Resumen -->
         <HBox fx:id="kpis" spacing="14"/>
 
-        <!-- Lista de personas -->
         <VBox fx:id="panel" styleClass="panel">
             <HBox spacing="10" alignment="CENTER_LEFT" styleClass="panel-cabecera">
                 <HBox spacing="4" styleClass="seg">

@@ -46,7 +46,6 @@ public class MainController {
     @FXML private Button btnAsistente;
     @FXML private HBox cajaBuscar;
     @FXML private TextField txtBuscar;
-    @FXML private Button btnGuardados;
     @FXML private Button btnNotificaciones;
     @FXML private HBox botonesInvitado;
     @FXML private MenuButton menuUsuario;
@@ -149,7 +148,6 @@ public class MainController {
         boolean conCuenta = Sesion.haySesion();
 
         mostrar(menuUsuario, conCuenta);
-        mostrar(btnGuardados, conCuenta);
         mostrar(btnNotificaciones, conCuenta);
         mostrar(botonesInvitado, !conCuenta);
         mostrar(grupoAdmin, conCuenta && Sesion.isAdmin());
@@ -170,7 +168,6 @@ public class MainController {
         btnCalendario.setGraphic(Iconos.crear("calendar", 18));
         btnPagos.setGraphic(Iconos.crear("card", 18));
         btnAsistente.setGraphic(Iconos.crear("chat", 15));
-        btnGuardados.setGraphic(Iconos.crear("heart", 18));
         btnNotificaciones.setGraphic(Iconos.crear("bell", 18));
         cajaBuscar.getChildren().add(0, Iconos.crear("search", 18));
         btnPanelAdmin.setGraphic(Iconos.crear("shield", 18));
