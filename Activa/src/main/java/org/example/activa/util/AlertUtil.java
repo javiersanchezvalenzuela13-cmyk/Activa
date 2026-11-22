@@ -68,6 +68,7 @@ public final class AlertUtil {
         }
 
         DialogPane panel = alerta.getDialogPane();
+        panel.setMinHeight(Region.USE_PREF_SIZE);
         panel.setHeader(crearCabecera(tipo, titulo));
         panel.getStylesheets().addAll(
                 Objects.requireNonNull(AlertUtil.class.getResource(CSS_COLORES)).toExternalForm(),

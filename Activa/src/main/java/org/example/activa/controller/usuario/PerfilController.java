@@ -105,6 +105,7 @@ public class PerfilController {
             String rutaUri = archivo.toURI().toString();
             if (usuarioDAO.actualizarFotoPerfil(Sesion.getIdUsuario(), rutaUri)) {
                 mostrarImagenCircular(rutaUri);
+                Sesion.cargarFoto(rutaUri);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Foto actualizada", "Tu imagen de perfil se ha guardado correctamente.");
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo guardar la imagen de perfil.");

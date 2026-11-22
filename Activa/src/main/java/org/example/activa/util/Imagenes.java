@@ -4,6 +4,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import java.io.ByteArrayInputStream;
 
@@ -34,5 +37,16 @@ public final class Imagenes {
         // Recortar en círculo
         vista.setClip(new Circle(tamano / 2, tamano / 2, tamano / 2));
         return vista;
+    }
+    // Lee la imagen de una ruta file:/... (null si no hay ruta o el archivo ya no existe)
+    public static byte[] leerArchivo(String rutaUri) {
+        if (rutaUri == null || rutaUri.isBlank()) {
+            return null;
+        }
+        try {
+            return Files.readAllBytes(Path.of(URI.create(rutaUri)));
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

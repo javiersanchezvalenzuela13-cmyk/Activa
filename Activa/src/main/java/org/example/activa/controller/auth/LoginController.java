@@ -46,6 +46,7 @@ public class LoginController {
                 Navegador.mostrarPantallaCompleta(Vista.VERIFICACION);
             } else {
                 Sesion.iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), false);
+                Sesion.cargarFoto(usuario.getFotoPerfil());
                 Navegador.mostrarPantallaCompleta(Vista.MAIN);
             }
         } catch (AuthException e) {

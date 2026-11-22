@@ -40,8 +40,8 @@ public final class Sesion {
             Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idGuardado);
 
             if (usuario != null) {
-                // Nota: Asegúrate de que los getters coinciden con tu modelo Usuario (ej. esAdmin() o isAdmin())
                 iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.esAdmin());
+                cargarFoto(usuario.getFotoPerfil());
                 return true;
             }
         }
@@ -116,6 +116,11 @@ public final class Sesion {
     // Actualiza la foto en memoria
     public static void setFoto(byte[] nuevaFoto) {
         foto.set(nuevaFoto);
+    }
+
+    // Carga la foto desde la ruta guardada en la BD
+    public static void cargarFoto(String rutaUri) {
+        foto.set(Imagenes.leerArchivo(rutaUri));
     }
 
     // Propiedad observable para enlazar la foto en JavaFX

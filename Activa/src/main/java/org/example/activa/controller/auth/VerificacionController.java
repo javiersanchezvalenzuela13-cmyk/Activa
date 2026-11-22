@@ -58,6 +58,7 @@ public class VerificacionController {
 
         if (codigoCompleto.equals(codigoValido) && adminPendiente != null) {
             Sesion.iniciar(adminPendiente.getIdUsuario(), adminPendiente.getNombreUsuario(), adminPendiente.getEmail(), true);
+            Sesion.cargarFoto(adminPendiente.getFotoPerfil());
             Navegador.mostrarPantallaCompleta(Vista.MAIN);
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "Código incorrecto", "El código introducido no es válido o ha caducado.");
