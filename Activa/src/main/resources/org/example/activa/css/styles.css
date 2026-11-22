@@ -992,3 +992,102 @@
 .panel-cabecera .search {
     -fx-padding: 0 12;
 }
+/* Etiquetas */
+.chip {
+    -fx-background-color: -card;
+    -fx-background-radius: 99;
+    -fx-border-color: -line;
+    -fx-border-radius: 99;
+    -fx-padding: 7 13;
+    -fx-text-fill: -ink-2;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.chip:hover {
+    -fx-border-color: -ink-3;
+}
+
+.chip:selected {
+    -fx-background-color: -forest;
+    -fx-border-color: -forest;
+    -fx-text-fill: white;
+}
+
+.pill-etiqueta {
+    -fx-background-color: -paper-2;
+    -fx-text-fill: -ink-2;
+    -fx-background-radius: 99;
+    -fx-padding: 3 9;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.cabecera-detalle .pill-etiqueta {
+    -fx-background-color: rgba(255, 248, 234, 0.18);
+    -fx-text-fill: -cream;
+}
+
+.campo-ayuda-neutro {
+    -fx-font-size: 12px;
+    -fx-text-fill: -ink-3;
+}
+
+/* Filtro de etiquetas (barra superior) */
+.filtro-etiquetas {
+    -fx-background-color: -card;
+    -fx-background-radius: 12;
+    -fx-border-color: -line;
+    -fx-border-radius: 12;
+    -fx-padding: 6 10;
+    -fx-text-fill: -ink-2;
+    -fx-font-weight: bold;
+    -fx-graphic-text-gap: 8;
+    -fx-cursor: hand;
+}
+
+.filtro-etiquetas .label {
+    -fx-text-fill: -ink-2;
+}
+
+.filtro-etiquetas .icono {
+    -fx-stroke: -ink-3;
+}
+
+.filtro-etiquetas.activo {
+    -fx-border-color: -forest;
+}
+
+.filtro-etiquetas.activo .label {
+    -fx-text-fill: -forest;
+}
+
+.filtro-etiquetas.activo .icono {
+    -fx-stroke: -forest;
+}
+
+.context-menu .check-box {
+    -fx-text-fill: -ink;
+}
+
+.context-menu .check-box:selected > .box {
+    -fx-background-color: -forest;
+}
+
+.context-menu .check-box:selected > .box > .mark {
+    -fx-background-color: white;
+}
+/* Portadas (foto o color con icono) */
+.portada {
+    -fx-background-radius: 14;
+}
+
+.portada.cat-lago { -fx-background-color: -lago-s; }
+.portada.cat-terra { -fx-background-color: -terra-s; }
+.portada.cat-mostaza { -fx-background-color: -mostaza-s; }
+.portada.cat-ciruela { -fx-background-color: -ciruela-s; }
+
+.portada .icono {
+    -fx-stroke-width: 1.5;
+}

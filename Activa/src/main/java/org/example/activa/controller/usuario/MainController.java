@@ -16,6 +16,14 @@ import org.example.activa.util.Iconos;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import org.example.activa.util.Etiquetas;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainController {
 
@@ -39,9 +47,12 @@ public class MainController {
     @FXML private Label lblRol;
     @FXML private Label lblInicial;
     @FXML private Button btnPanelAdmin;
+    @FXML private MenuButton menuEtiquetas;
 
     // Pantalla que se está viendo
     private Vista vistaActual;
+    // Casillas del filtro de etiquetas
+    private final List<CheckBox> casillasEtiquetas = new ArrayList<>();
 
     @FXML
     private void initialize() {
@@ -56,6 +67,7 @@ public class MainController {
                 Navegador.irA(Vista.INICIO);
             }
         });
+        crearFiltroEtiquetas();
 
         Navegador.setContenedor(contenedor, this::marcarActivo);
         Navegador.irA(Vista.INICIO);
@@ -106,6 +118,7 @@ public class MainController {
     private void onCerrarSesion() {
         Sesion.cerrar();
         Busqueda.textoProperty().set("");
+        Busqueda.etiquetas().clear();
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
@@ -174,5 +187,43 @@ public class MainController {
     private void mostrar(Node nodo, boolean visible) {
         nodo.setVisible(visible);
         nodo.setManaged(visible);
+    }
+
+    // Menú con una casilla por etiqueta
+    private void crearFiltroEtiquetas() {
+        menuEtiquetas.setGraphic(Iconos.crear("tag", 16));
+
+        MenuItem quitar = new MenuItem("Quitar filtro");
+        quitar.setOnAction(e -> casillasEtiquetas.forEach(c -> c.setSelected(false)));
+        menuEtiquetas.getItems().addAll(quitar, new SeparatorMenuItem());
+
+        for (String etiqueta : Etiquetas.todas()) {
+            CheckBox casilla = new CheckBox(etiqueta);
+            casilla.selectedProperty().addListener((obs, antes, marcada) -> {
+                if (marcada) {
+                    Busqueda.etiquetas().add(etiqueta);
+                } else {
+                    Busqueda.etiquetas().remove(etiqueta);
+                }
+                actualizarBotonEtiquetas();
+                if (vistaActual != Vista.INICIO) {
+                    Navegador.irA(Vista.INICIO);
+                }
+            });
+            casillasEtiquetas.add(casilla);
+
+            CustomMenuItem item = new CustomMenuItem(casilla, false);
+            menuEtiquetas.getItems().add(item);
+        }
+    }
+
+    // "Etiquetas · 2" y resaltado si hay alguna marcada
+    private void actualizarBotonEtiquetas() {
+        int marcadas = Busqueda.etiquetas().size();
+        menuEtiquetas.setText(marcadas == 0 ? "Etiquetas" : "Etiquetas · " + marcadas);
+        menuEtiquetas.getStyleClass().remove("activo");
+        if (marcadas > 0) {
+            menuEtiquetas.getStyleClass().add("activo");
+        }
     }
 }

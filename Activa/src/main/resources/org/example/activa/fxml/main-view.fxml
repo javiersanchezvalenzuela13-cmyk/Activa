@@ -91,6 +91,9 @@
                                    HBox.hgrow="ALWAYS" styleClass="search-campo"/>
                     </HBox>
 
+                    <!-- Filtro de etiquetas -->
+                    <MenuButton fx:id="menuEtiquetas" text="Etiquetas" styleClass="filtro-etiquetas"/>
+
                     <Region HBox.hgrow="ALWAYS"/>
 
                     <!-- Guardados y notificaciones (Persona 1) -->

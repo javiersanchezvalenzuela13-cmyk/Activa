@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
+<?import javafx.scene.layout.StackPane?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.activa.controller.admin.EditorActividadController"
             fitToWidth="true" styleClass="scroll">
@@ -43,6 +44,28 @@
                     <Label text="Descripción" styleClass="campo-etiqueta"/>
                     <TextArea fx:id="txtDescripcion" promptText="Qué se hará, qué hay que traer..."
                               wrapText="true" prefRowCount="4"/>
+                </VBox>
+
+                <VBox spacing="12" styleClass="bloque">
+                    <HBox alignment="CENTER_LEFT">
+                        <Label text="Etiquetas" styleClass="bloque-titulo"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="lblContadorEtiquetas" styleClass="campo-ayuda-neutro"/>
+                    </HBox>
+                    <VBox fx:id="cajaEtiquetas" spacing="12"/>
+                </VBox>
+                <VBox spacing="12" styleClass="bloque">
+                    <Label text="Foto" styleClass="bloque-titulo"/>
+                    <HBox spacing="16" alignment="CENTER_LEFT">
+                        <StackPane fx:id="cajaFoto"/>
+                        <VBox spacing="8">
+                            <Label text="JPG o PNG, máximo 2 MB." styleClass="campo-ayuda-neutro"/>
+                            <HBox spacing="8">
+                                <Button text="Elegir foto…" styleClass="boton-ghost-borde" onAction="#onElegirFoto"/>
+                                <Button fx:id="btnQuitarFoto" text="Quitar" styleClass="boton-ghost" onAction="#onQuitarFoto"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
                 </VBox>
 
                 <VBox spacing="12" styleClass="bloque">

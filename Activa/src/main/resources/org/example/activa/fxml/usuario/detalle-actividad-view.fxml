@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
 <ScrollPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.example.activa.controller.usuario.DetalleActividadController"
             fitToWidth="true" styleClass="scroll">
@@ -18,11 +20,16 @@
         <Button text="← Volver a actividades" styleClass="boton-volver" onAction="#onVolver"/>
 
         <!-- Cabecera -->
-        <VBox spacing="10" styleClass="cabecera-detalle">
-            <Label fx:id="lblPrecio" styleClass="etiqueta-precio"/>
-            <Label fx:id="lblNombre" styleClass="detalle-titulo" wrapText="true"/>
-            <Label fx:id="lblResumen" styleClass="detalle-subtitulo"/>
-        </VBox>
+        <!-- Cabecera -->
+        <HBox spacing="24" alignment="CENTER_LEFT" styleClass="cabecera-detalle">
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label fx:id="lblPrecio" styleClass="etiqueta-precio"/>
+                <Label fx:id="lblNombre" styleClass="detalle-titulo" wrapText="true"/>
+                <Label fx:id="lblResumen" styleClass="detalle-subtitulo"/>
+                <FlowPane fx:id="cajaEtiquetas" hgap="6" vgap="6"/>
+            </VBox>
+            <StackPane fx:id="cajaPortada"/>
+        </HBox>
 
         <!-- Dos columnas -->
         <HBox spacing="24">

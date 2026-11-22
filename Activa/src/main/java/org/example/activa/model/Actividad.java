@@ -3,6 +3,8 @@ package org.example.activa.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Actividad {
 
@@ -18,6 +20,8 @@ public class Actividad {
     private int cupoActual;
     private int cupoMax;
     private int idUsuario;
+    private List<String> etiquetas = new ArrayList<>();
+    private byte[] imagen;   // foto en bytes (null si no tiene)
 
     // Constructores
 
@@ -99,6 +103,16 @@ public class Actividad {
 
     public int getIdUsuario() { return idUsuario; }
     public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+
+    public List<String> getEtiquetas() { return etiquetas; }
+    public void setEtiquetas(List<String> etiquetas) { this.etiquetas = etiquetas; }
+
+    public byte[] getImagen() { return imagen; }
+    public void setImagen(byte[] imagen) { this.imagen = imagen; }
+
+    public boolean tieneImagen() {
+        return imagen != null && imagen.length > 0;
+    }
 
     @Override
     public String toString() {
