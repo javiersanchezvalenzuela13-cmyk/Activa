@@ -6,10 +6,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import org.example.activa.controller.auth.LoginController;
 import org.example.activa.dao.UsuarioDAO;
 import org.example.activa.model.Usuario;
 import org.example.activa.util.Navegador;
@@ -20,6 +22,9 @@ import java.io.File;
 import java.util.Optional;
 
 public class PerfilController {
+
+    @FXML
+    private ToggleGroup grupoPestanas;
 
     @FXML
     private Label lblIniciales;
@@ -47,6 +52,14 @@ public class PerfilController {
     // Inicializa la vista cargando los datos del usuario activo desde la base de datos.
     @FXML
     public void initialize() {
+        if (grupoPestanas != null) {
+            grupoPestanas.selectedToggleProperty().addListener((obs, anterior, actual) -> {
+                if (actual == null && anterior != null) {
+                    anterior.setSelected(true);
+                }
+            });
+        }
+
         cargarDatosUsuario();
     }
 
@@ -187,9 +200,11 @@ public class PerfilController {
         Optional<ButtonType> resultado = confirmacion.showAndWait();
 
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            String emailEliminado = Sesion.getEmail() != null ? Sesion.getEmail() : txtCorreo.getText();
             boolean exito = usuarioDAO.eliminarUsuario(Sesion.getIdUsuario());
 
             if (exito) {
+                LoginController.limpiarRecordarme(emailEliminado);
                 Sesion.cerrar();
                 Navegador.mostrarPantallaCompleta(Vista.LOGIN);
             } else {
