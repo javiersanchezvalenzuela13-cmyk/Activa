@@ -2,17 +2,25 @@ package org.example.activa.controller.auth;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.example.activa.exception.AuthException;
 import org.example.activa.model.Usuario;
 import org.example.activa.service.AuthService;
-import org.example.activa.util.Sesion;
-import org.example.activa.util.Navegador;
-import org.example.activa.util.Vista;
 import org.example.activa.service.EmailService;
+import org.example.activa.util.Navegador;
+import org.example.activa.util.Sesion;
+import org.example.activa.util.Vista;
+
+import java.util.prefs.Preferences;
 
 public class LoginController {
+
+    private static final Preferences PREFS = Preferences.userNodeForPackage(LoginController.class);
+    private static final String PREF_RECORDAR = "login_recordar";
+    private static final String PREF_EMAIL = "login_email";
+    private static final String PREF_CLAVE = "login_clave";
 
     @FXML
     private TextField emailField;
@@ -20,11 +28,19 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private CheckBox recordarmeCheck;
+
     private final AuthService authService = new AuthService();
 
-    // Inicializa la vista de inicio de sesión (actualmente sin configuración adicional requerida).
+    // Rellena los datos guardados si el usuario marcó "Recordarme" en el último inicio de sesión.
     @FXML
     public void initialize() {
+        if (recordarmeCheck != null && PREFS.getBoolean(PREF_RECORDAR, false)) {
+            emailField.setText(PREFS.get(PREF_EMAIL, ""));
+            passwordField.setText(PREFS.get(PREF_CLAVE, ""));
+            recordarmeCheck.setSelected(true);
+        }
     }
 
     // Autentica al usuario e inicia sesión, o redirige a verificación en dos pasos si es administrador.
@@ -32,10 +48,12 @@ public class LoginController {
     public void handleLogin() {
         try {
             String emailIngresado = emailField.getText();
+            String claveIngresada = passwordField.getText();
             String emailReal = emailIngresado.replace(".admin@", "@");
             boolean intentoAdmin = emailIngresado.contains(".admin@");
 
-            Usuario usuario = authService.login(emailReal, passwordField.getText());
+            Usuario usuario = authService.login(emailReal, claveIngresada);
+            guardarPreferenciasLogin(emailIngresado, claveIngresada);
 
             // Comprobamos si es admin real en la BD o si usó el truco del .admin
             if (usuario.esAdmin() || intentoAdmin) {
@@ -50,6 +68,19 @@ public class LoginController {
             }
         } catch (AuthException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", e.getMessage());
+        }
+    }
+
+    // Guarda o borra las credenciales localmente según esté marcada la casilla "Recordarme".
+    private void guardarPreferenciasLogin(String email, String clave) {
+        if (recordarmeCheck != null && recordarmeCheck.isSelected()) {
+            PREFS.putBoolean(PREF_RECORDAR, true);
+            PREFS.put(PREF_EMAIL, email);
+            PREFS.put(PREF_CLAVE, clave);
+        } else {
+            PREFS.remove(PREF_RECORDAR);
+            PREFS.remove(PREF_EMAIL);
+            PREFS.remove(PREF_CLAVE);
         }
     }
 
