@@ -36,9 +36,6 @@ import java.util.Optional;
 
 public class MisInscripcionesController {
 
-    // Usuario de prueba hasta que exista Sesion (Persona 1)
-    private static final int ID_USUARIO_PRUEBA = 1;
-
     private static final DateTimeFormatter FORMATO_FECHA =
             DateTimeFormatter.ofPattern("EEE d MMM", Locale.forLanguageTag("es-ES"));
 
@@ -99,7 +96,8 @@ public class MisInscripcionesController {
             }
 
             filas.clear();
-            for (Inscripcion i : inscripcionService.listarMisInscripciones(ID_USUARIO_PRUEBA)) {
+            // Usuario de prueba hasta que exista Sesion (Persona 1)
+            for (Inscripcion i : inscripcionService.listarMisInscripciones(Sesion.getIdUsuario())) {
                 Actividad a = actividadesPorId.get(i.getIdActividad());
                 if (a != null) {
                     filas.add(new Fila(i, a));
@@ -309,7 +307,7 @@ public class MisInscripcionesController {
             return;
         }
         try {
-            inscripcionService.cancelar(ID_USUARIO_PRUEBA, f.actividad().getIdActividad());
+            inscripcionService.cancelar(Sesion.getIdUsuario(), f.actividad().getIdActividad());
             mostrarInfo("Has cancelado tu inscripción en \"" + nombre + "\".");
         } catch (InscripcionException e) {
             mostrarError(e.getMessage());
