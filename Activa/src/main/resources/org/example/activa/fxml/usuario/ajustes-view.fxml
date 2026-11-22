@@ -104,7 +104,7 @@
                     <BorderPane styleClass="aju-preview-banner">
                         <top>
                             <HBox alignment="TOP_LEFT">
-                                <Label fx:id="lblPreviewBadge" text="✦ Para ti" styleClass="aju-preview-badge-top" />
+                                <Label text="✦ Para ti" styleClass="aju-preview-badge-top" />
                                 <Region HBox.hgrow="ALWAYS" />
                                 <Label text="5€&#10;PLAZA" textAlignment="CENTER" styleClass="aju-preview-precio" />
                             </HBox>
@@ -115,8 +115,6 @@
                         <bottom>
                             <HBox alignment="CENTER_LEFT">
                                 <Label text="● Arte" styleClass="aju-preview-cat" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label text="♥" styleClass="aju-preview-fav" />
                             </HBox>
                         </bottom>
                     </BorderPane>
@@ -130,10 +128,10 @@
 
                         <HBox alignment="BOTTOM_LEFT" spacing="10.0">
                             <VBox spacing="4.0" HBox.hgrow="ALWAYS">
-                                <Label fx:id="lblPreviewPlazas" text="7 de 16 libres" styleClass="aju-preview-plazas" />
+                                <Label text="7 de 16 libres" styleClass="aju-preview-plazas" />
                                 <ProgressBar fx:id="barPreviewPlazas" progress="0.45" maxWidth="Infinity" prefHeight="6.0" />
                             </VBox>
-                            <Button fx:id="btnPreviewApuntarme" text="Apuntarme" styleClass="aju-preview-btn" />
+                            <Button text="Apuntarme" styleClass="aju-preview-btn" />
                         </HBox>
                     </VBox>
                 </VBox>

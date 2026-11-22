@@ -15,18 +15,18 @@ public class Inscripcion {
 
     // Constructores
 
-    // 1. Vacío
+    // Vacío
     public Inscripcion() {
     }
 
-    // 2. Sin id ni fecha
+    // Sin id ni fecha
     public Inscripcion(int idActividad, int idUsuario, EstadoInscripcion estado) {
         this.idActividad = idActividad;
         this.idUsuario = idUsuario;
         this.estado = estado;
     }
 
-    // 3. Completo
+    // Completo
     public Inscripcion(int idInscripcion, LocalDateTime fechaInscripcion,
                        EstadoInscripcion estado, int idActividad, int idUsuario) {
         this(idActividad, idUsuario, estado);

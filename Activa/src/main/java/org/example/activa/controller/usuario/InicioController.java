@@ -4,9 +4,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.*;
@@ -24,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.WeakChangeListener;
@@ -215,7 +212,9 @@ public class InicioController {
 
     // Acción del botón "Cancelar inscripción"
     private void cancelar(Actividad a) {
-        if (!confirmar("¿Seguro que quieres cancelar tu inscripción en \"" + a.getNombreActividad() + "\"?")) {
+        if (!AlertUtil.confirmarPeligro("Cancelar inscripción",
+                "¿Seguro que quieres cancelar tu inscripción en \"" + a.getNombreActividad() + "\"?",
+                "Cancelar inscripción", "Volver")) {
             return;
         }
         try {
@@ -247,23 +246,12 @@ public class InicioController {
         return "Quedan " + libres + " plazas";
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
-    }
-
-    private boolean confirmar(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
-        alerta.setHeaderText(null);
-        Optional<ButtonType> respuesta = alerta.showAndWait();
-        return respuesta.isPresent() && respuesta.get() == ButtonType.YES;
+        AlertUtil.error(mensaje);
     }
 }

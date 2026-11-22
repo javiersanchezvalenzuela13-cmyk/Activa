@@ -2,9 +2,7 @@ package org.example.activa.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
@@ -23,17 +21,12 @@ import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscrito;
 import org.example.activa.service.ActividadService;
 import org.example.activa.service.InscripcionService;
-import org.example.activa.util.EstiloActividad;
-import org.example.activa.util.Iconos;
-import org.example.activa.util.Navegador;
-import org.example.activa.util.Sesion;
-import org.example.activa.util.Vista;
+import org.example.activa.util.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class GestionarInscritosController {
 
@@ -303,8 +296,9 @@ public class GestionarInscritosController {
     }
 
     private void onExpulsar(Inscrito i) {
-        if (!confirmar("¿Expulsar a " + i.nombre() + " de \"" + actividad.getNombreActividad() + "\"?\n\n"
-                + "Su plaza quedará libre para otra persona.")) {
+        if (!AlertUtil.confirmarPeligro("Expulsar a " + i.nombre(),
+                "Saldrá de \"" + actividad.getNombreActividad() + "\" y su plaza quedará libre.",
+                "Expulsar", "Cancelar")) {
             return;
         }
         try {
@@ -334,23 +328,12 @@ public class GestionarInscritosController {
         panel.setClip(recorte);
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
-    }
-
-    private boolean confirmar(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
-        alerta.setHeaderText(null);
-        Optional<ButtonType> respuesta = alerta.showAndWait();
-        return respuesta.isPresent() && respuesta.get() == ButtonType.YES;
+        AlertUtil.error(mensaje);
     }
 }

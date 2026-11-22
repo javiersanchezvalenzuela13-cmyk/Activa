@@ -6,13 +6,12 @@ import javafx.beans.value.WeakChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -34,6 +33,7 @@ import org.example.activa.util.Vista;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 // Controlador principal de la aplicación: gestiona la navegación lateral, la barra superior y la sesión
 public class MainController {
@@ -67,8 +67,8 @@ public class MainController {
     private Vista vistaActual;
     // Se ejecuta cuando cambia la foto de perfil
     private final ChangeListener<byte[]> alCambiarFoto = (obs, antes, ahora) -> pintarAvatar();
-    // Casillas del filtro de etiquetas
-    private final List<CheckBox> casillasEtiquetas = new ArrayList<>();
+    // Chips del filtro de etiquetas
+    private final List<ToggleButton> chipsFiltro = new ArrayList<>();
 
     // Inicializa iconos, sesión, buscador y la apariencia global
     @FXML
@@ -147,6 +147,7 @@ public class MainController {
     private void onCrearCuenta() {
         Navegador.mostrarPantallaCompleta(Vista.REGISTRO);
     }
+
 
     // Menú del usuario
 
@@ -261,31 +262,68 @@ public class MainController {
         nodo.setManaged(visible);
     }
 
-    // Menú con una casilla por etiqueta
+    // Panel con las etiquetas agrupadas y con scroll
     private void crearFiltroEtiquetas() {
         menuEtiquetas.setGraphic(Iconos.crear("tag", 16));
 
-        MenuItem quitar = new MenuItem("Quitar filtro");
-        quitar.setOnAction(e -> casillasEtiquetas.forEach(c -> c.setSelected(false)));
-        menuEtiquetas.getItems().addAll(quitar, new SeparatorMenuItem());
+        // Cabecera: título + "Quitar filtro"
+        Label titulo = new Label("Filtrar por etiquetas");
+        titulo.getStyleClass().add("filtro-titulo");
 
-        for (String etiqueta : Etiquetas.todas()) {
-            CheckBox casilla = new CheckBox(etiqueta);
-            casilla.selectedProperty().addListener((obs, antes, marcada) -> {
-                if (marcada) {
-                    Busqueda.etiquetas().add(etiqueta);
-                } else {
-                    Busqueda.etiquetas().remove(etiqueta);
-                }
-                actualizarBotonEtiquetas();
-                if (vistaActual != Vista.INICIO) {
-                    Navegador.irA(Vista.INICIO);
-                }
-            });
-            casillasEtiquetas.add(casilla);
+        Button quitar = new Button("Quitar filtro");
+        quitar.getStyleClass().add("filtro-quitar");
+        quitar.setOnAction(e -> chipsFiltro.forEach(c -> c.setSelected(false)));
 
-            CustomMenuItem item = new CustomMenuItem(casilla, false);
-            menuEtiquetas.getItems().add(item);
+        Region hueco = new Region();
+        HBox.setHgrow(hueco, Priority.ALWAYS);
+        HBox cabecera = new HBox(8, titulo, hueco, quitar);
+        cabecera.setAlignment(Pos.CENTER_LEFT);
+
+        // Grupos de chips (Deporte, Arte...)
+        VBox grupos = new VBox(14);
+        for (Map.Entry<String, List<String>> grupo : Etiquetas.POR_GRUPO.entrySet()) {
+            Label nombreGrupo = new Label(grupo.getKey().toUpperCase());
+            nombreGrupo.getStyleClass().add("eyebrow");
+
+            FlowPane chips = new FlowPane(6, 6);
+            chips.setPrefWrapLength(270);
+            for (String etiqueta : grupo.getValue()) {
+                ToggleButton chip = new ToggleButton(etiqueta);
+                chip.getStyleClass().addAll("chip", "chip-pequeno");
+                chip.selectedProperty().addListener((obs, antes, marcada) -> alCambiarEtiqueta(etiqueta, marcada));
+                chipsFiltro.add(chip);
+                chips.getChildren().add(chip);
+            }
+            grupos.getChildren().add(new VBox(6, nombreGrupo, chips));
+        }
+
+        // Scroll con altura máxima
+        ScrollPane scroll = new ScrollPane(grupos);
+        scroll.setFitToWidth(true);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scroll.setPrefViewportHeight(260);
+        scroll.getStyleClass().add("filtro-scroll");
+
+        VBox panel = new VBox(12, cabecera, scroll);
+        panel.setPrefWidth(320);
+        panel.getStyleClass().add("filtro-panel");
+
+        // Todo el panel va dentro del menú, y no se cierra al pulsar un chip
+        CustomMenuItem item = new CustomMenuItem(panel, false);
+        item.getStyleClass().add("filtro-item");
+        menuEtiquetas.getItems().setAll(item);
+    }
+
+    // Al marcar o desmarcar un chip
+    private void alCambiarEtiqueta(String etiqueta, boolean marcada) {
+        if (marcada) {
+            Busqueda.etiquetas().add(etiqueta);
+        } else {
+            Busqueda.etiquetas().remove(etiqueta);
+        }
+        actualizarBotonEtiquetas();
+        if (vistaActual != Vista.INICIO) {
+            Navegador.irA(Vista.INICIO);
         }
     }
 

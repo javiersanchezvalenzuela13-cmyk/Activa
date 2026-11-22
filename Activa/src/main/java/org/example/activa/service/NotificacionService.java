@@ -45,7 +45,7 @@ public class NotificacionService {
         LocalDate manana = LocalDate.now().plusDays(1);
         Set<Integer> pendientesAvisados = new HashSet<>();
 
-        // 1. Actividades inscritas: recordatorio de mañana y pagos pendientes de inscripción
+        // Actividades inscritas: recordatorio de mañana y pagos pendientes de inscripción
         try {
             for (Inscripcion ins : inscripcionService.listarMisInscripciones(idUsuario)) {
                 if (!ins.estaActiva()) {
@@ -93,7 +93,7 @@ public class NotificacionService {
             e.printStackTrace();
         }
 
-        // 2. Pagos registrados en la tabla pago
+        // Pagos registrados en la tabla pago
         for (Pago pago : pagoService.obtenerPagosDeUsuario(idUsuario)) {
             String actividad = pago.getTituloActividad() != null ? pago.getTituloActividad() : "Actividad";
             String detalle = actividad + " · " + String.format(LOCALE_ES, "%.2f €", pago.getImporte());

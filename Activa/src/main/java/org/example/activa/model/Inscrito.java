@@ -17,7 +17,7 @@ public record Inscrito(
         return estado == EstadoInscripcion.CONFIRMADA || estado == EstadoInscripcion.PENDIENTE_PAGO;
     }
 
-    // Iniciales para el avatar ("Ana Morales" → "AM")
+    // Iniciales para el avatar (de "Ana Morales" sale "AM")
     public String iniciales() {
         String[] partes = nombre.trim().split("\\s+");
         String ini = partes[0].substring(0, 1);

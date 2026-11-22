@@ -25,7 +25,7 @@ public class InscripcionService {
     // Apuntar a un usuario a una actividad y generar el pago pendiente si tiene coste
     public Inscripcion inscribir(int idUsuario, int idActividad) throws InscripcionException {
         try {
-            // 1. Comprobaciones
+            // Comprobaciones
             Actividad actividad = obtenerActividad(idActividad);
 
             if (actividad.getFechaActividad().isBefore(LocalDate.now())) {
@@ -41,17 +41,17 @@ public class InscripcionService {
                 throw new InscripcionException("No quedan plazas en esta actividad.");
             }
 
-            // 2. Estado según el precio
+            // Estado según el precio
             EstadoInscripcion estado = actividad.esGratis()
                     ? EstadoInscripcion.CONFIRMADA
                     : EstadoInscripcion.PENDIENTE_PAGO;
 
-            // 3. Reservar la plaza (si otro ha cogido la última, falla aquí)
+            // Reservar la plaza (si otro ha cogido la última, falla aquí)
             if (!actividadDAO.ocuparPlaza(idActividad)) {
                 throw new InscripcionException("Se acaba de ocupar la última plaza.");
             }
 
-            // 4. Guardar la inscripción y, si es de pago, crear el registro en la tabla pago
+            // Guardar la inscripción y, si es de pago, crear el registro en la tabla pago
             try {
                 Inscripcion inscripcionGuardada;
                 if (existente == null) {
@@ -153,31 +153,12 @@ public class InscripcionService {
         }
     }
 
-    // Inscripción activa de un usuario en una actividad (null si no tiene)
-    public Inscripcion obtenerInscripcion(int idUsuario, int idActividad) throws InscripcionException {
-        try {
-            Inscripcion i = inscripcionDAO.buscarPorUsuarioYActividad(idUsuario, idActividad);
-            return (i != null && i.estaActiva()) ? i : null;
-        } catch (SQLException e) {
-            throw new InscripcionException("Error al consultar la inscripción.", e);
-        }
-    }
-
     // Inscripciones de un usuario (pantalla "Mis inscripciones")
     public List<Inscripcion> listarMisInscripciones(int idUsuario) throws InscripcionException {
         try {
             return inscripcionDAO.listarPorUsuario(idUsuario);
         } catch (SQLException e) {
             throw new InscripcionException("Error al cargar tus inscripciones.", e);
-        }
-    }
-
-    // Inscritos de una actividad (pantalla "Gestionar inscritos" del admin)
-    public List<Inscripcion> listarInscritos(int idActividad) throws InscripcionException {
-        try {
-            return inscripcionDAO.listarPorActividad(idActividad);
-        } catch (SQLException e) {
-            throw new InscripcionException("Error al cargar los inscritos.", e);
         }
     }
 

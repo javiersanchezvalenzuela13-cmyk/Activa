@@ -1,6 +1,8 @@
 package org.example.activa.service;
 
 import javafx.scene.control.Alert;
+import org.example.activa.util.AlertUtil;
+
 import java.util.Random;
 
 public class EmailService {
@@ -20,12 +22,10 @@ public class EmailService {
         System.out.println("CÓDIGO SECRETO: " + codigo);
         System.out.println("==========================================\n");
 
-        // Mostrar Pop-up en la app
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Simulador de Correo");
-        alert.setHeaderText("Correo enviado a: " + destinatario);
-        alert.setContentText("Tu código de verificación es: " + codigo);
-        alert.showAndWait();
+        AlertUtil.crear(Alert.AlertType.INFORMATION,
+                        "Correo enviado",
+                        "Hemos enviado un código a " + destinatario + ".\nTu código de verificación es: " + codigo)
+                .showAndWait();
 
         return true;
     }

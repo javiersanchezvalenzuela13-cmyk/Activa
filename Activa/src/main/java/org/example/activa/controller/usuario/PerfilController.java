@@ -2,7 +2,6 @@ package org.example.activa.controller.usuario;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -17,9 +16,9 @@ import org.example.activa.model.Usuario;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 import java.io.File;
-import java.util.Optional;
 
 public class PerfilController {
 
@@ -118,6 +117,7 @@ public class PerfilController {
             String rutaUri = archivo.toURI().toString();
             if (usuarioDAO.actualizarFotoPerfil(Sesion.getIdUsuario(), rutaUri)) {
                 mostrarImagenCircular(rutaUri);
+                Sesion.cargarFoto(rutaUri);
                 mostrarAlerta(Alert.AlertType.INFORMATION, "Foto actualizada", "Tu imagen de perfil se ha guardado correctamente.");
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo guardar la imagen de perfil.");
@@ -191,14 +191,11 @@ public class PerfilController {
     // Muestra un diálogo de confirmación y, si se acepta, elimina la cuenta de usuario de la base de datos de forma permanente.
     @FXML
     void onEliminarCuenta() {
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Eliminar cuenta");
-        confirmacion.setHeaderText("¿Estás seguro de que quieres eliminar tu cuenta?");
-        confirmacion.setContentText("Se borrarán tu historial, etiquetas y métodos de pago. No se puede deshacer.");
-
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+        boolean eliminar = AlertUtil.confirmarPeligro(
+                "¿Eliminar tu cuenta?",
+                "Se borrarán tu historial, etiquetas y métodos de pago. No se puede deshacer.",
+                "Eliminar cuenta", "Cancelar");
+        if (eliminar) {
             String emailEliminado = Sesion.getEmail() != null ? Sesion.getEmail() : txtCorreo.getText();
             boolean exito = usuarioDAO.eliminarUsuario(Sesion.getIdUsuario());
 
@@ -224,12 +221,8 @@ public class PerfilController {
         Navegador.irA(Vista.METODOS_PAGO);
     }
 
-    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }

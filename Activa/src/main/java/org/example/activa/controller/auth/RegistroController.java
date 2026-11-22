@@ -11,6 +11,7 @@ import org.example.activa.service.AuthService;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 public class RegistroController {
 
@@ -55,12 +56,8 @@ public class RegistroController {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
-    // Muestra una ventana emergente de alerta estándar con el título y mensaje indicados.
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }

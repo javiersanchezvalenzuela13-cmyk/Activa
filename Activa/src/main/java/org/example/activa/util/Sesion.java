@@ -2,9 +2,6 @@ package org.example.activa.util;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.example.activa.dao.UsuarioDAO;
-import org.example.activa.model.Usuario;
-import java.util.prefs.Preferences;
 
 public final class Sesion {
 
@@ -17,10 +14,6 @@ public final class Sesion {
     // Foto de perfil del usuario conectado (avisa a la interfaz cuando cambia)
     private static final ObjectProperty<byte[]> foto = new SimpleObjectProperty<>();
 
-    // Nodo de preferencias del sistema para guardar el ID persistentemente
-    private static final Preferences prefs = Preferences.userNodeForPackage(Sesion.class);
-    private static final String PREF_ID_USUARIO = "activa_usuario_id";
-
     private Sesion() {
     }
 
@@ -30,32 +23,6 @@ public final class Sesion {
         nombre = nom;
         email = correo;
         admin = esAdmin;
-    }
-
-    // Busca un ID guardado en Windows/Mac, consulta la BD y autocompleta la sesión
-    public static boolean comprobarSesionGuardada() {
-        int idGuardado = prefs.getInt(PREF_ID_USUARIO, -1);
-        if (idGuardado != -1) {
-            UsuarioDAO usuarioDAO = new UsuarioDAO();
-            Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idGuardado);
-
-            if (usuario != null) {
-                // Nota: Asegúrate de que los getters coinciden con tu modelo Usuario (ej. esAdmin() o isAdmin())
-                iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.esAdmin());
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Guarda el ID del usuario en el sistema operativo para recordarlo al reabrir
-    public static void guardarSesionRecordada(int id) {
-        prefs.putInt(PREF_ID_USUARIO, id);
-    }
-
-    // Borra el rastro guardado en el sistema operativo para que no entre solo
-    public static void limpiarSesionRecordada() {
-        prefs.remove(PREF_ID_USUARIO);
     }
 
     // Limpia la memoria al cerrar sesión
@@ -95,7 +62,7 @@ public final class Sesion {
         return admin;
     }
 
-    // Genera iniciales para el avatar ("Laura Méndez" → "LM")
+    // Genera iniciales para el avatar (de "Laura Méndez" sale "LM")
     public static String getIniciales() {
         if (nombre == null || nombre.isBlank()) {
             return "?";
@@ -116,6 +83,11 @@ public final class Sesion {
     // Actualiza la foto en memoria
     public static void setFoto(byte[] nuevaFoto) {
         foto.set(nuevaFoto);
+    }
+
+    // Carga la foto desde la ruta guardada en la BD
+    public static void cargarFoto(String rutaUri) {
+        foto.set(Imagenes.leerArchivo(rutaUri));
     }
 
     // Propiedad observable para enlazar la foto en JavaFX

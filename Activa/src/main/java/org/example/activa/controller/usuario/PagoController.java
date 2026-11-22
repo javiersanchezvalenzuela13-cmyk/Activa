@@ -5,9 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -22,6 +19,7 @@ import org.example.activa.util.Iconos;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -191,7 +189,7 @@ public class PagoController {
             fila.getStyleClass().add("pag-row-last");
         }
 
-        // 1. Columna Actividad (Icono + Título)
+        // Columna Actividad (Icono + Título)
         HBox colActividad = new HBox(14.0);
         colActividad.setAlignment(Pos.CENTER_LEFT);
         colActividad.setMaxWidth(Double.MAX_VALUE);
@@ -212,25 +210,25 @@ public class PagoController {
 
         colActividad.getChildren().addAll(iconoBox, textosAct);
 
-        // 2. Columna Fecha
+        // Columna Fecha
         String textoFecha = pago.getFechaPago() != null ? pago.getFechaPago().format(formatoFecha) : "—";
         Label lblFecha = new Label(textoFecha);
         lblFecha.setPrefWidth(110.0);
         lblFecha.getStyleClass().add(pago.getFechaPago() != null ? "pag-cell-text" : "pag-cell-muted");
 
-        // 3. Columna Método
+        // Columna Método
         String textoMetodo = pago.getMetodoPago() != null ? pago.getMetodoPago().toString() : "—";
         Label lblMetodo = new Label(textoMetodo);
         lblMetodo.setPrefWidth(160.0);
         lblMetodo.getStyleClass().add(pago.getMetodoPago() != null ? "pag-cell-text" : "pag-cell-muted");
 
-        // 4. Columna Importe
+        // Columna Importe
         Label lblImporte = new Label(formatearEuros(pago.getImporte()));
         lblImporte.setPrefWidth(110.0);
         lblImporte.setAlignment(Pos.CENTER_RIGHT);
         lblImporte.getStyleClass().add("pag-cell-amount");
 
-        // 5. Columna Estado
+        // Columna Estado
         HBox colEstado = new HBox();
         colEstado.setAlignment(Pos.CENTER_LEFT);
         colEstado.setPrefWidth(150.0);
@@ -250,7 +248,7 @@ public class PagoController {
         }
         colEstado.getChildren().add(badgeEstado);
 
-        // 6. Columna Acción con el botón para pagar o descargar recibo
+        // Columna Acción con el botón para pagar o descargar recibo
         HBox colAccion = new HBox();
         colAccion.setAlignment(Pos.CENTER_RIGHT);
         colAccion.setPrefWidth(110.0);
@@ -288,17 +286,11 @@ public class PagoController {
         List<org.example.activa.model.MetodoPago> metodosGuardados = metodoPagoDAO.obtenerMetodosPorUsuario(Sesion.getIdUsuario());
 
         if (metodosGuardados.isEmpty()) {
-            Alert alertaVacio = new Alert(Alert.AlertType.INFORMATION);
-            alertaVacio.setTitle("Falta método de pago");
-            alertaVacio.setHeaderText("No tienes ningún método de pago configurado.");
-            alertaVacio.setContentText("Para abonar la inscripción necesitas añadir una tarjeta o Bizum a tu perfil.");
-
-            ButtonType btnIr = new ButtonType("Ir a crear método");
-            ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
-            alertaVacio.getButtonTypes().setAll(btnIr, btnCancelar);
-
-            Optional<ButtonType> res = alertaVacio.showAndWait();
-            if (res.isPresent() && res.get() == btnIr) {
+            boolean irACrear = AlertUtil.confirmar(
+                    "No tienes ningún método de pago",
+                    "Para abonar la inscripción necesitas añadir una tarjeta o Bizum a tu perfil.",
+                    "Añadir método", "Cancelar");
+            if (irACrear) {
                 Navegador.irA(Vista.METODOS_PAGO);
             }
             return;
@@ -314,12 +306,12 @@ public class PagoController {
                 .findFirst()
                 .orElse(opciones.get(0));
 
-        ChoiceDialog<String> dialogo = new ChoiceDialog<>(porDefecto, opciones);
-        dialogo.setTitle("Completar pago");
-        dialogo.setHeaderText("Abonar " + formatearEuros(pago.getImporte()) + " — " + pago.getTituloActividad());
-        dialogo.setContentText("Elige con qué método de tu cuenta pagar:");
+        Optional<String> seleccion = AlertUtil.elegir(
+                "Completar pago",
+                "Abonar " + formatearEuros(pago.getImporte()) + " — " + pago.getTituloActividad()
+                        + ".\nElige con qué método pagar:",
+                opciones, porDefecto);
 
-        Optional<String> seleccion = dialogo.showAndWait();
         seleccion.ifPresent(seleccionStr -> {
             org.example.activa.model.MetodoPago metodoElegido = metodosGuardados.stream()
                     .filter(m -> seleccionStr.startsWith(m.getTipo() + " - " + m.getIdentificador()))
@@ -363,12 +355,8 @@ public class PagoController {
         return String.format(localeEs, "%.2f €", cantidad);
     }
 
-    // Muestra una alerta simple al usuario
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }

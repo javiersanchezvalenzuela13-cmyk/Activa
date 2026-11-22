@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import org.example.activa.dao.ActividadDAO;
 import org.example.activa.db.ConexionBD;
 import org.example.activa.model.Actividad;
+import org.example.activa.util.AlertUtil;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Vista;
@@ -297,10 +298,13 @@ public class CalendarioController {
             });
 
         } catch (SQLException e) {
+            // Antes
             Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo cargar el detalle de la actividad.");
             alert.setHeaderText(null);
             alert.showAndWait();
-            e.printStackTrace();
+
+            // Después
+            AlertUtil.error("No se pudo cargar el detalle de la actividad.");
         }
     }
 

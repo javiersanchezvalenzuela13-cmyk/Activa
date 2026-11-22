@@ -2,7 +2,6 @@ package org.example.activa.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -19,6 +18,7 @@ import javafx.scene.text.Text;
 import org.example.activa.exception.ActividadException;
 import org.example.activa.model.Actividad;
 import org.example.activa.service.ActividadService;
+import org.example.activa.util.AlertUtil;
 import org.example.activa.util.EstiloActividad;
 import org.example.activa.util.Iconos;
 import org.example.activa.util.Navegador;
@@ -395,16 +395,12 @@ public class EditorActividadController {
         vistaPrevia.getChildren().setAll(tarjeta);
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.error(mensaje);
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import org.example.activa.service.EmailService;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 public class RecuperarClaveController {
 
@@ -27,7 +28,7 @@ public class RecuperarClaveController {
             return;
         }
 
-        // Comprobamos si el email existe. Si no existe, simulamos que sí por seguridad (práctica habitual)
+        // Comprobamos si el email existe. Si no existe, simulamos que sí por seguridad
         // pero solo mandamos el código real si existe. En este proyecto académico, lo mandamos siempre.
         String codigo = EmailService.generarCodigo();
         EmailService.enviarCodigo(email, codigo, "Activa - Recuperación de contraseña");
@@ -43,12 +44,8 @@ public class RecuperarClaveController {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
-    // Muestra una ventana emergente de alerta estándar con el título y mensaje indicados.
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }
