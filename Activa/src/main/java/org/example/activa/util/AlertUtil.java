@@ -2,12 +2,9 @@ package org.example.activa.util;
 
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
@@ -61,6 +58,13 @@ public final class AlertUtil {
         alerta.setContentText(mensaje);
         if (botones.length > 0) {
             alerta.getButtonTypes().setAll(botones);
+        }
+        // Cada botón con el ancho que necesite su texto
+        for (ButtonType tipoBoton : alerta.getButtonTypes()) {
+            if (alerta.getDialogPane().lookupButton(tipoBoton) instanceof Button boton) {
+                ButtonBar.setButtonUniformSize(boton, false);
+                boton.setMinWidth(Region.USE_PREF_SIZE);
+            }
         }
 
         DialogPane panel = alerta.getDialogPane();

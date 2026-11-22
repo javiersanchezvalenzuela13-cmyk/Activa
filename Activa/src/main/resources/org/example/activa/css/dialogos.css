@@ -75,13 +75,13 @@
 }
 
 /* Colores según el tipo */
-.dialogo-error .dialogo-icono,
-.dialogo-peligro .dialogo-icono {
+.dialogo.dialogo-error .dialogo-icono,
+.dialogo.dialogo-peligro .dialogo-icono {
     -fx-background-color: -danger-soft;
 }
 
-.dialogo-error .dialogo-icono .icono,
-.dialogo-peligro .dialogo-icono .icono {
+.dialogo.dialogo-error .dialogo-icono .icono,
+.dialogo.dialogo-peligro .dialogo-icono .icono {
     -fx-stroke: -danger;
 }
 

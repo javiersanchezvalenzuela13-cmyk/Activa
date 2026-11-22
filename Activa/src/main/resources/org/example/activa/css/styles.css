@@ -1204,3 +1204,46 @@
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
+/* Panel del filtro de etiquetas */
+.context-menu .filtro-item {
+    -fx-padding: 0;
+}
+
+.context-menu .filtro-item:focused {
+    -fx-background-color: transparent;
+}
+
+.filtro-panel {
+    -fx-padding: 14;
+}
+
+.filtro-titulo {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: -ink;
+}
+
+.filtro-quitar {
+    -fx-background-color: transparent;
+    -fx-text-fill: -forest;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.filtro-quitar:hover {
+    -fx-underline: true;
+}
+
+.filtro-scroll,
+.filtro-scroll > .viewport {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.chip.chip-pequeno {
+    -fx-padding: 5 10;
+    -fx-font-size: 12px;
+}
