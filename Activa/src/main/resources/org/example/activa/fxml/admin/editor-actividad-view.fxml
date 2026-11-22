@@ -22,7 +22,6 @@
 
     <VBox fx:id="contenido" spacing="24" styleClass="contenido">
 
-        <!-- Volver y título -->
         <Button text="← Volver al panel" styleClass="boton-volver" onAction="#onCancelar"/>
         <VBox spacing="6">
             <Label text="ADMINISTRACIÓN" styleClass="eyebrow"/>
@@ -34,7 +33,6 @@
 
         <HBox spacing="24">
 
-            <!-- Formulario -->
             <VBox spacing="20" HBox.hgrow="ALWAYS" styleClass="formulario">
 
                 <VBox spacing="12" styleClass="bloque">
@@ -105,7 +103,6 @@
                            visible="false" managed="false"/>
                 </VBox>
 
-                <!-- Botones -->
                 <HBox spacing="10">
                     <Region HBox.hgrow="ALWAYS"/>
                     <Button text="Cancelar" styleClass="boton-ghost" onAction="#onCancelar"/>
@@ -114,7 +111,6 @@
                 </HBox>
             </VBox>
 
-            <!-- Vista previa -->
             <VBox spacing="10" prefWidth="300" minWidth="280">
                 <Label text="VISTA PREVIA" styleClass="eyebrow"/>
                 <VBox fx:id="vistaPrevia"/>

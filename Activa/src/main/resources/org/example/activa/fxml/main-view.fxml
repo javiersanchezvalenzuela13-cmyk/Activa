@@ -18,17 +18,14 @@
             stylesheets="@../css/styles.css"
             styleClass="app">
 
-    <!-- Barra lateral -->
     <left>
         <VBox spacing="22" prefWidth="248" minWidth="248" styleClass="side">
 
-            <!-- Logo -->
             <HBox spacing="10" alignment="CENTER_LEFT" styleClass="brand">
                 <StackPane fx:id="marca" styleClass="brand-mark"/>
                 <Label text="activa" styleClass="brand-texto"/>
             </HBox>
 
-            <!-- Descubrir -->
             <VBox spacing="3">
                 <Label text="DESCUBRIR" styleClass="nav-eyebrow"/>
                 <Button fx:id="btnInicio" text="Inicio" maxWidth="Infinity"
@@ -41,15 +38,12 @@
                         styleClass="nav-item" onAction="#onPagos"/>
             </VBox>
 
-            <!-- Administración (solo se ve si el usuario es admin) -->
             <VBox fx:id="grupoAdmin" spacing="3">
                 <Label text="ADMINISTRACIÓN" styleClass="nav-eyebrow"/>
                 <Button fx:id="btnPanelAdmin" text="Panel admin" maxWidth="Infinity"
                         styleClass="nav-item" onAction="#onPanelAdmin"/>
-                <!-- Persona 1: Usuarios -->
             </VBox>
 
-            <!-- Preferencias -->
             <VBox spacing="3">
                 <Label text="PREFERENCIAS" styleClass="nav-eyebrow"/>
                 <Button fx:id="btnAjustes" text="Ajustes" maxWidth="Infinity"
@@ -58,7 +52,6 @@
 
             <Region VBox.vgrow="ALWAYS"/>
 
-            <!-- Caja de ayuda -->
             <StackPane fx:id="ayuda" styleClass="helpbox">
                 <Circle radius="40" styleClass="helpbox-circulo"
                         StackPane.alignment="TOP_RIGHT" translateX="22" translateY="-22"/>
@@ -78,37 +71,30 @@
         </VBox>
     </left>
 
-    <!-- Zona principal: barra superior + pantalla actual -->
     <center>
         <BorderPane fx:id="contenedor" styleClass="main">
 
             <top>
                 <HBox spacing="14" alignment="CENTER_LEFT" styleClass="top">
 
-                    <!-- Buscador -->
                     <HBox fx:id="cajaBuscar" spacing="10" alignment="CENTER_LEFT"
                           maxWidth="460" HBox.hgrow="ALWAYS" styleClass="search">
                         <TextField fx:id="txtBuscar" promptText="Busca yoga, cerámica, rutas…"
                                    HBox.hgrow="ALWAYS" styleClass="search-campo"/>
                     </HBox>
 
-                    <!-- Filtro de etiquetas -->
                     <MenuButton fx:id="menuEtiquetas" text="Etiquetas" styleClass="filtro-etiquetas"/>
 
                     <Region HBox.hgrow="ALWAYS"/>
 
-                    <!-- Guardados y notificaciones (Persona 1) -->
-                    <Button fx:id="btnGuardados" styleClass="iconbtn"/>
                     <Button fx:id="btnNotificaciones" styleClass="iconbtn"/>
 
-                    <!-- Solo para invitados -->
                     <HBox fx:id="botonesInvitado" spacing="8" alignment="CENTER_LEFT"
                           visible="false" managed="false">
                         <Button text="Iniciar sesión" styleClass="boton-ghost" onAction="#onIniciarSesion"/>
                         <Button text="Crear cuenta" styleClass="boton-apuntarme" onAction="#onCrearCuenta"/>
                     </HBox>
 
-                    <!-- Usuario -->
                     <MenuButton fx:id="menuUsuario" styleClass="me">
                         <graphic>
                             <HBox spacing="10" alignment="CENTER_LEFT">
@@ -120,12 +106,10 @@
                             </HBox>
                         </graphic>
                         <items>
-                            <!-- Persona 1: añadir onAction a cada opción -->
                             <MenuItem text="Mi perfil"/>
                             <MenuItem text="Mis etiquetas"/>
                             <MenuItem text="Métodos de pago"/>
                             <MenuItem text="Notificaciones"/>
-                            <MenuItem text="Planes guardados"/>
                             <SeparatorMenuItem/>
                             <MenuItem text="Cerrar sesión" styleClass="salir" onAction="#onCerrarSesion"/>
                         </items>
@@ -133,7 +117,6 @@
                 </HBox>
             </top>
 
-            <!-- El centro lo rellena el Navegador -->
         </BorderPane>
     </center>
 </BorderPane>
