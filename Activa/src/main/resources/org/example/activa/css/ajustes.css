@@ -1,0 +1,208 @@
+.aju-contenedor,
+.aju-contenedor > .viewport {
+    -fx-background: -paper;
+    -fx-background-color: -paper;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+}
+
+.aju-contenedor {
+    -fx-padding: 28 34 28 34;
+}
+
+.aju-eyebrow {
+    -fx-text-fill: -ink-3;
+    -fx-font-size: 0.78em;
+    -fx-font-weight: bold;
+}
+
+.aju-titulo {
+    -fx-text-fill: -ink;
+    -fx-font-size: 2.3em;
+    -fx-font-weight: bold;
+}
+
+.aju-titulo-italica {
+    -fx-text-fill: -forest;
+    -fx-font-size: 2.3em;
+    -fx-font-style: italic;
+}
+
+.aju-subtitulo {
+    -fx-text-fill: -ink-2;
+    -fx-font-size: 1em;
+}
+
+.aju-tarjeta {
+    -fx-background-color: -card;
+    -fx-border-color: -line;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-padding: 8 24 8 24;
+}
+
+.aju-fila {
+    -fx-padding: 20 0 20 0;
+    -fx-border-color: transparent transparent -line transparent;
+    -fx-border-width: 1;
+}
+
+.aju-fila-ultima {
+    -fx-padding: 20 0 20 0;
+}
+
+.aju-opcion-titulo {
+    -fx-text-fill: -ink;
+    -fx-font-size: 1em;
+    -fx-font-weight: bold;
+}
+
+.aju-opcion-desc {
+    -fx-text-fill: -ink-3;
+    -fx-font-size: 0.85em;
+}
+
+.aju-segmento {
+    -fx-background-color: -paper-2;
+    -fx-background-radius: 10;
+    -fx-padding: 4;
+    -fx-spacing: 4;
+}
+
+.aju-seg-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: -ink-2;
+    -fx-font-size: 0.85em;
+    -fx-padding: 6 14;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.aju-seg-btn:selected {
+    -fx-background-color: -card;
+    -fx-text-fill: -forest;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 4, 0, 0, 1);
+}
+
+.aju-color-btn {
+    -fx-min-width: 36px;
+    -fx-min-height: 36px;
+    -fx-max-width: 36px;
+    -fx-max-height: 36px;
+    -fx-padding: 0;
+    -fx-label-padding: 0;
+    -fx-content-display: text-only;
+    -fx-alignment: center;
+    -fx-font-size: 15px;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.aju-color-btn:selected {
+    -fx-border-color: -ink;
+}
+
+/* Vista Previa */
+.aju-preview-card {
+    -fx-background-color: -card;
+    -fx-border-color: -line;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 3);
+}
+
+.aju-preview-banner {
+    -fx-background-color: -terra;
+    -fx-background-radius: 15 15 0 0;
+    -fx-padding: 14;
+    -fx-min-height: 175px;
+}
+
+.aju-preview-badge-top {
+    -fx-background-color: -forest;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 0.78em;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
+}
+
+.aju-preview-precio {
+    -fx-background-color: -card;
+    -fx-text-fill: -ink;
+    -fx-font-size: 0.78em;
+    -fx-font-weight: bold;
+    -fx-padding: 8 10;
+    -fx-background-radius: 50;
+}
+
+.aju-preview-cat {
+    -fx-background-color: -card;
+    -fx-text-fill: -terra;
+    -fx-font-size: 0.78em;
+    -fx-font-weight: bold;
+    -fx-padding: 4 10;
+    -fx-background-radius: 12;
+}
+
+.aju-preview-fav {
+    -fx-background-color: -card;
+    -fx-text-fill: -terra;
+    -fx-font-size: 0.93em;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+    -fx-background-radius: 50;
+    -fx-alignment: center;
+}
+
+.aju-preview-body {
+    -fx-padding: 16;
+}
+
+.aju-preview-titulo {
+    -fx-text-fill: -ink;
+    -fx-font-size: 1.21em;
+    -fx-font-weight: bold;
+}
+
+.aju-preview-meta {
+    -fx-text-fill: -ink-2;
+    -fx-font-size: 0.85em;
+}
+
+.aju-preview-plazas {
+    -fx-text-fill: -forest;
+    -fx-font-size: 0.78em;
+    -fx-font-weight: bold;
+}
+
+.aju-preview-btn {
+    -fx-background-color: -forest;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 0.85em;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+}
+
+/* Ajustes puntuales en modo oscuro */
+.tema-oscuro .aju-seg-btn:selected {
+    -fx-background-color: -forest;
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Densidad compacta */
+.densidad-compacta .aju-contenedor {
+    -fx-padding: 18 24 18 24;
+}
+
+.densidad-compacta .aju-fila,
+.densidad-compacta .aju-fila-ultima {
+    -fx-padding: 12 0 12 0;
+}

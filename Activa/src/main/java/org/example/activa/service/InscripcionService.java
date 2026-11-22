@@ -2,11 +2,15 @@ package org.example.activa.service;
 
 import org.example.activa.dao.ActividadDAO;
 import org.example.activa.dao.InscripcionDAO;
+import org.example.activa.dao.PagoDAO;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
-import org.example.activa.model.Inscrito;
-import org.example.activa.model.enums.EstadoInscripcion;
 import org.example.activa.model.Inscripcion;
+import org.example.activa.model.Inscrito;
+import org.example.activa.model.Pago;
+import org.example.activa.model.enums.EstadoInscripcion;
+import org.example.activa.model.enums.EstadoPago;
+import org.example.activa.model.enums.MetodoPago;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,8 +20,9 @@ public class InscripcionService {
 
     private final ActividadDAO actividadDAO = new ActividadDAO();
     private final InscripcionDAO inscripcionDAO = new InscripcionDAO();
+    private final PagoDAO pagoDAO = new PagoDAO();
 
-    // Apuntar a un usuario a una actividad
+    // Apuntar a un usuario a una actividad y generar el pago pendiente si tiene coste
     public Inscripcion inscribir(int idUsuario, int idActividad) throws InscripcionException {
         try {
             // 1. Comprobaciones
@@ -46,17 +51,29 @@ public class InscripcionService {
                 throw new InscripcionException("Se acaba de ocupar la última plaza.");
             }
 
-            // 4. Guardar la inscripción (si falla, devolvemos la plaza)
+            // 4. Guardar la inscripción y, si es de pago, crear el registro en la tabla pago
             try {
+                Inscripcion inscripcionGuardada;
                 if (existente == null) {
                     Inscripcion nueva = new Inscripcion(idActividad, idUsuario, estado);
                     inscripcionDAO.insertar(nueva);
-                    return nueva;
+                    inscripcionGuardada = nueva;
                 } else {
                     inscripcionDAO.cambiarEstado(existente.getIdInscripcion(), estado);
                     existente.setEstado(estado);
-                    return existente;
+                    inscripcionGuardada = existente;
                 }
+
+                if (!actividad.esGratis()) {
+                    Pago pagoPendiente = new Pago();
+                    pagoPendiente.setIdInscripcion(inscripcionGuardada.getIdInscripcion());
+                    pagoPendiente.setImporte(actividad.getPrecio().doubleValue());
+                    pagoPendiente.setMetodoPago(MetodoPago.TARJETA);
+                    pagoPendiente.setEstado(EstadoPago.PENDIENTE);
+                    pagoDAO.insertarPago(pagoPendiente);
+                }
+
+                return inscripcionGuardada;
             } catch (SQLException e) {
                 actividadDAO.liberarPlaza(idActividad);
                 throw e;
@@ -67,7 +84,8 @@ public class InscripcionService {
         }
     }
 
-    // El usuario cancela su inscripción
+
+    // El usuario cancela su inscripción (no permite cancelar si ya está pagada)
     public void cancelar(int idUsuario, int idActividad) throws InscripcionException {
         try {
             Actividad actividad = obtenerActividad(idActividad);
@@ -77,6 +95,16 @@ public class InscripcionService {
             }
 
             Inscripcion inscripcion = obtenerInscripcionActiva(idUsuario, idActividad);
+
+            // Si tiene precio y ya está CONFIRMADA, es que el pago ya se realizó
+            if (!actividad.esGratis() && inscripcion.getEstado() == EstadoInscripcion.CONFIRMADA) {
+                throw new InscripcionException("No puedes cancelar una actividad que ya has pagado.");
+            }
+
+            // Si cancela antes de pagar, borramos el cobro pendiente para que desaparezca de Pagos
+            if (inscripcion.estaPendienteDePago()) {
+                pagoDAO.eliminarPagoPendiente(inscripcion.getIdInscripcion());
+            }
 
             inscripcionDAO.cambiarEstado(inscripcion.getIdInscripcion(), EstadoInscripcion.CANCELADA);
             actividadDAO.liberarPlaza(idActividad);
@@ -99,7 +127,7 @@ public class InscripcionService {
         }
     }
 
-    // Pasar de PENDIENTE_PAGO a CONFIRMADA (lo llamará PagoService de la Persona 3)
+    // Pasar de PENDIENTE_PAGO a CONFIRMADA
     public void confirmarPago(int idUsuario, int idActividad) throws InscripcionException {
         try {
             Inscripcion inscripcion = obtenerInscripcionActiva(idUsuario, idActividad);
@@ -124,6 +152,7 @@ public class InscripcionService {
             throw new InscripcionException("Error al consultar la inscripción.", e);
         }
     }
+
     // Inscripción activa de un usuario en una actividad (null si no tiene)
     public Inscripcion obtenerInscripcion(int idUsuario, int idActividad) throws InscripcionException {
         try {
@@ -151,6 +180,7 @@ public class InscripcionService {
             throw new InscripcionException("Error al cargar los inscritos.", e);
         }
     }
+
     // Inscritos de una actividad con nombre y email (pantalla "Gestionar inscritos")
     public List<Inscrito> listarInscritosConDatos(int idActividad) throws InscripcionException {
         try {
@@ -162,7 +192,6 @@ public class InscripcionService {
 
     // Métodos privados
 
-    // Busca la actividad o lanza error si no existe
     private Actividad obtenerActividad(int idActividad) throws SQLException, InscripcionException {
         Actividad actividad = actividadDAO.buscarPorId(idActividad);
         if (actividad == null) {
@@ -171,7 +200,6 @@ public class InscripcionService {
         return actividad;
     }
 
-    // Busca la inscripción activa o lanza error si no la hay
     private Inscripcion obtenerInscripcionActiva(int idUsuario, int idActividad)
             throws SQLException, InscripcionException {
         Inscripcion inscripcion = inscripcionDAO.buscarPorUsuarioYActividad(idUsuario, idActividad);
