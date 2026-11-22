@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true"
+            styleClass="aju-contenedor"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.activa.controller.usuario.AjustesController">
+
+    <stylesheets>
+        <URL value="@../../css/styles.css" />
+        <URL value="@../../css/ajustes.css" />
+    </stylesheets>
+
+    <VBox spacing="22.0">
+        <VBox spacing="4.0">
+            <Label text="AJUSTES" styleClass="aju-eyebrow" />
+            <HBox spacing="6.0" alignment="BASELINE_LEFT">
+                <Label text="Cómo se" styleClass="aju-titulo" />
+                <Label fx:id="lblTituloItalica" text="ve" styleClass="aju-titulo-italica" />
+                <Label text="Activa" styleClass="aju-titulo" />
+            </HBox>
+            <Label text="Aquí solo cambias la apariencia. Tus datos, etiquetas y pagos están en el menú de tu foto."
+                   styleClass="aju-subtitulo" />
+        </VBox>
+
+        <HBox spacing="28.0" alignment="TOP_LEFT">
+
+            <VBox HBox.hgrow="ALWAYS" styleClass="aju-tarjeta">
+
+                <HBox alignment="CENTER_LEFT" styleClass="aju-fila">
+                    <VBox spacing="2.0">
+                        <Label text="Tema" styleClass="aju-opcion-titulo" />
+                        <Label text="Claro, oscuro o el de tu dispositivo." styleClass="aju-opcion-desc" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox styleClass="aju-segmento">
+                        <ToggleButton fx:id="tglClaro" text="☀ Claro" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglOscuro" text="☾ Oscuro" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglSistema" text="🖥 Sistema" styleClass="aju-seg-btn" />
+                    </HBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" styleClass="aju-fila">
+                    <VBox spacing="2.0">
+                        <Label text="Tamaño de las letras" styleClass="aju-opcion-titulo" />
+                        <Label text="Afecta a toda la app." styleClass="aju-opcion-desc" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox styleClass="aju-segmento">
+                        <ToggleButton fx:id="tglTextoPeq" text="A-" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglTextoNorm" text="Normal" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglTextoGrande" text="A+" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglTextoExtra" text="A++" styleClass="aju-seg-btn" />
+                    </HBox>
+                </HBox>
+
+                <HBox alignment="CENTER_LEFT" styleClass="aju-fila">
+                    <VBox spacing="2.0">
+                        <Label text="Color principal" styleClass="aju-opcion-titulo" />
+                        <Label text="El de botones y elementos destacados." styleClass="aju-opcion-desc" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox spacing="10.0">
+                        <ToggleButton fx:id="tglColorVerde" styleClass="aju-color-btn"
+                                      style="-fx-background-color: #1B4632;" />
+                        <ToggleButton fx:id="tglColorAzul" styleClass="aju-color-btn"
+                                      style="-fx-background-color: #256B9A;" />
+                        <ToggleButton fx:id="tglColorTerracota" styleClass="aju-color-btn"
+                                      style="-fx-background-color: #C45A32;" />
+                        <ToggleButton fx:id="tglColorMorado" styleClass="aju-color-btn"
+                                      style="-fx-background-color: #7A3E7A;" />
+                    </HBox>
+                </HBox>
+
+                <!-- 4. Densidad -->
+                <HBox alignment="CENTER_LEFT" styleClass="aju-fila-ultima">
+                    <VBox spacing="2.0">
+                        <Label text="Densidad" styleClass="aju-opcion-titulo" />
+                        <Label text="Compacta muestra más cosas a la vez." styleClass="aju-opcion-desc" />
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS" />
+                    <HBox styleClass="aju-segmento">
+                        <ToggleButton fx:id="tglComoda" text="Cómoda" styleClass="aju-seg-btn" />
+                        <ToggleButton fx:id="tglCompacta" text="Compacta" styleClass="aju-seg-btn" />
+                    </HBox>
+                </HBox>
+
+            </VBox>
+
+            <VBox spacing="10.0" prefWidth="295.0" minWidth="295.0">
+                <Label text="VISTA PREVIA" styleClass="aju-eyebrow" />
+
+                <VBox styleClass="aju-preview-card">
+                    <BorderPane styleClass="aju-preview-banner">
+                        <top>
+                            <HBox alignment="TOP_LEFT">
+                                <Label fx:id="lblPreviewBadge" text="✦ Para ti" styleClass="aju-preview-badge-top" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label text="5€&#10;PLAZA" textAlignment="CENTER" styleClass="aju-preview-precio" />
+                            </HBox>
+                        </top>
+                        <center>
+                            <Label text="📷" style="-fx-font-size: 46px; -fx-text-fill: rgba(255,255,255,0.85);" />
+                        </center>
+                        <bottom>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label text="● Arte" styleClass="aju-preview-cat" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label text="♥" styleClass="aju-preview-fav" />
+                            </HBox>
+                        </bottom>
+                    </BorderPane>
+
+                    <VBox fx:id="boxPreviewBody" spacing="10.0" styleClass="aju-preview-body">
+                        <Label text="Fotografía urbana" styleClass="aju-preview-titulo" />
+                        <VBox spacing="4.0">
+                            <Label text="📅  Vie 13 nov · 16:00" styleClass="aju-preview-meta" />
+                            <Label text="📍  Plaza Mayor" styleClass="aju-preview-meta" />
+                        </VBox>
+
+                        <HBox alignment="BOTTOM_LEFT" spacing="10.0">
+                            <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                                <Label fx:id="lblPreviewPlazas" text="7 de 16 libres" styleClass="aju-preview-plazas" />
+                                <ProgressBar fx:id="barPreviewPlazas" progress="0.45" maxWidth="Infinity" prefHeight="6.0" />
+                            </VBox>
+                            <Button fx:id="btnPreviewApuntarme" text="Apuntarme" styleClass="aju-preview-btn" />
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </VBox>
+
+        </HBox>
+    </VBox>
+</ScrollPane>

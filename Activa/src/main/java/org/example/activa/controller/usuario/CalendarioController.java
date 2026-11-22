@@ -3,12 +3,18 @@ package org.example.activa.controller.usuario;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.*;
+import org.example.activa.dao.ActividadDAO;
 import org.example.activa.db.ConexionBD;
-
+import org.example.activa.model.Actividad;
+import org.example.activa.util.Sesion;
+import org.example.activa.util.Navegador;
+import org.example.activa.util.Vista;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 
-//Clase controladora que gestiona la vista del calendario mensual y las actividades inscritas del usuario
+// Clase controladora que gestiona la vista del calendario mensual y las actividades inscritas del usuario
 public class CalendarioController {
 
     // Cabecera y botones de navegación
@@ -48,13 +54,12 @@ public class CalendarioController {
 
     // Mapa que agrupa las actividades del usuario por fecha
     private final Map<LocalDate, List<ActividadCalendario>> actividadesPorFecha = new HashMap<>();
-
-    // HAY QUE ACTUALIZAR ESTO CON EL ID DEL USUARIO UNA VEZ SUBIDO TODO
-    private int idUsuarioActual = 1;
+    private final ActividadDAO actividadDAO = new ActividadDAO();
 
     private final Locale localeEs = Locale.forLanguageTag("es-ES");
     private final DateTimeFormatter formatoDiaDerecha = DateTimeFormatter.ofPattern("d 'de' MMMM", localeEs);
 
+    // Inicializa los controles, carga las actividades desde MySQL y dibuja el mes actual
     @FXML
     public void initialize() {
         configurarControles();
@@ -62,7 +67,7 @@ public class CalendarioController {
         refrescarVista();
     }
 
-    //Enlaza los botones de navegación y los filtros de categoría
+    // Enlaza los botones de navegación y los filtros de categoría
     private void configurarControles() {
         btnMesAnterior.setOnAction(e -> {
             mesActual = mesActual.minusMonths(1);
@@ -86,40 +91,51 @@ public class CalendarioController {
         tglComunidad.setOnAction(e -> refrescarVista());
     }
 
-    //Redibuja tanto la cuadrícula del mes como el panel lateral del día
+    // Redibuja tanto la cuadrícula del mes como el panel lateral del día
     private void refrescarVista() {
         dibujarCalendario();
         mostrarActividadesDelDia(fechaSeleccionada);
     }
 
-    //Consulta en MySQL las actividades en las que está inscrito el usuario
+    // Consulta en MySQL las actividades en las que está inscrito el usuario conectado
     private void cargarActividadesUsuario() {
         actividadesPorFecha.clear();
         String sql = """
-                SELECT a.id_actividad, a.titulo, a.fecha, a.hora, a.ubicacion, a.categoria
+                SELECT a.id_actividad,
+                       a.nombre_actividad,
+                       a.fecha_actividad,
+                       a.hora_inicio,
+                       a.lugar,
+                       COALESCE(GROUP_CONCAT(ae.etiqueta SEPARATOR ', '), 'Comunidad') AS categoria
                 FROM inscripcion i
                 INNER JOIN actividad a ON i.id_actividad = a.id_actividad
+                LEFT JOIN actividad_etiqueta ae ON a.id_actividad = ae.id_actividad
                 WHERE i.id_usuario = ?
-                ORDER BY a.fecha ASC, a.hora ASC
+                  AND i.estado_inscripcion != 'CANCELADA'
+                GROUP BY a.id_actividad, a.nombre_actividad, a.fecha_actividad, a.hora_inicio, a.lugar
+                ORDER BY a.fecha_actividad ASC, a.hora_inicio ASC
                 """;
 
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, idUsuarioActual);
+            int idUsuario = Sesion.haySesion() ? Sesion.getIdUsuario() : 1;
+            ps.setInt(1, idUsuario);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    java.sql.Date sqlDate = rs.getDate("fecha");
+                    java.sql.Date sqlDate = rs.getDate("fecha_actividad");
                     if (sqlDate == null) continue;
 
+                    int idActividad = rs.getInt("id_actividad");
                     LocalDate fecha = sqlDate.toLocalDate();
-                    String titulo = rs.getString("titulo");
-                    String hora = rs.getString("hora") != null ? rs.getString("hora") : "Por confirmar";
-                    String ubicacion = rs.getString("ubicacion") != null ? rs.getString("ubicacion") : "Sin ubicación";
+                    String titulo = rs.getString("nombre_actividad");
+                    java.sql.Time sqlTime = rs.getTime("hora_inicio");
+                    String hora = sqlTime != null ? sqlTime.toLocalTime().toString() : "Por confirmar";
+                    String ubicacion = rs.getString("lugar") != null ? rs.getString("lugar") : "Sin ubicación";
                     String categoria = rs.getString("categoria") != null ? rs.getString("categoria") : "Comunidad";
 
-                    ActividadCalendario item = new ActividadCalendario(titulo, fecha, hora, ubicacion, categoria);
+                    ActividadCalendario item = new ActividadCalendario(idActividad, titulo, fecha, hora, ubicacion, categoria);
                     actividadesPorFecha.computeIfAbsent(fecha, k -> new ArrayList<>()).add(item);
                 }
             }
@@ -129,7 +145,7 @@ public class CalendarioController {
         }
     }
 
-    //Rellena la rejilla del mes actual ajustando dinámicamente 5 o 6 filas
+    // Rellena la rejilla del mes actual ajustando dinámicamente 5 o 6 filas
     private void dibujarCalendario() {
         String nombreMes = mesActual.getMonth().getDisplayName(TextStyle.FULL, localeEs);
         nombreMes = nombreMes.substring(0, 1).toUpperCase() + nombreMes.substring(1);
@@ -143,7 +159,6 @@ public class CalendarioController {
         int totalDiasVisibles = desplazamiento + mesActual.lengthOfMonth();
         int numFilas = (int) Math.ceil(totalDiasVisibles / 7.0);
 
-        // Reparte el 100% de alto entre las filas exactas del mes (5 o 6) para que no se desborde
         for (int i = 0; i < numFilas; i++) {
             RowConstraints rc = new RowConstraints();
             rc.setPercentHeight(100.0 / numFilas);
@@ -161,7 +176,7 @@ public class CalendarioController {
         }
     }
 
-    //Construye cada casilla del calendario aplicando las clases de calendario.css
+    // Construye cada casilla del calendario aplicando las clases de calendario.css
     private VBox crearCeldaDia(LocalDate fecha) {
         VBox celda = new VBox(4.0);
         celda.setPadding(new Insets(6, 8, 6, 8));
@@ -181,7 +196,6 @@ public class CalendarioController {
             celda.getStyleClass().add("cal-celda-seleccionada");
         }
 
-        // Número del día (con círculo verde oscuro si es hoy)
         Label lblNumero = new Label(String.valueOf(fecha.getDayOfMonth()));
         lblNumero.getStyleClass().add("cal-numero-dia");
         if (esHoy) {
@@ -189,7 +203,7 @@ public class CalendarioController {
         }
         celda.getChildren().add(lblNumero);
 
-        // Etiquetas de actividades filtradas por categoría
+        // Etiquetas de actividades filtradas por categoría (clicables para ir al detalle)
         List<ActividadCalendario> eventosDia = obtenerEventosFiltrados(fecha);
         int limite = Math.min(eventosDia.size(), 2);
 
@@ -197,7 +211,12 @@ public class CalendarioController {
             ActividadCalendario ev = eventosDia.get(i);
             Label pill = new Label(ev.titulo());
             pill.setMaxWidth(Double.MAX_VALUE);
+            pill.setCursor(Cursor.HAND);
             pill.getStyleClass().addAll("cal-evento-pill", obtenerClaseCategoria(ev.categoria()));
+            pill.setOnMouseClicked(e -> {
+                e.consume(); // Evita que el clic se propague a la celda y navega directo
+                abrirDetalleActividad(ev.idActividad());
+            });
             celda.getChildren().add(pill);
         }
 
@@ -207,7 +226,6 @@ public class CalendarioController {
             celda.getChildren().add(lblMas);
         }
 
-        // Selección del día al hacer clic
         celda.setOnMouseClicked(e -> {
             fechaSeleccionada = fecha;
             if (!esMesActual) {
@@ -219,7 +237,7 @@ public class CalendarioController {
         return celda;
     }
 
-    //Rellena el panel derecho con las actividades del día seleccionado
+    // Rellena el panel derecho con las actividades del día seleccionado
     private void mostrarActividadesDelDia(LocalDate fecha) {
         lblDiaSeleccionado.setText(fecha.format(formatoDiaDerecha));
 
@@ -238,7 +256,9 @@ public class CalendarioController {
 
         for (ActividadCalendario ev : eventos) {
             VBox tarjeta = new VBox(6.0);
+            tarjeta.setCursor(Cursor.HAND);
             tarjeta.getStyleClass().add("cal-tarjeta-evento");
+            tarjeta.setOnMouseClicked(e -> abrirDetalleActividad(ev.idActividad()));
 
             HBox filaSuperior = new HBox(8.0);
             filaSuperior.setAlignment(Pos.CENTER_LEFT);
@@ -264,7 +284,27 @@ public class CalendarioController {
         }
     }
 
-    //Filtra las actividades de una fecha según los ToggleButton activos
+    // Busca la actividad completa en MySQL y abre su pantalla de detalle
+    private void abrirDetalleActividad(int idActividad) {
+        try {
+            Actividad actividad = actividadDAO.buscarPorId(idActividad);
+            if (actividad == null) {
+                return;
+            }
+
+            Navegador.irA(Vista.DETALLE_ACTIVIDAD, (DetalleActividadController c) -> {
+                c.setActividad(actividad, () -> Navegador.irA(Vista.CALENDARIO));
+            });
+
+        } catch (SQLException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No se pudo cargar el detalle de la actividad.");
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            e.printStackTrace();
+        }
+    }
+
+    // Filtra las actividades de una fecha según los ToggleButton activos
     private List<ActividadCalendario> obtenerEventosFiltrados(LocalDate fecha) {
         List<ActividadCalendario> lista = actividadesPorFecha.getOrDefault(fecha, Collections.emptyList());
         return lista.stream().filter(ev -> {
@@ -277,7 +317,7 @@ public class CalendarioController {
         }).toList();
     }
 
-    //Devuelve la clase de color de calendario.css según la categoría
+    // Devuelve la clase de color de calendario.css según la categoría
     private String obtenerClaseCategoria(String categoria) {
         String cat = categoria.toLowerCase(localeEs);
         if (cat.contains("deporte")) return "cal-cat-deporte";
@@ -286,8 +326,9 @@ public class CalendarioController {
         return "cal-cat-comunidad";
     }
 
-    //Estructura interna para guardar los datos de cada actividad en el calendario
+    // Estructura interna para guardar los datos de cada actividad en el calendario
     private record ActividadCalendario(
+            int idActividad,
             String titulo,
             LocalDate fecha,
             String hora,

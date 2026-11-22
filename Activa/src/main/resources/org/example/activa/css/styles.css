@@ -992,6 +992,114 @@
 .panel-cabecera .search {
     -fx-padding: 0 12;
 }
+
+/* =========================================================
+   MODO OSCURO GLOBAL
+   ========================================================= */
+.tema-oscuro {
+    -paper: #131715;
+    -paper-2: #1b211e;
+    -card: #1d2420;
+    -ink: #edf2ee;
+    -ink-2: #b4c0b9;
+    -ink-3: #7f8d85;
+    -line: #2d3732;
+
+    -forest: #3b9c76;
+    -forest-hover: #48b087;
+    -sage-soft: #1f332a;
+
+    -side: #0e1210;
+    -side-2: #171e1b;
+    -side-ink: #e8ece9;
+    -side-mut: #7f8d85;
+    -cream: #efe7d2;
+
+    -lago: #5aa3c7;
+    -lago-s: #1c313b;
+    -terra: #e07a54;
+    -terra-s: #3a231b;
+    -mostaza: #e5b132;
+    -mostaza-s: #362b13;
+    -ciruela: #b87bb2;
+    -ciruela-s: #311f2f;
+
+    -ok: #4cc38a;
+    -ok-soft: #193125;
+    -warn: #e5a93b;
+    -warn-soft: #352913;
+    -danger: #e56b5e;
+    -danger-soft: #381d1a;
+
+    -fx-background: -paper;
+    -fx-background-color: -paper;
+}
+
+.tema-oscuro .avatar,
+.tema-oscuro .etiqueta-precio {
+    -fx-text-fill: #f5cf6b;
+}
+
+.tema-oscuro .cabecera-detalle {
+    -fx-background-color: #193d2f;
+}
+
+.tema-oscuro .detalle-subtitulo {
+    -fx-text-fill: #cde3d8;
+}
+
+.tema-oscuro .nav-item.activo {
+    -fx-background-color: -forest;
+    -fx-text-fill: white;
+}
+
+.tema-oscuro .nav-item.activo .icono {
+    -fx-stroke: white;
+}
+
+.tema-oscuro .dialog-pane,
+.tema-oscuro .dialog-pane > .content,
+.tema-oscuro .dialog-pane .header-panel {
+    -fx-background-color: -card;
+}
+
+.tema-oscuro .dialog-pane .label {
+    -fx-text-fill: -ink;
+}
+
+/* =========================================================
+   DENSIDAD COMPACTA
+   ========================================================= */
+.densidad-compacta .contenido {
+    -fx-padding: 16 20 36 20;
+}
+
+.densidad-compacta .top {
+    -fx-padding: 8 20;
+}
+
+.densidad-compacta .side {
+    -fx-padding: 16 12;
+}
+
+.densidad-compacta .nav-item {
+    -fx-padding: 7 10;
+}
+
+.densidad-compacta .tarjeta-actividad {
+    -fx-padding: 11;
+    -fx-spacing: 5;
+}
+
+.densidad-compacta .bloque,
+.densidad-compacta .kpi {
+    -fx-padding: 12 14;
+}
+
+.densidad-compacta .fila-lista,
+.densidad-compacta .fila-tabla {
+    -fx-padding: 9 14;
+}
 /* Etiquetas */
 .chip {
     -fx-background-color: -card;

@@ -33,7 +33,9 @@ public final class Navegador {
 
     // Cambia la ventana entera (login, registro, o la ventana principal)
     public static void mostrarPantallaCompleta(Vista vista) {
-        escena.setRoot(cargar(vista).raiz());
+        Parent raiz = cargar(vista).raiz();
+        escena.setRoot(raiz);
+        GestorApariencia.aplicar(raiz);
     }
 
     // Cambia solo la zona central (dejando el menú lateral)
@@ -50,6 +52,7 @@ public final class Navegador {
         }
 
         contenedor.setCenter(cargada.raiz());
+        GestorApariencia.aplicar(cargada.raiz());
 
         if (alCambiarVista != null) {
             alCambiarVista.accept(vista);

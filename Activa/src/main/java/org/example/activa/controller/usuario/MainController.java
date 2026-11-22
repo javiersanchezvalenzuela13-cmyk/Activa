@@ -1,5 +1,6 @@
 package org.example.activa.controller.usuario;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.example.activa.util.Busqueda;
+import org.example.activa.util.GestorApariencia;
 import org.example.activa.util.Iconos;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
@@ -29,6 +31,7 @@ import org.example.activa.util.Imagenes;
 import java.util.ArrayList;
 import java.util.List;
 
+// Controlador principal de la aplicación: gestiona la navegación lateral, la barra superior y la sesión
 public class MainController {
 
     // Elementos del FXML
@@ -51,22 +54,24 @@ public class MainController {
     @FXML private Label lblRol;
     @FXML private Label lblInicial;
     @FXML private Button btnPanelAdmin;
+    @FXML private Button btnAjustes;
     @FXML private MenuButton menuEtiquetas;
 
-    // Pantalla que se está viendo
+    // Pantalla que se está viendo actualmente
     private Vista vistaActual;
     // Se ejecuta cuando cambia la foto de perfil
     private final ChangeListener<byte[]> alCambiarFoto = (obs, antes, ahora) -> pintarAvatar();
     // Casillas del filtro de etiquetas
     private final List<CheckBox> casillasEtiquetas = new ArrayList<>();
 
+    // Inicializa iconos, sesión, buscador y la apariencia global
     @FXML
     private void initialize() {
         ponerIconos();
         redondearAyuda();
         configurarUsuario();
 
-        // Buscador de la barra superior
+        // Buscador de la barra superior: redirige a Inicio al escribir
         txtBuscar.textProperty().bindBidirectional(Busqueda.textoProperty());
         txtBuscar.textProperty().addListener((obs, anterior, nuevo) -> {
             if (!nuevo.isBlank() && vistaActual != Vista.INICIO) {
@@ -77,6 +82,9 @@ public class MainController {
 
         Navegador.setContenedor(contenedor, this::marcarActivo);
         Navegador.irA(Vista.INICIO);
+
+        // Aplica las preferencias guardadas en cuanto la vista está montada en la Scene
+        Platform.runLater(() -> GestorApariencia.aplicar(contenedor));
     }
 
     // Botones de la barra lateral
@@ -100,9 +108,15 @@ public class MainController {
     private void onPagos() {
         Navegador.irA(Vista.PAGOS);
     }
+
     @FXML
     private void onPanelAdmin() {
         Navegador.irA(Vista.PANEL_ADMIN);
+    }
+
+    @FXML
+    private void onAjustes() {
+        Navegador.irA(Vista.AJUSTES);
     }
 
     // Botones de invitado
@@ -130,7 +144,7 @@ public class MainController {
 
     // Métodos privados
 
-    // Muestra el usuario conectado o los botones de invitado
+    // Muestra el perfil del usuario conectado o los botones de invitado según haya sesión
     private void configurarUsuario() {
         boolean conCuenta = Sesion.haySesion();
 
@@ -148,6 +162,7 @@ public class MainController {
         }
     }
 
+    // Carga los iconos SVG en los botones de navegación y barras
     private void ponerIconos() {
         marca.getChildren().add(Iconos.crear("leaf", 18));
         btnInicio.setGraphic(Iconos.crear("house", 18));
@@ -159,9 +174,10 @@ public class MainController {
         btnNotificaciones.setGraphic(Iconos.crear("bell", 18));
         cajaBuscar.getChildren().add(0, Iconos.crear("search", 18));
         btnPanelAdmin.setGraphic(Iconos.crear("shield", 18));
+        btnAjustes.setGraphic(Iconos.crear("settings", 18));
     }
 
-    // Esquinas redondeadas en la caja de ayuda (y recorta el círculo)
+    // Aplica esquinas redondeadas a la tarjeta lateral de ayuda
     private void redondearAyuda() {
         Rectangle recorte = new Rectangle();
         recorte.setArcWidth(32);
@@ -171,7 +187,7 @@ public class MainController {
         ayuda.setClip(recorte);
     }
 
-    // Resalta el botón de la pantalla actual
+    // Resalta en el menú lateral el botón correspondiente a la pantalla activa
     private void marcarActivo(Vista vista) {
         vistaActual = vista;
         btnInicio.getStyleClass().remove("activo");
@@ -179,6 +195,7 @@ public class MainController {
         btnCalendario.getStyleClass().remove("activo");
         btnPagos.getStyleClass().remove("activo");
         btnPanelAdmin.getStyleClass().remove("activo");
+        btnAjustes.getStyleClass().remove("activo");
 
         switch (vista) {
             case INICIO, DETALLE_ACTIVIDAD -> btnInicio.getStyleClass().add("activo");
@@ -186,11 +203,12 @@ public class MainController {
             case CALENDARIO -> btnCalendario.getStyleClass().add("activo");
             case PAGOS -> btnPagos.getStyleClass().add("activo");
             case PANEL_ADMIN, EDITOR_ACTIVIDAD, GESTIONAR_INSCRITOS -> btnPanelAdmin.getStyleClass().add("activo");
+            case AJUSTES -> btnAjustes.getStyleClass().add("activo");
             default -> { }
         }
     }
 
-    // Enseña u oculta un elemento sin dejar hueco
+    // Muestra u oculta un nodo sin que ocupe espacio en el layout cuando está oculto
     private void mostrar(Node nodo, boolean visible) {
         nodo.setVisible(visible);
         nodo.setManaged(visible);

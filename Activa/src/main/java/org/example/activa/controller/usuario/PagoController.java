@@ -1,4 +1,5 @@
 package org.example.activa.controller.usuario;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -10,12 +11,14 @@ import org.example.activa.model.Pago;
 import org.example.activa.model.enums.EstadoPago;
 import org.example.activa.model.enums.MetodoPago;
 import org.example.activa.service.PagoService;
+import org.example.activa.util.Sesion;
+
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-//Clase controladora que gestiona la vista de pagos, actualiza los resúmenes y procesa los cobros
+// Clase controladora que gestiona la vista de pagos, actualiza los resúmenes y procesa los cobros
 public class PagoController {
 
     // Botón superior y banner de aviso
@@ -24,6 +27,7 @@ public class PagoController {
     @FXML private Label lblBannerTitulo;
     @FXML private Label lblBannerDetalle;
     @FXML private Button btnPagarAhora;
+
     // Tarjetas KPI de resumen
     @FXML private Label lblTotalPagado;
     @FXML private Label lblCountPagado;
@@ -34,30 +38,30 @@ public class PagoController {
 
     // Contenedor de filas de la tabla
     @FXML private VBox contenedorFilasPagos;
+
     private final PagoService pagoService = new PagoService();
     private List<Pago> listaPagosActual;
-
-    // HAY QUE ACTUALIZAR ESTO CON EL ID DEL USUARIO UNA VEZ SUBIDO TODO
-    private int idUsuarioActual = 1;
 
     private final Locale localeEs = Locale.forLanguageTag("es-ES");
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd MMM", localeEs);
 
+    // Carga los datos de pagos al abrir la pantalla
     @FXML
     public void initialize() {
         cargarDatosPagos();
     }
 
-   //Consulta los pagos en MySQL y actualiza la pantalla
+    // Consulta los pagos del usuario conectado en MySQL y actualiza toda la vista
     private void cargarDatosPagos() {
-        listaPagosActual = pagoService.obtenerPagosDeUsuario(idUsuarioActual);
+        int idUsuario = Sesion.haySesion() ? Sesion.getIdUsuario() : 1;
+        listaPagosActual = pagoService.obtenerPagosDeUsuario(idUsuario);
 
         actualizarTarjetasResumen(listaPagosActual);
         actualizarBannerPendientes(listaPagosActual);
         pintarTablaPagos(listaPagosActual);
     }
 
-    //Rellena las tres tarjetas superiores completado,pendiente y reembolsado
+    // Rellena las tres tarjetas superiores (completado, pendiente y reembolsado)
     private void actualizarTarjetasResumen(List<Pago> pagos) {
         double totalPagado = pagoService.calcularTotalPagado(pagos);
         double totalPendiente = pagoService.calcularTotalPendiente(pagos);
@@ -88,7 +92,7 @@ public class PagoController {
         lblCountReembolsado.setText(countReembolsado == 1 ? "1 devolución" : countReembolsado + " devoluciones");
     }
 
-    //Muestra u oculta el banner superior según si hay pagos pendientes
+    // Muestra u oculta el banner superior según si hay pagos pendientes
     private void actualizarBannerPendientes(List<Pago> pagos) {
         List<Pago> pendientes = pagos.stream()
                 .filter(p -> p.getEstado() == EstadoPago.PENDIENTE)
@@ -113,8 +117,7 @@ public class PagoController {
         }
     }
 
-   // Limpia las filas de ejemplo y genera una fila por cada Pago de la lista.
-
+    // Limpia las filas anteriores y genera una fila visual por cada pago de la lista
     private void pintarTablaPagos(List<Pago> pagos) {
         contenedorFilasPagos.getChildren().clear();
 
@@ -133,7 +136,7 @@ public class PagoController {
         }
     }
 
-   //Construye el HBox de una fila
+    // Construye el HBox completo de una fila de pago
     private HBox crearFilaPago(Pago pago, boolean esUltima) {
         HBox fila = new HBox();
         fila.setAlignment(Pos.CENTER_LEFT);
@@ -169,7 +172,7 @@ public class PagoController {
         lblFecha.setPrefWidth(110.0);
         lblFecha.getStyleClass().add(pago.getFechaPago() != null ? "pag-cell-text" : "pag-cell-muted");
 
-        // 3. Columna Metodo
+        // 3. Columna Método
         String textoMetodo = pago.getMetodoPago() != null ? pago.getMetodoPago().toString() : "—";
         Label lblMetodo = new Label(textoMetodo);
         lblMetodo.setPrefWidth(160.0);
@@ -201,7 +204,7 @@ public class PagoController {
         }
         colEstado.getChildren().add(badgeEstado);
 
-        // 6. Columna Acción con el botón para pagar o mostrar recibo
+        // 6. Columna Acción con el botón para pagar o descargar recibo
         HBox colAccion = new HBox();
         colAccion.setAlignment(Pos.CENTER_RIGHT);
         colAccion.setPrefWidth(110.0);
@@ -222,7 +225,7 @@ public class PagoController {
         return fila;
     }
 
-    //Botón para pagar ahora
+    // Acción del botón superior del banner para abonar el primer pago pendiente
     @FXML
     private void pagarSiguientePendiente() {
         if (listaPagosActual == null) return;
@@ -233,7 +236,7 @@ public class PagoController {
                 .ifPresent(this::procesarPago);
     }
 
-   //Seleciona el metodo de pago y actuaiza el estado
+    // Abre el diálogo de selección de método de pago y actualiza el estado en MySQL
     private void procesarPago(Pago pago) {
         ChoiceDialog<MetodoPago> dialogo = new ChoiceDialog<>(MetodoPago.TARJETA, MetodoPago.values());
         dialogo.setTitle("Completar pago");
@@ -251,7 +254,7 @@ public class PagoController {
         });
     }
 
-   //Metodo para mostrar el recibo
+    // Muestra una ventana emergente con el comprobante del pago
     private void mostrarRecibo(Pago pago) {
         String fecha = pago.getFechaPago() != null ? pago.getFechaPago().format(formatoFecha) : "Sin fecha";
         String metodo = pago.getMetodoPago() != null ? pago.getMetodoPago().toString() : "No especificado";
@@ -265,18 +268,20 @@ public class PagoController {
         mostrarAlerta(Alert.AlertType.INFORMATION, "Comprobante de pago #" + pago.getIdPago(), detalle);
     }
 
-    //Accion del boton metodos de pago
+    // Acción del botón superior de métodos de pago
     @FXML
     private void abrirMetodosPago() {
         mostrarAlerta(Alert.AlertType.INFORMATION,
                 "Métodos de pago disponibles",
-                "Puedes abonar tus inscripciones mediante Tarjeta, Bizum o Transferencia bancaria al confirmar el pago.");
+                "Puedes abonar tus inscripciones mediante Tarjeta, Bizum o Efectivo al confirmar el pago.");
     }
 
+    // Formatea un importe numérico a euros con dos decimales
     private String formatearEuros(double cantidad) {
         return String.format(localeEs, "%.2f €", cantidad);
     }
 
+    // Muestra una alerta simple al usuario
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

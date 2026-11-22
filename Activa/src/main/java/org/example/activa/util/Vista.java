@@ -24,6 +24,7 @@ public enum Vista {
     // Persona 3: CALENDARIO, PAGOS, HISTORIAL...
     CALENDARIO("usuario/calendario-view.fxml"),
     // HISTORIAL("usuario/historial-view.fxml"),
+    AJUSTES("usuario/ajustes-view.fxml"),
     PAGOS("usuario/pagos-view.fxml");
 
     private final String ruta;
