@@ -1225,7 +1225,9 @@
 /* =========================================================
    MODAL DE NOTIFICACIONES
    ========================================================= */
-.notif-overlay {
+.notif-overlay,
+.root.notif-overlay,
+.root.tema-oscuro.notif-overlay {
     -fx-background-color: rgba(15, 22, 18, 0.45);
 }
 
