@@ -19,6 +19,7 @@
 
     <VBox spacing="24" styleClass="contenido">
 
+        <!-- Título -->
         <VBox spacing="6">
             <Label text="MIS INSCRIPCIONES" styleClass="eyebrow"/>
             <TextFlow>
@@ -28,6 +29,7 @@
             </TextFlow>
         </VBox>
 
+        <!-- Pestañas -->
         <HBox spacing="4" maxWidth="-Infinity" styleClass="seg">
             <ToggleButton fx:id="tabProximas" text="Próximas" selected="true"
                           toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
@@ -39,6 +41,7 @@
                           toggleGroup="$grupoFiltro" styleClass="seg-boton"/>
         </HBox>
 
+        <!-- Panel con la lista (se rellena desde el controlador) -->
         <VBox fx:id="panel" styleClass="panel"/>
     </VBox>
 </ScrollPane>

@@ -83,6 +83,7 @@
                     </HBox>
                 </HBox>
 
+                <!-- 4. Densidad -->
                 <HBox alignment="CENTER_LEFT" styleClass="aju-fila-ultima">
                     <VBox spacing="2.0">
                         <Label text="Densidad" styleClass="aju-opcion-titulo" />
