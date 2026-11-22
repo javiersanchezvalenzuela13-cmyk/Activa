@@ -1,14 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.activa.controller.auth.LoginController"
+      stylesheets="@../../css/auth.css"
+      styleClass="root-container">
 
-</AnchorPane>
+    <VBox spacing="20" alignment="CENTER_LEFT" prefWidth="480">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="activa"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+        </HBox>
+
+        <VBox spacing="5">
+            <Label text="BIENVENIDO DE NUEVO" styleClass="subtitle"/>
+            <TextFlow>
+                <Text text="Tu barrio tiene " styleClass="title"/>
+                <Text text="planes" styleClass="title-accent"/>
+                <Text text=" esta semana." styleClass="title"/>
+            </TextFlow>
+        </VBox>
+
+        <VBox spacing="15">
+            <VBox spacing="5">
+                <Label text="Correo electrónico" styleClass="label-form"/>
+                <TextField fx:id="emailField" promptText="Correo electrónico"
+                           styleClass="custom-text-field"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Contraseña" styleClass="label-form"/>
+                <PasswordField fx:id="passwordField" promptText="Contraseña"
+                               styleClass="custom-text-field"/>
+            </VBox>
+
+            <HBox alignment="CENTER">
+                <CheckBox text="Recordarme" style="-fx-text-fill: #666;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Hyperlink text="¿Olvidaste la contraseña?"
+                           style="-fx-text-fill: #666; -fx-underline: false;"
+                           onAction="#handleOlvidarContrasena"/>
+            </HBox>
+
+            <Button text="Iniciar sesión →" maxWidth="Infinity"
+                    styleClass="btn-primary" onAction="#handleLogin"/>
+        </VBox>
+
+        <Label text="o" alignment="CENTER" maxWidth="Infinity"
+               style="-fx-text-fill: #999;"/>
+
+        <HBox spacing="10">
+            <Button text="Continuar con Google" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    styleClass="btn-secondary" onAction="#handleGoogleLogin"/>
+            <Button text="Explorar sin cuenta" maxWidth="Infinity" HBox.hgrow="ALWAYS"
+                    styleClass="btn-secondary" onAction="#handleExplorarSinCuenta"/>
+        </HBox>
+
+        <HBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="¿Aún no tienes cuenta?" style="-fx-text-fill: #666;"/>
+            <Hyperlink text="Crear cuenta"
+                       style="-fx-text-fill: #215745; -fx-font-weight: bold;"
+                       onAction="#handleCrearCuenta"/>
+        </HBox>
+    </VBox>
+
+    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel">
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Region prefWidth="250" prefHeight="300" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    style="-fx-background-color: #D28C70; -fx-background-radius: 20;"/>
+            <Region prefWidth="250" prefHeight="300" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                    style="-fx-background-color: #4A809E; -fx-background-radius: 20;"/>
+            <Region prefWidth="250" prefHeight="300" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                    style="-fx-background-color: #C36A47; -fx-background-radius: 20;"/>
+            <Region prefWidth="250" prefHeight="300" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-background-color: #7D5B8C; -fx-background-radius: 20;"/>
+        </GridPane>
+
+        <VBox spacing="5" maxWidth="350" maxHeight="100" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card">
+            <Label text="142 actividades este mes cerca de ti." wrapText="true"
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <Label text="Yoga en el parque, talleres, rutas y huertos. Apúntate en dos toques." wrapText="true"
+                   style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+        </VBox>
+    </StackPane>
+</HBox>

@@ -18,13 +18,11 @@ public class ActivaApplication extends Application {
         scene.getStylesheets().add(Objects.requireNonNull(
                 ActivaApplication.class.getResource("/org/example/activa/css/styles.css")).toExternalForm());
 
-        Navegador.iniciar(scene);
+        // El Navegador cambia de pantalla dentro de esta escena
         Navegador.iniciar(scene);
 
-        // PRUEBA: sesión falsa hasta que la Persona 1 tenga el login.
-        // Cuando exista, borrar estas dos líneas y dejar: Navegador.mostrarPantallaCompleta(Vista.LOGIN);
-        Sesion.iniciar(1, "Usuario de prueba", "prueba@activa.app", false);
-        Navegador.mostrarPantallaCompleta(Vista.MAIN);
+        //Login
+        Navegador.mostrarPantallaCompleta(Vista.LOGIN);
 
         stage.setTitle("Activa - Gestión de eventos comunitarios");
         stage.setMinWidth(900);

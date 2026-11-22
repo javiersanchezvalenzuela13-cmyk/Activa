@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.activa.controller.auth.InteresesController"
+      stylesheets="@../../css/auth.css"
+      styleClass="root-container">
+
+    <VBox spacing="15" alignment="CENTER_LEFT" prefWidth="480">
+        <padding>
+            <Insets top="40" right="50" bottom="40" left="50"/>
+        </padding>
+
+        <Label text="activa"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+
+        <HBox spacing="8" prefHeight="4">
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #215745; -fx-background-radius: 2;"/>
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #215745; -fx-background-radius: 2;"/>
+        </HBox>
+
+        <VBox spacing="4">
+            <Label text="PASO 2 DE 2" styleClass="subtitle"/>
+            <TextFlow>
+                <Text text="¿Qué te " styleClass="title"/>
+                <Text text="apetece" styleClass="title-accent"/>
+                <Text text=" hacer?" styleClass="title"/>
+            </TextFlow>
+            <Label text="Elige al menos 3 etiquetas. Con ellas te recomendamos actividades y te avisamos cuando haya algo nuevo." wrapText="true"
+                   styleClass="description-text"/>
+        </VBox>
+
+        <VBox spacing="12" VBox.vgrow="ALWAYS">
+            <VBox spacing="6">
+                <Label text="● DEPORTE"
+                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #386A8B;"/>
+                <FlowPane hgap="8" vgap="8">
+                    <ToggleButton text="+ Yoga" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Senderismo" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Running" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Pádel" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Baile" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Deporte" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                </FlowPane>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="● ARTE"
+                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #C36A47;"/>
+                <FlowPane hgap="8" vgap="8">
+                    <ToggleButton text="+ Cerámica" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Pintura" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Fotografía" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Manualidades" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Música" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                </FlowPane>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="● CULTURA"
+                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #C39938;"/>
+                <FlowPane hgap="8" vgap="8">
+                    <ToggleButton text="+ Lectura" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Cine" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Teatro" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Juegos de mesa" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Idiomas" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                </FlowPane>
+            </VBox>
+
+            <VBox spacing="6">
+                <Label text="● COMUNIDAD"
+                       style="-fx-font-size: 10px; -fx-font-weight: bold; -fx-text-fill: #7D5B8C;"/>
+                <FlowPane hgap="8" vgap="8">
+                    <ToggleButton text="+ Voluntariado" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Cocina" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Jardinería" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Mayores" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Familias" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                    <ToggleButton text="+ Bienestar" styleClass="chip-toggle" onAction="#handleSeleccionEtiqueta"/>
+                </FlowPane>
+            </VBox>
+        </VBox>
+
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label fx:id="contadorLabel" text="✦ 0 elegidas" styleClass="badge-counter"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Hyperlink text="Omitir"
+                       style="-fx-text-fill: #666; -fx-underline: false;"
+                       onAction="#handleOmitir"/>
+            <Button fx:id="btnEmpezar" text="Empezar a explorar"
+                    styleClass="btn-primary" onAction="#handleFinalizar"/>
+        </HBox>
+    </VBox>
+
+    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel">
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                    style="-fx-background-color: #D28C70; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                    style="-fx-background-color: #4A809E; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                    style="-fx-background-color: #C36A47; -fx-background-radius: 20;"/>
+            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-background-color: #C39938; -fx-background-radius: 20;"/>
+        </GridPane>
+
+        <VBox maxWidth="270" maxHeight="90" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card">
+            <Label text="Cuantas más etiquetas, mejores recomendaciones." wrapText="true"
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+        </VBox>
+    </StackPane>
+</HBox>

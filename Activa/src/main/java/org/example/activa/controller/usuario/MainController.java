@@ -38,6 +38,7 @@ public class MainController {
     @FXML private Label lblUsuario;
     @FXML private Label lblRol;
     @FXML private Label lblInicial;
+    @FXML private Button btnPanelAdmin;
 
     // Pantalla que se está viendo
     private Vista vistaActual;
@@ -81,6 +82,10 @@ public class MainController {
     private void onPagos() {
         Navegador.irA(Vista.PAGOS);
     }
+    @FXML
+    private void onPanelAdmin() {
+        Navegador.irA(Vista.PANEL_ADMIN);
+    }
 
     // Botones de invitado
 
@@ -93,6 +98,7 @@ public class MainController {
     private void onCrearCuenta() {
         Navegador.mostrarPantallaCompleta(Vista.REGISTRO);
     }
+
 
     // Menú del usuario
 
@@ -132,6 +138,7 @@ public class MainController {
         btnGuardados.setGraphic(Iconos.crear("heart", 18));
         btnNotificaciones.setGraphic(Iconos.crear("bell", 18));
         cajaBuscar.getChildren().add(0, Iconos.crear("search", 18));
+        btnPanelAdmin.setGraphic(Iconos.crear("shield", 18));
     }
 
     // Esquinas redondeadas en la caja de ayuda (y recorta el círculo)
@@ -151,12 +158,14 @@ public class MainController {
         btnMisInscripciones.getStyleClass().remove("activo");
         btnCalendario.getStyleClass().remove("activo");
         btnPagos.getStyleClass().remove("activo");
+        btnPanelAdmin.getStyleClass().remove("activo");
 
         switch (vista) {
             case INICIO, DETALLE_ACTIVIDAD -> btnInicio.getStyleClass().add("activo");
             case MIS_INSCRIPCIONES -> btnMisInscripciones.getStyleClass().add("activo");
             case CALENDARIO -> btnCalendario.getStyleClass().add("activo");
             case PAGOS -> btnPagos.getStyleClass().add("activo");
+            case PANEL_ADMIN, EDITOR_ACTIVIDAD, GESTIONAR_INSCRITOS -> btnPanelAdmin.getStyleClass().add("activo");
             default -> { }
         }
     }
