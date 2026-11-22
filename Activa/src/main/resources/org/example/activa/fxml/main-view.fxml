@@ -46,7 +46,6 @@
                 <Label text="ADMINISTRACIÓN" styleClass="nav-eyebrow"/>
                 <Button fx:id="btnPanelAdmin" text="Panel admin" maxWidth="Infinity"
                         styleClass="nav-item" onAction="#onPanelAdmin"/>
-                <!-- Persona 1: Usuarios -->
             </VBox>
 
             <!-- Preferencias -->
@@ -92,11 +91,14 @@
                                    HBox.hgrow="ALWAYS" styleClass="search-campo"/>
                     </HBox>
 
+                    <!-- Menú de etiquetas -->
+                    <MenuButton fx:id="menuEtiquetas" text="Etiquetas" styleClass="filtro-etiquetas"/>
+
                     <Region HBox.hgrow="ALWAYS"/>
 
-                    <!-- Guardados y notificaciones (Persona 1) -->
+                    <!-- Guardados y notificaciones -->
                     <Button fx:id="btnGuardados" styleClass="iconbtn"/>
-                    <Button fx:id="btnNotificaciones" styleClass="iconbtn"/>
+                    <Button fx:id="btnNotificaciones" onAction="#onNotificaciones" styleClass="iconbtn"/>
 
                     <!-- Solo para invitados -->
                     <HBox fx:id="botonesInvitado" spacing="8" alignment="CENTER_LEFT"
@@ -117,10 +119,11 @@
                             </HBox>
                         </graphic>
                         <items>
-                            <!-- Persona 1: añadir onAction a cada opción -->
+                            <!-- Acciones del menú -->
                             <MenuItem text="Mi perfil" onAction="#onMiPerfil"/>
                             <MenuItem text="Mis etiquetas" onAction="#onMisEtiquetas"/>
                             <MenuItem text="Métodos de pago" onAction="#onMetodosPago"/>
+                            <MenuItem text="Notificaciones" onAction="#onNotificaciones"/>
                             <SeparatorMenuItem/>
                             <MenuItem text="Cerrar sesión" styleClass="salir" onAction="#onCerrarSesion"/>
                         </items>

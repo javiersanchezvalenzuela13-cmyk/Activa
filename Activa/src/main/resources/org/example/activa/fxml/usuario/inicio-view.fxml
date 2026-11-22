@@ -12,13 +12,11 @@
 
     <VBox spacing="20" styleClass="contenido">
 
-        <!-- Título -->
         <VBox spacing="4">
             <Label text="Próximas actividades" styleClass="seccion-titulo"/>
             <Label fx:id="lblResumen" styleClass="seccion-subtitulo"/>
         </VBox>
 
-        <!-- Tarjetas -->
         <FlowPane fx:id="panelTarjetas" hgap="20" vgap="20"/>
 
         <Label fx:id="lblVacio" text="No hay actividades que coincidan con tu búsqueda."

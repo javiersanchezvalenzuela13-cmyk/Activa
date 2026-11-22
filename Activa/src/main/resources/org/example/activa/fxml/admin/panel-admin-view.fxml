@@ -21,7 +21,6 @@
 
     <VBox fx:id="contenido" spacing="24" styleClass="contenido">
 
-        <!-- Título y botón crear -->
         <HBox spacing="12" alignment="BOTTOM_LEFT">
             <VBox spacing="6" HBox.hgrow="ALWAYS">
                 <Label text="ADMINISTRACIÓN" styleClass="eyebrow"/>
@@ -33,10 +32,8 @@
             <Button fx:id="btnCrear" text="Crear actividad" styleClass="boton-apuntarme" onAction="#onCrear"/>
         </HBox>
 
-        <!-- Tarjetas de resumen (se rellenan desde el controlador) -->
         <HBox fx:id="kpis" spacing="14"/>
 
-        <!-- Tabla de actividades -->
         <VBox fx:id="panel" styleClass="panel">
 
             <HBox spacing="10" alignment="CENTER_LEFT" styleClass="panel-cabecera">
@@ -53,10 +50,8 @@
                 </HBox>
             </HBox>
 
-            <!-- Cabecera de columnas -->
             <HBox fx:id="cabeceraTabla" spacing="16" alignment="CENTER_LEFT" styleClass="tabla-cabecera"/>
 
-            <!-- Filas -->
             <VBox fx:id="filas"/>
         </VBox>
     </VBox>

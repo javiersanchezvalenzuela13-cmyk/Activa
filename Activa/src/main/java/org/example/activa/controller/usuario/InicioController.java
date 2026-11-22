@@ -1,16 +1,15 @@
 package org.example.activa.controller.usuario;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import org.example.activa.exception.ActividadException;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
@@ -29,6 +28,8 @@ import java.util.Optional;
 import java.util.Set;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.WeakChangeListener;
+import javafx.collections.SetChangeListener;
+import javafx.collections.WeakSetChangeListener;
 
 public class InicioController {
     
@@ -51,10 +52,13 @@ public class InicioController {
     private final Set<Integer> misActividades = new HashSet<>();
     // Se ejecuta cada vez que cambia el texto del buscador
     private final ChangeListener<String> alBuscar = (obs, anterior, nuevo) -> mostrarActividades();
+    // Se ejecuta cada vez que cambian las etiquetas del filtro
+    private final SetChangeListener<String> alFiltrar = cambio -> mostrarActividades();
 
     @FXML
     private void initialize() {
         Busqueda.textoProperty().addListener(new WeakChangeListener<>(alBuscar));
+        Busqueda.etiquetas().addListener(new WeakSetChangeListener<>(alFiltrar));
         cargarDatos();
     }
 
@@ -85,9 +89,15 @@ public class InicioController {
 
         int mostradas = 0;
         for (Actividad a : actividades) {
-            boolean coincide = texto.isEmpty()
+            boolean coincideTexto = texto.isEmpty()
                     || a.getNombreActividad().toLowerCase().contains(texto)
-                    || a.getLugar().toLowerCase().contains(texto);
+                    || a.getLugar().toLowerCase().contains(texto)
+                    || a.getEtiquetas().stream().anyMatch(e -> e.toLowerCase().contains(texto));
+
+            boolean coincideEtiquetas = Busqueda.etiquetas().isEmpty()
+                    || a.getEtiquetas().stream().anyMatch(Busqueda.etiquetas()::contains);
+
+            boolean coincide = coincideTexto && coincideEtiquetas;
 
             if (coincide) {
                 panelTarjetas.getChildren().add(crearTarjeta(a));
@@ -135,10 +145,19 @@ public class InicioController {
         Region hueco = new Region();
         VBox.setVgrow(hueco, Priority.ALWAYS);
 
-        VBox tarjeta = new VBox(precio, nombre, fecha, lugar, barra, plazas, hueco, crearBoton(a));
+        FlowPane etiquetas = new FlowPane(6, 6);
+        etiquetas.getChildren().setAll(EstiloActividad.pastillas(a.getEtiquetas(), 3));
+
+        // Foto con el precio encima, en la esquina
+        StackPane portada = EstiloActividad.portada(a, 248, 140);
+        StackPane.setAlignment(precio, Pos.TOP_RIGHT);
+        StackPane.setMargin(precio, new Insets(10));
+        portada.getChildren().add(precio);
+
+        VBox tarjeta = new VBox(portada, nombre, etiquetas, fecha, lugar, barra, plazas, hueco, crearBoton(a));
         tarjeta.getStyleClass().add("tarjeta-actividad");
         tarjeta.setPrefWidth(280);
-        tarjeta.setMinHeight(260);
+        tarjeta.setMinHeight(400);
 
         // Clic en la tarjeta (menos en el botón) abre el detalle
         tarjeta.setOnMouseClicked(e -> {

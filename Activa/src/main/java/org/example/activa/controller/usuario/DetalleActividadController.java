@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
 import org.example.activa.exception.ActividadException;
 import org.example.activa.exception.InscripcionException;
 import org.example.activa.model.Actividad;
@@ -13,6 +15,7 @@ import org.example.activa.model.Inscripcion;
 import org.example.activa.service.ActividadService;
 import org.example.activa.service.InscripcionService;
 import org.example.activa.util.Acceso;
+import org.example.activa.util.EstiloActividad;
 import org.example.activa.util.Sesion;
 
 import java.text.NumberFormat;
@@ -21,9 +24,6 @@ import java.util.Locale;
 import java.util.Optional;
 
 public class DetalleActividadController {
-
-    // Usuario de prueba hasta que exista Sesion (Persona 1)
-    private static final int ID_USUARIO_PRUEBA = 1;
 
     // Formatos en español
     private static final Locale ES = Locale.forLanguageTag("es-ES");
@@ -46,6 +46,8 @@ public class DetalleActividadController {
     @FXML private Label lblPlazasTexto;
     @FXML private Label lblEstado;
     @FXML private Button btnAccion;
+    @FXML private FlowPane cajaEtiquetas;
+    @FXML private StackPane cajaPortada;
 
     // Services
     private final ActividadService actividadService = new ActividadService();
@@ -90,6 +92,8 @@ public class DetalleActividadController {
         lblNombre.setText(actividad.getNombreActividad());
         lblResumen.setText(FORMATO_FECHA_CORTA.format(actividad.getFechaActividad())
                 + " · " + actividad.getLugar());
+        cajaEtiquetas.getChildren().setAll(EstiloActividad.pastillas(actividad.getEtiquetas(), 10));
+        cajaPortada.getChildren().setAll(EstiloActividad.portada(actividad, 320, 200));
 
         // Información
         String descripcion = actividad.getDescripcion();
@@ -161,7 +165,7 @@ public class DetalleActividadController {
 
     private void inscribir() {
         try {
-            Inscripcion i = inscripcionService.inscribir(ID_USUARIO_PRUEBA, actividad.getIdActividad());
+            Inscripcion i = inscripcionService.inscribir(Sesion.getIdUsuario(), actividad.getIdActividad());
             mostrarInfo(i.estaPendienteDePago()
                     ? "Plaza reservada. Completa el pago para confirmarla."
                     : "Te has apuntado a \"" + actividad.getNombreActividad() + "\".");
@@ -176,7 +180,7 @@ public class DetalleActividadController {
             return;
         }
         try {
-            inscripcionService.cancelar(ID_USUARIO_PRUEBA, actividad.getIdActividad());
+            inscripcionService.cancelar(Sesion.getIdUsuario(), actividad.getIdActividad());
             mostrarInfo("Has cancelado tu inscripción.");
         } catch (InscripcionException e) {
             mostrarError(e.getMessage());
