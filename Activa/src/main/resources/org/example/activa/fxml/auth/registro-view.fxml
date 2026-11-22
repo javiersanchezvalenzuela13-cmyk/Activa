@@ -26,11 +26,11 @@
         </padding>
 
         <Label text="activa"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic; -fx-text-fill: -ink;"/>
 
         <HBox spacing="8" prefHeight="4">
-            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #215745; -fx-background-radius: 2;"/>
-            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: #DCD7C5; -fx-background-radius: 2;"/>
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: -forest; -fx-background-radius: 2;"/>
+            <Region HBox.hgrow="ALWAYS" style="-fx-background-color: -line; -fx-background-radius: 2;"/>
         </HBox>
 
         <VBox spacing="5">
@@ -61,11 +61,13 @@
                 <PasswordField fx:id="passwordField" promptText="Contraseña"
                                styleClass="custom-text-field"/>
                 <Label text="Mínimo 8 caracteres, con al menos un número."
-                       style="-fx-font-size: 11px; -fx-text-fill: #888;"/>
+                       style="-fx-font-size: 11px; -fx-text-fill: -ink-3;"/>
             </VBox>
 
-            <CheckBox fx:id="terminosCheck" text="Acepto las normas de la comunidad y la política de privacidad" wrapText="true"
-                      style="-fx-font-size: 12px; -fx-text-fill: #444;"/>
+            <CheckBox fx:id="terminosCheck"
+                      text="Acepto los términos y condiciones y la política de privacidad"
+                      wrapText="true"
+                      style="-fx-font-size: 12px;"/>
 
             <Button text="Continuar →" maxWidth="Infinity"
                     styleClass="btn-primary" onAction="#handleContinuar"/>
@@ -74,7 +76,7 @@
         <HBox spacing="5" alignment="CENTER_LEFT">
             <Label text="¿Ya tienes cuenta?" styleClass="description-text"/>
             <Hyperlink text="Inicia sesión"
-                       style="-fx-text-fill: #215745; -fx-font-weight: bold;"
+                       style="-fx-text-fill: -forest; -fx-font-weight: bold;"
                        onAction="#handleIrLogin"/>
         </HBox>
     </VBox>
@@ -94,7 +96,7 @@
         <VBox maxWidth="260" maxHeight="90" alignment="CENTER_LEFT"
               StackPane.alignment="CENTER" styleClass="floating-card">
             <Label text="Más de 3.000 vecinos ya se mueven con Activa." wrapText="true"
-                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -ink;"/>
         </VBox>
     </StackPane>
 </HBox>

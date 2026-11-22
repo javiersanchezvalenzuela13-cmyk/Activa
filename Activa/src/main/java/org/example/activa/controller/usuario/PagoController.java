@@ -12,6 +12,7 @@ import org.example.activa.model.enums.EstadoPago;
 import org.example.activa.model.enums.MetodoPago;
 import org.example.activa.service.PagoService;
 import org.example.activa.util.Sesion;
+import org.example.activa.util.Vista;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,11 +23,9 @@ import java.util.Optional;
 public class PagoController {
 
     // Botón superior y banner de aviso
-    @FXML private Button btnMetodosPago;
     @FXML private HBox bannerPendiente;
     @FXML private Label lblBannerTitulo;
     @FXML private Label lblBannerDetalle;
-    @FXML private Button btnPagarAhora;
 
     // Tarjetas KPI de resumen
     @FXML private Label lblTotalPagado;
@@ -236,20 +235,64 @@ public class PagoController {
                 .ifPresent(this::procesarPago);
     }
 
-    // Abre el diálogo de selección de método de pago y actualiza el estado en MySQL
+    // Comprueba métodos guardados, redirige si no hay, o permite elegir uno y actualiza el estado en MySQL
     private void procesarPago(Pago pago) {
-        ChoiceDialog<MetodoPago> dialogo = new ChoiceDialog<>(MetodoPago.TARJETA, MetodoPago.values());
+        org.example.activa.dao.MetodoPagoDAO metodoPagoDAO = new org.example.activa.dao.MetodoPagoDAO();
+        List<org.example.activa.model.MetodoPago> metodosGuardados = metodoPagoDAO.obtenerMetodosPorUsuario(Sesion.getIdUsuario());
+
+        // Si la lista está vacía, invitamos al usuario a crear un método
+        if (metodosGuardados.isEmpty()) {
+            Alert alertaVacio = new Alert(Alert.AlertType.INFORMATION);
+            alertaVacio.setTitle("Falta método de pago");
+            alertaVacio.setHeaderText("No tienes ningún método de pago configurado.");
+            alertaVacio.setContentText("Para abonar la inscripción necesitas añadir una tarjeta o Bizum a tu perfil.");
+
+            ButtonType btnIr = new ButtonType("Ir a crear método");
+            ButtonType btnCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alertaVacio.getButtonTypes().setAll(btnIr, btnCancelar);
+
+            Optional<ButtonType> res = alertaVacio.showAndWait();
+            if (res.isPresent() && res.get() == btnIr) {
+                // Ajusta la vista según tu enrutador (ej. Vista.METODOS_PAGO o Vista.PERFIL)
+                org.example.activa.util.Navegador.irA(org.example.activa.util.Vista.PERFIL);
+            }
+            return;
+        }
+
+        // Mapeamos los métodos a Strings para mostrarlos limpiamente en el desplegable
+        List<String> opciones = metodosGuardados.stream()
+                .map(m -> m.getTipo() + " - " + m.getIdentificador() + (m.isEsPredeterminado() ? " (Predeterminado)" : ""))
+                .toList();
+
+        String porDefecto = metodosGuardados.stream()
+                .filter(org.example.activa.model.MetodoPago::isEsPredeterminado)
+                .map(m -> m.getTipo() + " - " + m.getIdentificador() + " (Predeterminado)")
+                .findFirst()
+                .orElse(opciones.get(0));
+
+        ChoiceDialog<String> dialogo = new ChoiceDialog<>(porDefecto, opciones);
         dialogo.setTitle("Completar pago");
         dialogo.setHeaderText("Abonar " + formatearEuros(pago.getImporte()) + " — " + pago.getTituloActividad());
-        dialogo.setContentText("Elige el método de pago:");
+        dialogo.setContentText("Elige con qué método de tu cuenta pagar:");
 
-        Optional<MetodoPago> seleccion = dialogo.showAndWait();
-        seleccion.ifPresent(metodo -> {
-            boolean ok = pagoService.abonarPagoPendiente(pago.getIdPago(), metodo);
+        Optional<String> seleccion = dialogo.showAndWait();
+        seleccion.ifPresent(seleccionStr -> {
+
+            // Localizamos el método guardado original a partir del texto seleccionado
+            org.example.activa.model.MetodoPago metodoElegido = metodosGuardados.stream()
+                    .filter(m -> seleccionStr.startsWith(m.getTipo() + " - " + m.getIdentificador()))
+                    .findFirst()
+                    .orElse(metodosGuardados.get(0));
+
+            // Convertimos el String de tipo (ej: "TARJETA") al Enum que espera PagoService
+            MetodoPago enumMetodoPago = MetodoPago.valueOf(metodoElegido.getTipo().toUpperCase());
+
+            boolean ok = pagoService.abonarPagoPendiente(pago.getIdPago(), enumMetodoPago);
             if (ok) {
                 cargarDatosPagos();
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Pago completado", "El pago se ha registrado correctamente.");
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo registrar el pago en la base de datos.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se pudo completar el pago en la base de datos.");
             }
         });
     }
@@ -271,9 +314,8 @@ public class PagoController {
     // Acción del botón superior de métodos de pago
     @FXML
     private void abrirMetodosPago() {
-        mostrarAlerta(Alert.AlertType.INFORMATION,
-                "Métodos de pago disponibles",
-                "Puedes abonar tus inscripciones mediante Tarjeta, Bizum o Efectivo al confirmar el pago.");
+        // Ajusta la vista a la de métodos de pago (ej. Vista.METODOS_PAGO o Vista.PERFIL)
+        org.example.activa.util.Navegador.irA(Vista.METODOS_PAGO);
     }
 
     // Formatea un importe numérico a euros con dos decimales

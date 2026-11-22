@@ -3,6 +3,7 @@ package org.example.activa.service;
 import org.example.activa.dao.ActividadDAO;
 import org.example.activa.exception.ActividadException;
 import org.example.activa.model.Actividad;
+import org.example.activa.util.Etiquetas;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -15,6 +16,8 @@ public class ActividadService {
     private static final int MAX_NOMBRE = 100;
     private static final int MAX_LUGAR = 100;
     private static final BigDecimal PRECIO_MAX = new BigDecimal("9999.99");
+    // Tamaño máximo de la foto (2 MB)
+    public static final long TAMANO_MAX_IMAGEN = 2 * 1024 * 1024;
 
     private final ActividadDAO actividadDAO = new ActividadDAO();
 
@@ -129,6 +132,13 @@ public class ActividadService {
         }
         if (a.getCupoMax() <= 0) {
             throw new ActividadException("Debe haber al menos 1 plaza.");
+        }
+        if (a.getEtiquetas().size() > Etiquetas.MAXIMO_POR_ACTIVIDAD) {
+            throw new ActividadException("Puedes poner como máximo "
+                    + Etiquetas.MAXIMO_POR_ACTIVIDAD + " etiquetas.");
+        }
+        if (a.tieneImagen() && a.getImagen().length > TAMANO_MAX_IMAGEN) {
+            throw new ActividadException("La foto no puede pesar más de 2 MB.");
         }
     }
 }

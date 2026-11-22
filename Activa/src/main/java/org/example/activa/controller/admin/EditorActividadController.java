@@ -24,6 +24,14 @@ import org.example.activa.util.Iconos;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.FlowPane;
+import org.example.activa.util.Etiquetas;
+import java.util.Map;
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
@@ -58,12 +66,21 @@ public class EditorActividadController {
     @FXML private Label lblAvisoPlazas;
     @FXML private Button btnGuardar;
     @FXML private VBox vistaPrevia;
+    @FXML private VBox cajaEtiquetas;
+    @FXML private Label lblContadorEtiquetas;
+    @FXML private StackPane cajaFoto;
+    @FXML private Button btnQuitarFoto;
 
     // Services
     private final ActividadService actividadService = new ActividadService();
 
     // Actividad que se edita (null si se está creando una nueva)
     private Actividad actividadEditada;
+
+    // Un botón por cada etiqueta
+    private final List<ToggleButton> chips = new ArrayList<>();
+    // Foto elegida (null si no hay)
+    private byte[] imagenElegida;
 
     @FXML
     private void initialize() {
@@ -96,6 +113,8 @@ public class EditorActividadController {
         chkGratis.setSelected(true);
         txtPrecio.clear();
         mostrarAvisoPlazas(0);
+        marcarEtiquetas(List.of());
+        imagenElegida = null;
         actualizarVistaPrevia();
     }
 
@@ -115,6 +134,8 @@ public class EditorActividadController {
         chkGratis.setSelected(a.esGratis());
         txtPrecio.setText(a.esGratis() ? "" : a.getPrecio().toPlainString().replace('.', ','));
         mostrarAvisoPlazas(a.getCupoActual());
+        marcarEtiquetas(a.getEtiquetas());
+        imagenElegida = a.getImagen();
         actualizarVistaPrevia();
     }
 
@@ -134,6 +155,8 @@ public class EditorActividadController {
                         txtNombre.getText().trim(), txtDescripcion.getText().trim(), txtLugar.getText().trim(),
                         dpFecha.getValue(), cbInicio.getValue(), cbFin.getValue(),
                         precio, spnPlazas.getValue(), Sesion.getIdUsuario());
+                nueva.setEtiquetas(etiquetasElegidas());
+                nueva.setImagen(imagenElegida);
                 actividadService.crear(nueva);
                 mostrarInfo("Actividad creada: \"" + nueva.getNombreActividad() + "\".");
             } else {
@@ -145,6 +168,8 @@ public class EditorActividadController {
                 actividadEditada.setHoraFin(cbFin.getValue());
                 actividadEditada.setPrecio(precio);
                 actividadEditada.setCupoMax(spnPlazas.getValue());
+                actividadEditada.setEtiquetas(etiquetasElegidas());
+                actividadEditada.setImagen(imagenElegida);
                 actividadService.editar(actividadEditada);
                 mostrarInfo("Cambios guardados.");
             }
@@ -157,6 +182,35 @@ public class EditorActividadController {
     @FXML
     private void onCancelar() {
         Navegador.irA(Vista.PANEL_ADMIN);
+    }
+
+    @FXML
+    private void onElegirFoto() {
+        FileChooser selector = new FileChooser();
+        selector.setTitle("Elegir foto de la actividad");
+        selector.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imágenes (JPG, PNG)", "*.jpg", "*.jpeg", "*.png"));
+
+        File archivo = selector.showOpenDialog(contenido.getScene().getWindow());
+        if (archivo == null) {
+            return;
+        }
+        if (archivo.length() > ActividadService.TAMANO_MAX_IMAGEN) {
+            mostrarError("La foto pesa demasiado. El máximo son 2 MB.");
+            return;
+        }
+        try {
+            imagenElegida = Files.readAllBytes(archivo.toPath());
+            actualizarVistaPrevia();
+        } catch (IOException e) {
+            mostrarError("No se pudo leer la foto.");
+        }
+    }
+
+    @FXML
+    private void onQuitarFoto() {
+        imagenElegida = null;
+        actualizarVistaPrevia();
     }
 
     // Preparar controles
@@ -188,6 +242,8 @@ public class EditorActividadController {
 
         // Si es gratis, el precio no se puede escribir
         txtPrecio.disableProperty().bind(chkGratis.selectedProperty());
+
+        crearChipsEtiquetas();
     }
 
     private void prepararPlazas(int minimo, int valor) {
@@ -212,6 +268,53 @@ public class EditorActividadController {
                 : "");
         lblAvisoPlazas.setVisible(hay);
         lblAvisoPlazas.setManaged(hay);
+    }
+
+    // Etiquetas
+
+    // Un grupo (Deporte, Arte...) con sus botones
+    private void crearChipsEtiquetas() {
+        for (Map.Entry<String, List<String>> grupo : Etiquetas.POR_GRUPO.entrySet()) {
+            Label titulo = new Label(grupo.getKey().toUpperCase());
+            titulo.getStyleClass().add("eyebrow");
+
+            FlowPane botones = new FlowPane(8, 8);
+            for (String etiqueta : grupo.getValue()) {
+                ToggleButton chip = new ToggleButton(etiqueta);
+                chip.getStyleClass().add("chip");
+                chip.setOnAction(e -> alPulsarChip(chip));
+                chips.add(chip);
+                botones.getChildren().add(chip);
+            }
+            cajaEtiquetas.getChildren().add(new VBox(6, titulo, botones));
+        }
+    }
+
+    // No deja marcar más del máximo
+    private void alPulsarChip(ToggleButton chip) {
+        if (chip.isSelected() && etiquetasElegidas().size() > Etiquetas.MAXIMO_POR_ACTIVIDAD) {
+            chip.setSelected(false);
+        }
+        actualizarContadorEtiquetas();
+        actualizarVistaPrevia();
+    }
+
+    private void marcarEtiquetas(List<String> etiquetas) {
+        for (ToggleButton chip : chips) {
+            chip.setSelected(etiquetas.contains(chip.getText()));
+        }
+        actualizarContadorEtiquetas();
+    }
+
+    private List<String> etiquetasElegidas() {
+        return chips.stream()
+                .filter(ToggleButton::isSelected)
+                .map(ToggleButton::getText)
+                .toList();
+    }
+
+    private void actualizarContadorEtiquetas() {
+        lblContadorEtiquetas.setText(etiquetasElegidas().size() + " / " + Etiquetas.MAXIMO_POR_ACTIVIDAD);
     }
 
     // Lee el precio del campo (null si no es un número válido)
@@ -249,6 +352,12 @@ public class EditorActividadController {
         previa.setIdActividad(actividadEditada == null ? 0 : actividadEditada.getIdActividad());
         previa.setNombreActividad(txtNombre.getText().isBlank() ? "Nombre de la actividad" : txtNombre.getText().trim());
 
+        previa.setImagen(imagenElegida);
+
+        // Foto pequeña junto a los botones
+        cajaFoto.getChildren().setAll(EstiloActividad.portada(previa, 160, 100));
+        btnQuitarFoto.setDisable(imagenElegida == null);
+
         BigDecimal precio = leerPrecio();
         Label lblPrecio = new Label(chkGratis.isSelected() ? "Gratis"
                 : precio == null ? "Precio" : FORMATO_PRECIO.format(precio));
@@ -276,10 +385,12 @@ public class EditorActividadController {
         Label lblPlazas = new Label((plazas == null ? 0 : plazas) + " plazas");
         lblPlazas.getStyleClass().add("texto-plazas");
 
-        StackPane miniatura = (StackPane) EstiloActividad.miniatura(previa, 56);
+        StackPane miniatura = EstiloActividad.portada(previa, 248, 140);
 
-        VBox tarjeta = new VBox(10, miniatura, lblPrecio, nombre, cuando, donde, lblPlazas);
-        tarjeta.setAlignment(Pos.TOP_LEFT);
+        FlowPane etiquetasPrevia = new FlowPane(6, 6);
+        etiquetasPrevia.getChildren().setAll(EstiloActividad.pastillas(etiquetasElegidas(), 5));
+
+        VBox tarjeta = new VBox(10, miniatura, lblPrecio, nombre, etiquetasPrevia, cuando, donde, lblPlazas);        tarjeta.setAlignment(Pos.TOP_LEFT);
         tarjeta.getStyleClass().addAll("tarjeta-actividad", "sin-cursor");
         vistaPrevia.getChildren().setAll(tarjeta);
     }

@@ -1,10 +1,9 @@
 package org.example.activa.controller.auth;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import org.example.activa.service.EmailService;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Vista;
 
@@ -13,15 +12,14 @@ public class RecuperarClaveController {
     @FXML
     private TextField emailField;
 
-    @FXML
-    private Button btnEnviarCodigo;
-
+    // Inicializa el controlador de la vista de recuperación de contraseña.
     @FXML
     public void initialize() {
     }
 
+    // Valida el correo ingresado, envía un código de recuperación y navega al formulario de nueva clave.
     @FXML
-    private void handleEnviarCodigo(ActionEvent event) {
+    private void handleEnviarCodigo() {
         String email = emailField.getText().trim();
 
         if (email.isEmpty()) {
@@ -29,16 +27,23 @@ public class RecuperarClaveController {
             return;
         }
 
-        // Pasamos el email al siguiente controlador usando su variable estática
-        NuevaClaveController.setEmailTemporal(email);
+        // Comprobamos si el email existe. Si no existe, simulamos que sí por seguridad (práctica habitual)
+        // pero solo mandamos el código real si existe. En este proyecto académico, lo mandamos siempre.
+        String codigo = EmailService.generarCodigo();
+        EmailService.enviarCodigo(email, codigo, "Activa - Recuperación de contraseña");
+
+        // Pasamos el email y el código al siguiente controlador usando variables estáticas
+        NuevaClaveController.setDatosTemporales(email, codigo);
         Navegador.mostrarPantallaCompleta(Vista.NUEVA_CLAVE);
     }
 
+    // Regresa a la pantalla principal de inicio de sesión.
     @FXML
-    private void handleVolverLogin(ActionEvent event) {
+    private void handleVolverLogin() {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
+    // Muestra una ventana emergente de alerta estándar con el título y mensaje indicados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
