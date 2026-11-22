@@ -58,6 +58,8 @@ public final class Iconos {
         RUTAS.put("userMinus", "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z M22 11h-6");
         RUTAS.put("info", "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z M12 16v-4M12 8h.01");
         RUTAS.put("alert", "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z M12 8v4M12 16h.01");
+        RUTAS.put("x", "M18 6 6 18M6 6l12 12");
+        RUTAS.put("alertCircle", "M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20ZM12 8v4M12 16h.01");
     }
 
     private Iconos() {

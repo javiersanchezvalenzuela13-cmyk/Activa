@@ -68,8 +68,6 @@
                style="-fx-text-fill: #999;"/>
 
         <HBox spacing="10">
-            <Button text="Continuar con Google" maxWidth="Infinity" HBox.hgrow="ALWAYS"
-                    styleClass="btn-secondary" onAction="#handleGoogleLogin"/>
             <Button text="Explorar sin cuenta" maxWidth="Infinity" HBox.hgrow="ALWAYS"
                     styleClass="btn-secondary" onAction="#handleExplorarSinCuenta"/>
         </HBox>

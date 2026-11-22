@@ -1,6 +1,5 @@
 package org.example.activa.controller.auth;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
@@ -29,9 +28,9 @@ public class RegistroController {
 
     private final AuthService authService = new AuthService();
 
-    // Registra el usuario, inicia sesión y avanza a la selección de intereses
+    // Valida la aceptación de términos, registra al nuevo usuario, inicia sesión y avanza a la selección de intereses.
     @FXML
-    public void handleContinuar(ActionEvent event) {
+    public void handleContinuar() {
         if (!terminosCheck.isSelected()) {
             mostrarAlerta(Alert.AlertType.WARNING, "Términos y condiciones", "Debes aceptar las normas de la comunidad.");
             return;
@@ -46,13 +45,13 @@ public class RegistroController {
         }
     }
 
-    // Regresa a la pantalla de inicio de sesión
+    // Redirige al usuario de vuelta a la pantalla de inicio de sesión.
     @FXML
-    public void handleIrLogin(ActionEvent event) {
+    public void handleIrLogin() {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
-    // Muestra una ventana emergente con el mensaje indicado
+    // Muestra una ventana emergente de alerta estándar con el título y mensaje indicados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

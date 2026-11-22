@@ -1,8 +1,8 @@
 package org.example.activa.dao;
 
 import org.example.activa.db.ConexionBD;
-import org.example.activa.model.enums.Rol;
 import org.example.activa.model.Usuario;
+import org.example.activa.model.enums.Rol;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -92,6 +92,75 @@ public class UsuarioDAO {
         return null;
     }
 
+    // Busca y devuelve un usuario completo a partir de su ID
+    public Usuario obtenerUsuarioPorId(int idUsuario) {
+        String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idUsuario);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return mapearUsuario(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Actualiza los datos editables del perfil del usuario
+    public boolean actualizarPerfil(int idUsuario, String nombreUsuario, String telefono, String sobreMi) {
+        String sql = "UPDATE usuario SET nombre_usuario = ?, telefono = ?, sobre_mi = ? WHERE id_usuario = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombreUsuario);
+            pstmt.setString(2, (telefono == null || telefono.isBlank()) ? null : telefono.trim());
+            pstmt.setString(3, (sobreMi == null || sobreMi.isBlank()) ? null : sobreMi.trim());
+            pstmt.setInt(4, idUsuario);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Actualiza la ruta/URI de la foto de perfil del usuario
+    public boolean actualizarFotoPerfil(int idUsuario, String fotoPerfil) {
+        String sql = "UPDATE usuario SET foto_perfil = ? WHERE id_usuario = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, fotoPerfil);
+            pstmt.setInt(2, idUsuario);
+
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Elimina permanentemente un usuario de la base de datos
+    public boolean eliminarUsuario(int idUsuario) {
+        String sql = "DELETE FROM usuario WHERE id_usuario = ?";
+        try (Connection conn = ConexionBD.getConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idUsuario);
+            return pstmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     // Actualiza la contraseña de un usuario existente
     public boolean actualizarContrasena(String email, String nuevaContrasena) {
         String sql = "UPDATE usuario SET contrasena = ? WHERE email = ?";
@@ -135,6 +204,9 @@ public class UsuarioDAO {
         u.setNombreUsuario(rs.getString("nombre_usuario"));
         u.setEmail(rs.getString("email"));
         u.setContrasena(rs.getString("contrasena"));
+        u.setTelefono(rs.getString("telefono"));
+        u.setSobreMi(rs.getString("sobre_mi"));
+        u.setFotoPerfil(rs.getString("foto_perfil"));
         u.setRol(Rol.valueOf(rs.getString("rol")));
 
         Timestamp fecha = rs.getTimestamp("fecha_registro");

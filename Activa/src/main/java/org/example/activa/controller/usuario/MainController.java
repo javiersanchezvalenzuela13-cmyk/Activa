@@ -1,15 +1,35 @@
 package org.example.activa.controller.usuario;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.WeakChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import org.example.activa.service.NotificacionService;
 import org.example.activa.util.Busqueda;
+import org.example.activa.util.Etiquetas;
 import org.example.activa.util.GestorApariencia;
 import org.example.activa.util.Iconos;
+import org.example.activa.util.Imagenes;
+import org.example.activa.util.ModalNotificaciones;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
@@ -47,6 +67,9 @@ public class MainController {
     @FXML private Button btnPanelAdmin;
     @FXML private Button btnAjustes;
     @FXML private MenuButton menuEtiquetas;
+
+    // Servicio que obtiene las notificaciones del usuario conectado
+    private final NotificacionService notificacionService = new NotificacionService();
 
     // Pantalla que se está viendo actualmente
     private Vista vistaActual;
@@ -110,6 +133,17 @@ public class MainController {
         Navegador.irA(Vista.AJUSTES);
     }
 
+    // Barra superior
+
+    @FXML
+    private void onNotificaciones() {
+        ModalNotificaciones.mostrar(
+                contenedor.getScene().getWindow(),
+                notificacionService.obtenerParaUsuarioActual()
+        );
+        actualizarCampana();
+    }
+
     // Botones de invitado
 
     @FXML
@@ -133,6 +167,21 @@ public class MainController {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
+    @FXML
+    private void onMiPerfil() {
+        Navegador.irA(Vista.PERFIL);
+    }
+
+    @FXML
+    private void onMisEtiquetas() {
+        Navegador.irA(Vista.ETIQUETAS);
+    }
+
+    @FXML
+    private void onMetodosPago() {
+        Navegador.irA(Vista.METODOS_PAGO);
+    }
+
     // Métodos privados
 
     // Muestra el perfil del usuario conectado o los botones de invitado según haya sesión
@@ -149,6 +198,20 @@ public class MainController {
             lblRol.setText(Sesion.isAdmin() ? "Administración" : "Miembro de Activa");
             pintarAvatar();
             Sesion.fotoProperty().addListener(new WeakChangeListener<>(alCambiarFoto));
+            actualizarCampana();
+        }
+    }
+
+    // Dibuja la campana con el punto naranja cuando existen avisos activos
+    private void actualizarCampana() {
+        Node campana = Iconos.crear("bell", 18);
+        if (notificacionService.hayNotificaciones()) {
+            Circle punto = new Circle(3.5);
+            punto.getStyleClass().add("notif-dot");
+            StackPane.setAlignment(punto, Pos.TOP_RIGHT);
+            btnNotificaciones.setGraphic(new StackPane(campana, punto));
+        } else {
+            btnNotificaciones.setGraphic(campana);
         }
     }
 
@@ -194,6 +257,10 @@ public class MainController {
             case PANEL_ADMIN, EDITOR_ACTIVIDAD, GESTIONAR_INSCRITOS -> btnPanelAdmin.getStyleClass().add("activo");
             case AJUSTES -> btnAjustes.getStyleClass().add("activo");
             default -> { }
+        }
+
+        if (Sesion.haySesion()) {
+            actualizarCampana();
         }
     }
 
@@ -277,6 +344,7 @@ public class MainController {
             menuEtiquetas.getStyleClass().add("activo");
         }
     }
+
     // Foto de perfil si la hay; si no, las iniciales
     private void pintarAvatar() {
         ImageView foto = Imagenes.circular(Sesion.getFoto(), 38);

@@ -8,7 +8,7 @@ public class AuthService {
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-    // Valida las credenciales y devuelve el objeto Usuario completo
+    // Verifica las credenciales introducidas y devuelve la información del usuario si son correctas.
     public Usuario login(String email, String password) throws AuthException {
         if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             throw new AuthException("Por favor, introduce tu correo y contraseña.");
@@ -21,7 +21,7 @@ public class AuthService {
         return usuario;
     }
 
-    // Valida los datos de registro, crea el usuario en la BD y lo devuelve
+    // Valida el formato de los datos y registra un nuevo usuario en la base de datos si no existe.
     public Usuario registrar(String nombre, String email, String password) throws AuthException {
         if (nombre == null || nombre.trim().isEmpty() || email == null || email.trim().isEmpty() || password == null || password.isEmpty()) {
             throw new AuthException("Rellena todos los campos para continuar.");
@@ -46,23 +46,5 @@ public class AuthService {
             throw new AuthException("Hubo un problema al crear la cuenta. Inténtalo más tarde.");
         }
         return usuarioCreado;
-    }
-
-    // Gestiona el acceso o creación automática de cuenta mediante Google
-    public Usuario loginConGoogle(String emailGoogle) throws AuthException {
-        if (emailGoogle == null || emailGoogle.trim().isEmpty()) {
-            throw new AuthException("Debes introducir un correo válido.");
-        }
-
-        Usuario usuario = usuarioDAO.obtenerUsuarioPorEmail(emailGoogle.trim());
-        if (usuario == null) {
-            Usuario nuevo = new Usuario(emailGoogle.split("@")[0], emailGoogle.trim(), "GooglePass123!");
-            usuario = usuarioDAO.registrarUsuario(nuevo);
-        }
-
-        if (usuario == null) {
-            throw new AuthException("No se pudo iniciar sesión con Google.");
-        }
-        return usuario;
     }
 }
