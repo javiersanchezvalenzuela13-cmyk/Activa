@@ -1,11 +1,10 @@
 package org.example.activa.controller.auth;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.example.activa.model.Usuario;
+import org.example.activa.service.EmailService;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Vista;
@@ -15,24 +14,27 @@ public class VerificacionController {
     @FXML
     private TextField codigo1, codigo2, codigo3, codigo4, codigo5, codigo6;
 
-    @FXML
-    private Button btnVerificar;
-
     private Usuario adminPendiente;
+    private String codigoValido;
 
-    // Variable estática para recibir el usuario desde el LoginController
+    // Variables estáticas para recibir datos desde el LoginController
     private static Usuario adminPendienteTemporal;
+    private static String codigoGeneradoTemporal;
 
-    public static void setAdminPendienteTemporal(Usuario admin) {
+    // Almacena temporalmente el usuario administrador y el código 2FA para pasarlos a esta vista.
+    public static void setDatosTemporales(Usuario admin, String codigo) {
         adminPendienteTemporal = admin;
+        codigoGeneradoTemporal = codigo;
     }
 
+    // Recupera los datos temporales del administrador y configura el salto automático entre casillas.
     @FXML
     public void initialize() {
-        // Recuperamos el usuario y limpiamos la variable estática
         if (adminPendienteTemporal != null) {
             this.adminPendiente = adminPendienteTemporal;
+            this.codigoValido = codigoGeneradoTemporal;
             adminPendienteTemporal = null;
+            codigoGeneradoTemporal = null;
         }
 
         setupAutoFocus(codigo1, codigo2);
@@ -43,17 +45,18 @@ public class VerificacionController {
         setupAutoFocus(codigo6, null);
     }
 
+    // Comprueba el código de 6 dígitos e inicia la sesión como administrador si es correcto.
     @FXML
-    private void handleVerificarAdmin(ActionEvent event) {
+    private void handleVerificarAdmin() {
         String codigoCompleto = codigo1.getText() + codigo2.getText() + codigo3.getText() +
                 codigo4.getText() + codigo5.getText() + codigo6.getText();
 
         if (codigoCompleto.length() < 6) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Código incompleto", "Introduce los 6 dígitos de tu app de verificación.");
+            mostrarAlerta(Alert.AlertType.WARNING, "Código incompleto", "Introduce los 6 dígitos que te hemos enviado.");
             return;
         }
 
-        if (codigoCompleto.equals("123456") && adminPendiente != null) {
+        if (codigoCompleto.equals(codigoValido) && adminPendiente != null) {
             Sesion.iniciar(adminPendiente.getIdUsuario(), adminPendiente.getNombreUsuario(), adminPendiente.getEmail(), true);
             Navegador.mostrarPantallaCompleta(Vista.MAIN);
         } else {
@@ -61,17 +64,23 @@ public class VerificacionController {
         }
     }
 
+    // Genera un nuevo código de verificación y lo reenvía al correo del administrador.
     @FXML
-    private void handleReenviar(ActionEvent event) {
-        mostrarAlerta(Alert.AlertType.INFORMATION, "Código reenviado", "Se ha enviado un código de seguridad a tu correo electrónico.");
+    private void handleReenviar() {
+        if (adminPendiente != null) {
+            this.codigoValido = EmailService.generarCodigo();
+            EmailService.enviarCodigo(adminPendiente.getEmail(), this.codigoValido, "Nuevo código de acceso Admin");
+        }
     }
 
+    // Cierra la sesión actual y redirige de vuelta a la pantalla de inicio de sesión.
     @FXML
-    private void handleUsarOtraCuenta(ActionEvent event) {
+    private void handleUsarOtraCuenta() {
         Sesion.cerrar();
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
+    // Limita el campo a un carácter y mueve el foco automáticamente al siguiente cuadro de texto.
     private void setupAutoFocus(TextField actual, TextField siguiente) {
         actual.textProperty().addListener((obs, viejoTexto, nuevoTexto) -> {
             if (nuevoTexto.length() == 1 && siguiente != null) {
@@ -82,6 +91,7 @@ public class VerificacionController {
         });
     }
 
+    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

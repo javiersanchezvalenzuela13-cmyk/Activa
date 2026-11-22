@@ -12,6 +12,9 @@ public class Usuario {
     private String contrasena;
     private Rol rol;
     private LocalDateTime fechaRegistro;
+    private String telefono;
+    private String sobreMi;
+    private String fotoPerfil;
 
     // Constructor vacío
     public Usuario() {
@@ -47,6 +50,15 @@ public class Usuario {
 
     public LocalDateTime getFechaRegistro() { return fechaRegistro; }
     public void setFechaRegistro(LocalDateTime fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+
+    public String getSobreMi() { return sobreMi; }
+    public void setSobreMi(String sobreMi) { this.sobreMi = sobreMi; }
+
+    public String getFotoPerfil() { return fotoPerfil; }
+    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 
     // Devuelve una representación en texto del usuario
     @Override

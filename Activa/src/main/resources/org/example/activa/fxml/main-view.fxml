@@ -117,11 +117,9 @@
                         </graphic>
                         <items>
                             <!-- Persona 1: añadir onAction a cada opción -->
-                            <MenuItem text="Mi perfil"/>
-                            <MenuItem text="Mis etiquetas"/>
-                            <MenuItem text="Métodos de pago"/>
-                            <MenuItem text="Notificaciones"/>
-                            <MenuItem text="Planes guardados"/>
+                            <MenuItem text="Mi perfil" onAction="#onMiPerfil"/>
+                            <MenuItem text="Mis etiquetas" onAction="#onMisEtiquetas"/>
+                            <MenuItem text="Métodos de pago" onAction="#onMetodosPago"/>
                             <SeparatorMenuItem/>
                             <MenuItem text="Cerrar sesión" styleClass="salir" onAction="#onCerrarSesion"/>
                         </items>

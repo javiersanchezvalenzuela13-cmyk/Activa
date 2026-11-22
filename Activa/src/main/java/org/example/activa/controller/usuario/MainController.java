@@ -109,6 +109,21 @@ public class MainController {
         Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
+    @FXML
+    private void onMiPerfil() {
+        Navegador.irA(Vista.PERFIL);
+    }
+
+    @FXML
+    private void onMisEtiquetas() {
+        Navegador.irA(Vista.ETIQUETAS);
+    }
+
+    @FXML
+    private void onMetodosPago() {
+        Navegador.irA(Vista.METODOS_PAGO);
+    }
+
     // Métodos privados
 
     // Muestra el usuario conectado o los botones de invitado

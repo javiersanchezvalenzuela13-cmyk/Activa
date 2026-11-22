@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="24.0" styleClass="contenido" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.usuario.MisEtiquetasController">
+
+    <VBox spacing="4.0">
+        <Label text="TU CUENTA" styleClass="eyebrow" />
+        <Label text="Mi perfil" styleClass="h1" />
+    </VBox>
+
+    <HBox styleClass="seg" alignment="CENTER_LEFT">
+        <fx:define>
+            <ToggleGroup fx:id="grupoPestanas" />
+        </fx:define>
+        <ToggleButton text="Datos" onAction="#onIrADatos" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Mis etiquetas" selected="true" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Métodos de pago" onAction="#onIrAMetodosPago" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+    </HBox>
+
+    <VBox spacing="24.0" styleClass="bloque">
+
+        <VBox spacing="10.0">
+            <Label text="DEPORTE" styleClass="eyebrow" />
+            <FlowPane fx:id="flowDeporte" hgap="10.0" vgap="10.0" />
+        </VBox>
+
+        <VBox spacing="10.0">
+            <Label text="ARTE" styleClass="eyebrow" />
+            <FlowPane fx:id="flowArte" hgap="10.0" vgap="10.0" />
+        </VBox>
+
+        <VBox spacing="10.0">
+            <Label text="CULTURA" styleClass="eyebrow" />
+            <FlowPane fx:id="flowCultura" hgap="10.0" vgap="10.0" />
+        </VBox>
+
+        <VBox spacing="10.0">
+            <Label text="COMUNIDAD" styleClass="eyebrow" />
+            <FlowPane fx:id="flowComunidad" hgap="10.0" vgap="10.0" />
+        </VBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+            <Button text="Descartar" onAction="#onDescartar" styleClass="boton-ghost" />
+            <Button text="Guardar cambios" onAction="#onGuardarCambios" styleClass="boton-apuntarme" />
+        </HBox>
+
+    </VBox>
+</VBox>

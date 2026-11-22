@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="24.0" styleClass="contenido" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.usuario.MetodosPagoController">
+
+    <VBox spacing="4.0">
+        <Label text="TU CUENTA" styleClass="eyebrow" />
+        <Label text="Mi perfil" styleClass="h1" />
+    </VBox>
+
+    <HBox styleClass="seg" alignment="CENTER_LEFT">
+        <fx:define>
+            <ToggleGroup fx:id="grupoPestanas" />
+        </fx:define>
+        <ToggleButton text="Datos" onAction="#onIrADatos" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Mis etiquetas" onAction="#onIrAEtiquetas" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Métodos de pago" selected="true" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+    </HBox>
+
+    <VBox spacing="28.0" styleClass="bloque">
+
+        <VBox spacing="12.0">
+            <VBox spacing="4.0">
+                <Label text="Métodos guardados" styleClass="bloque-titulo" />
+                <Label text="Gestiona tus tarjetas y cuentas Bizum para inscribirte más rápido." styleClass="seccion-subtitulo" />
+            </VBox>
+
+            <VBox fx:id="contenedorMetodos" spacing="12.0" />
+        </VBox>
+
+        <VBox spacing="16.0" styleClass="formulario">
+            <Label text="Añadir nuevo método de pago" styleClass="bloque-titulo" />
+
+            <GridPane hgap="24.0" vgap="16.0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50.0" />
+                    <ColumnConstraints percentWidth="50.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+
+                <Label text="Tipo de método" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="campo-etiqueta" />
+                <ComboBox fx:id="cmbTipo" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                <Label fx:id="lblIdentificador" text="Número de tarjeta" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtIdentificador" promptText="1234 5678 9012 3456" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label fx:id="lblTitular" text="Titular de la tarjeta" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtTitular" promptText="Nombre y apellidos" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+                <Label fx:id="lblCaducidad" text="Fecha de caducidad (MM/AAAA)" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtCaducidad" promptText="08/2028" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            </GridPane>
+
+            <HBox alignment="CENTER_LEFT" spacing="16.0">
+                <CheckBox fx:id="chkPredeterminado" text="Establecer como método predeterminado" />
+            </HBox>
+
+            <HBox alignment="CENTER_RIGHT">
+                <Button text="Guardar método" onAction="#onAgregarMetodo" styleClass="boton-apuntarme" />
+            </HBox>
+        </VBox>
+
+    </VBox>
+</VBox>

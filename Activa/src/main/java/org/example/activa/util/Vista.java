@@ -5,13 +5,16 @@ public enum Vista {
     // Ventana principal con menú lateral
     MAIN("main-view.fxml"),
 
-    // Persona 1: LOGIN, REGISTRO, PERFIL, AJUSTES...
+    // Persona 1: LOGIN, REGISTRO, PERFIL, AJUSTES DE USUARIO...
     LOGIN("auth/login-view.fxml"),
     REGISTRO("auth/registro-view.fxml"),
     INTERESES("auth/intereses-view.fxml"),
     RECUPERAR_CLAVE("auth/recuperar-clave-view.fxml"),
     NUEVA_CLAVE("auth/nueva-clave-view.fxml"),
     VERIFICACION("auth/verificacion-view.fxml"),
+    PERFIL("usuario/perfil-view.fxml"),
+    ETIQUETAS("usuario/mis-etiquetas-view.fxml"),
+    METODOS_PAGO("usuario/metodos-pago-view.fxml"),
 
     // Persona 2
     INICIO("usuario/inicio-view.fxml"),
