@@ -3,9 +3,7 @@ package org.example.activa.controller.admin;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToggleButton;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class PanelAdminController {
 
@@ -298,7 +295,7 @@ public class PanelAdminController {
             aviso += "\n\nHay " + a.getCupoActual() + (a.getCupoActual() == 1 ? " persona inscrita." : " personas inscritas.")
                     + " También se borrarán sus inscripciones y pagos.";
         }
-        if (!confirmar(aviso)) {
+        if (!AlertUtil.confirmarPeligro("Eliminar actividad", aviso, "Eliminar", "Cancelar")) {
             return;
         }
         try {
@@ -354,23 +351,16 @@ public class PanelAdminController {
         contenido.getChildren().setAll(caja);
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.error(mensaje);
     }
 
     private boolean confirmar(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
-        alerta.setHeaderText(null);
-        Optional<ButtonType> respuesta = alerta.showAndWait();
-        return respuesta.isPresent() && respuesta.get() == ButtonType.YES;
+        return AlertUtil.confirmar(mensaje);
     }
 }

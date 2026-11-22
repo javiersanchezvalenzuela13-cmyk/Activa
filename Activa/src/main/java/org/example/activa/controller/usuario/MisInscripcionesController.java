@@ -3,9 +3,7 @@ package org.example.activa.controller.usuario;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -32,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 public class MisInscripcionesController {
 
@@ -303,7 +300,9 @@ public class MisInscripcionesController {
     // Acción del botón "Cancelar"
     private void cancelar(Fila f) {
         String nombre = f.actividad().getNombreActividad();
-        if (!confirmar("¿Seguro que quieres cancelar tu inscripción en \"" + nombre + "\"?")) {
+        if (!AlertUtil.confirmarPeligro("Cancelar inscripción",
+                "¿Seguro que quieres cancelar tu inscripción en \"" + nombre + "\"?",
+                "Cancelar inscripción", "Volver")) {
             return;
         }
         try {
@@ -338,23 +337,16 @@ public class MisInscripcionesController {
         return false;
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.error(mensaje);
     }
 
     private boolean confirmar(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
-        alerta.setHeaderText(null);
-        Optional<ButtonType> respuesta = alerta.showAndWait();
-        return respuesta.isPresent() && respuesta.get() == ButtonType.YES;
+        return AlertUtil.confirmar(mensaje);
     }
 }

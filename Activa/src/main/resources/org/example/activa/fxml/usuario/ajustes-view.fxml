@@ -115,8 +115,6 @@
                         <bottom>
                             <HBox alignment="CENTER_LEFT">
                                 <Label text="● Arte" styleClass="aju-preview-cat" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label text="♥" styleClass="aju-preview-fav" />
                             </HBox>
                         </bottom>
                     </BorderPane>

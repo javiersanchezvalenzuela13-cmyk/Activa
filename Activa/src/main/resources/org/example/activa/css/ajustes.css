@@ -151,16 +151,6 @@
     -fx-background-radius: 12;
 }
 
-.aju-preview-fav {
-    -fx-background-color: -card;
-    -fx-text-fill: -terra;
-    -fx-font-size: 0.93em;
-    -fx-min-width: 30px;
-    -fx-min-height: 30px;
-    -fx-background-radius: 50;
-    -fx-alignment: center;
-}
-
 .aju-preview-body {
     -fx-padding: 16;
 }

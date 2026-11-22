@@ -1,9 +1,7 @@
 package org.example.activa.controller.usuario;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.FlowPane;
@@ -15,13 +13,13 @@ import org.example.activa.model.Inscripcion;
 import org.example.activa.service.ActividadService;
 import org.example.activa.service.InscripcionService;
 import org.example.activa.util.Acceso;
+import org.example.activa.util.AlertUtil;
 import org.example.activa.util.EstiloActividad;
 import org.example.activa.util.Sesion;
 
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-import java.util.Optional;
 
 public class DetalleActividadController {
 
@@ -176,7 +174,9 @@ public class DetalleActividadController {
     }
 
     private void cancelar() {
-        if (!confirmar("¿Seguro que quieres cancelar tu inscripción?")) {
+        if (!AlertUtil.confirmarPeligro("Cancelar inscripción",
+                "¿Seguro que quieres cancelar tu inscripción en \"" + actividad.getNombreActividad() + "\"?",
+                "Cancelar inscripción", "Volver")) {
             return;
         }
         try {
@@ -201,23 +201,16 @@ public class DetalleActividadController {
         return texto.isEmpty() ? texto : Character.toUpperCase(texto.charAt(0)) + texto.substring(1);
     }
 
-    // Alertas (se moverán a AlertUtil cuando exista)
+    // Alertas
     private void mostrarInfo(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.info(mensaje);
     }
 
     private void mostrarError(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR, mensaje);
-        alerta.setHeaderText(null);
-        alerta.showAndWait();
+        AlertUtil.error(mensaje);
     }
 
     private boolean confirmar(String mensaje) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, mensaje, ButtonType.YES, ButtonType.NO);
-        alerta.setHeaderText(null);
-        Optional<ButtonType> respuesta = alerta.showAndWait();
-        return respuesta.isPresent() && respuesta.get() == ButtonType.YES;
+        return AlertUtil.confirmar(mensaje);
     }
 }

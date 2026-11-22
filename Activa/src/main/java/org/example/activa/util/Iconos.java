@@ -56,6 +56,8 @@ public final class Iconos {
         RUTAS.put("trash", "M3 6h18M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2");
         RUTAS.put("wallet", "M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1 M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4");
         RUTAS.put("userMinus", "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z M22 11h-6");
+        RUTAS.put("info", "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z M12 16v-4M12 8h.01");
+        RUTAS.put("alert", "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z M12 8v4M12 16h.01");
     }
 
     private Iconos() {

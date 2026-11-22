@@ -1,0 +1,114 @@
+/* Ventanas emergentes (AlertUtil) */
+.dialogo {
+    -fx-background-color: -card;
+    -fx-background-radius: 18;
+    -fx-border-color: -line;
+    -fx-border-radius: 18;
+    -fx-padding: 4;
+    -fx-min-width: 400;
+    -fx-font-family: "Segoe UI";
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Cabecera: icono + título */
+.dialogo-cabecera {
+    -fx-padding: 20 22 4 22;
+}
+
+.dialogo-icono {
+    -fx-min-width: 42;
+    -fx-min-height: 42;
+    -fx-max-width: 42;
+    -fx-max-height: 42;
+    -fx-background-radius: 21;
+    -fx-background-color: -sage-soft;
+}
+
+.dialogo-icono .icono {
+    -fx-stroke: -forest;
+}
+
+.dialogo-titulo {
+    -fx-font-family: "Georgia";
+    -fx-font-size: 20px;
+    -fx-text-fill: -ink;
+}
+
+/* Mensaje (alineado con el título) */
+.dialogo > .content.label {
+    -fx-padding: 6 22 20 78;
+    -fx-text-fill: -ink-2;
+    -fx-wrap-text: true;
+}
+
+/* Botones */
+.dialogo > .button-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 0 18 18 18;
+}
+
+.dialogo .button {
+    -fx-background-color: -card;
+    -fx-background-radius: 11;
+    -fx-border-color: -line;
+    -fx-border-radius: 11;
+    -fx-padding: 9 16;
+    -fx-text-fill: -ink;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.dialogo .button:hover {
+    -fx-border-color: -ink-3;
+}
+
+.dialogo .button:default {
+    -fx-background-color: -forest;
+    -fx-border-color: -forest;
+    -fx-text-fill: white;
+}
+
+.dialogo .button:default:hover {
+    -fx-background-color: -forest-hover;
+    -fx-border-color: -forest-hover;
+}
+
+/* Colores según el tipo */
+.dialogo-error .dialogo-icono,
+.dialogo-peligro .dialogo-icono {
+    -fx-background-color: -danger-soft;
+}
+
+.dialogo-error .dialogo-icono .icono,
+.dialogo-peligro .dialogo-icono .icono {
+    -fx-stroke: -danger;
+}
+
+.dialogo-warning .dialogo-icono {
+    -fx-background-color: -warn-soft;
+}
+
+.dialogo-warning .dialogo-icono .icono {
+    -fx-stroke: -warn;
+}
+
+.dialogo-confirmation .dialogo-icono {
+    -fx-background-color: -lago-s;
+}
+
+.dialogo-confirmation .dialogo-icono .icono {
+    -fx-stroke: -lago;
+}
+
+/* Acción peligrosa: botón principal en rojo */
+.dialogo-peligro .button:default {
+    -fx-background-color: -danger;
+    -fx-border-color: -danger;
+    -fx-text-fill: white;
+}
+
+.dialogo-peligro .button:default:hover {
+    -fx-background-color: derive(-danger, -12%);
+    -fx-border-color: derive(-danger, -12%);
+}
