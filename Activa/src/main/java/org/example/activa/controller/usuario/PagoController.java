@@ -2,15 +2,24 @@ package org.example.activa.controller.usuario;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import org.example.activa.dao.MetodoPagoDAO;
 import org.example.activa.model.Pago;
 import org.example.activa.model.enums.EstadoPago;
 import org.example.activa.model.enums.MetodoPago;
 import org.example.activa.service.PagoService;
+import org.example.activa.util.Iconos;
+import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
 
@@ -22,12 +31,18 @@ import java.util.Optional;
 // Clase controladora que gestiona la vista de pagos, actualiza los resúmenes y procesa los cobros
 public class PagoController {
 
+    // Vista cuando no hay sesión iniciada
+    @FXML private VBox panelInvitado;
+    @FXML private StackPane iconoInvitado;
+
     // Botón superior y banner de aviso
+    @FXML private Button btnMetodosPago;
     @FXML private HBox bannerPendiente;
     @FXML private Label lblBannerTitulo;
     @FXML private Label lblBannerDetalle;
 
     // Tarjetas KPI de resumen
+    @FXML private HBox cajaKpis;
     @FXML private Label lblTotalPagado;
     @FXML private Label lblCountPagado;
     @FXML private Label lblTotalPendiente;
@@ -36,6 +51,7 @@ public class PagoController {
     @FXML private Label lblCountReembolsado;
 
     // Contenedor de filas de la tabla
+    @FXML private VBox cajaTabla;
     @FXML private VBox contenedorFilasPagos;
 
     private final PagoService pagoService = new PagoService();
@@ -44,16 +60,49 @@ public class PagoController {
     private final Locale localeEs = Locale.forLanguageTag("es-ES");
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd MMM", localeEs);
 
-    // Carga los datos de pagos al abrir la pantalla
+    // Carga los datos de pagos o muestra el estado de invitado si no hay sesión iniciada
     @FXML
     public void initialize() {
+        if (iconoInvitado != null) {
+            iconoInvitado.getChildren().setAll(Iconos.crear("card", 24));
+        }
+
+        if (!Sesion.haySesion()) {
+            aplicarEstadoSesion(false);
+            return;
+        }
+
+        aplicarEstadoSesion(true);
         cargarDatosPagos();
+    }
+
+    // Alterna entre el contenido de pagos del usuario y el aviso de inicio de sesión
+    private void aplicarEstadoSesion(boolean haySesion) {
+        mostrar(btnMetodosPago, haySesion);
+        mostrar(cajaKpis, haySesion);
+        mostrar(cajaTabla, haySesion);
+        mostrar(panelInvitado, !haySesion);
+
+        if (!haySesion) {
+            mostrar(bannerPendiente, false);
+        }
+    }
+
+    private void mostrar(Node nodo, boolean visible) {
+        if (nodo != null) {
+            nodo.setVisible(visible);
+            nodo.setManaged(visible);
+        }
+    }
+
+    @FXML
+    private void onIniciarSesion() {
+        Navegador.mostrarPantallaCompleta(Vista.LOGIN);
     }
 
     // Consulta los pagos del usuario conectado en MySQL y actualiza toda la vista
     private void cargarDatosPagos() {
-        int idUsuario = Sesion.haySesion() ? Sesion.getIdUsuario() : 1;
-        listaPagosActual = pagoService.obtenerPagosDeUsuario(idUsuario);
+        listaPagosActual = pagoService.obtenerPagosDeUsuario(Sesion.getIdUsuario());
 
         actualizarTarjetasResumen(listaPagosActual);
         actualizarBannerPendientes(listaPagosActual);
@@ -98,11 +147,9 @@ public class PagoController {
                 .toList();
 
         if (pendientes.isEmpty()) {
-            bannerPendiente.setVisible(false);
-            bannerPendiente.setManaged(false);
+            mostrar(bannerPendiente, false);
         } else {
-            bannerPendiente.setVisible(true);
-            bannerPendiente.setManaged(true);
+            mostrar(bannerPendiente, true);
 
             int cantidad = pendientes.size();
             lblBannerTitulo.setText(cantidad == 1
@@ -237,10 +284,9 @@ public class PagoController {
 
     // Comprueba métodos guardados, redirige si no hay, o permite elegir uno y actualiza el estado en MySQL
     private void procesarPago(Pago pago) {
-        org.example.activa.dao.MetodoPagoDAO metodoPagoDAO = new org.example.activa.dao.MetodoPagoDAO();
+        MetodoPagoDAO metodoPagoDAO = new MetodoPagoDAO();
         List<org.example.activa.model.MetodoPago> metodosGuardados = metodoPagoDAO.obtenerMetodosPorUsuario(Sesion.getIdUsuario());
 
-        // Si la lista está vacía, invitamos al usuario a crear un método
         if (metodosGuardados.isEmpty()) {
             Alert alertaVacio = new Alert(Alert.AlertType.INFORMATION);
             alertaVacio.setTitle("Falta método de pago");
@@ -253,13 +299,11 @@ public class PagoController {
 
             Optional<ButtonType> res = alertaVacio.showAndWait();
             if (res.isPresent() && res.get() == btnIr) {
-                // Ajusta la vista según tu enrutador (ej. Vista.METODOS_PAGO o Vista.PERFIL)
-                org.example.activa.util.Navegador.irA(org.example.activa.util.Vista.PERFIL);
+                Navegador.irA(Vista.METODOS_PAGO);
             }
             return;
         }
 
-        // Mapeamos los métodos a Strings para mostrarlos limpiamente en el desplegable
         List<String> opciones = metodosGuardados.stream()
                 .map(m -> m.getTipo() + " - " + m.getIdentificador() + (m.isEsPredeterminado() ? " (Predeterminado)" : ""))
                 .toList();
@@ -277,14 +321,11 @@ public class PagoController {
 
         Optional<String> seleccion = dialogo.showAndWait();
         seleccion.ifPresent(seleccionStr -> {
-
-            // Localizamos el método guardado original a partir del texto seleccionado
             org.example.activa.model.MetodoPago metodoElegido = metodosGuardados.stream()
                     .filter(m -> seleccionStr.startsWith(m.getTipo() + " - " + m.getIdentificador()))
                     .findFirst()
                     .orElse(metodosGuardados.get(0));
 
-            // Convertimos el String de tipo (ej: "TARJETA") al Enum que espera PagoService
             MetodoPago enumMetodoPago = MetodoPago.valueOf(metodoElegido.getTipo().toUpperCase());
 
             boolean ok = pagoService.abonarPagoPendiente(pago.getIdPago(), enumMetodoPago);
@@ -314,8 +355,7 @@ public class PagoController {
     // Acción del botón superior de métodos de pago
     @FXML
     private void abrirMetodosPago() {
-        // Ajusta la vista a la de métodos de pago (ej. Vista.METODOS_PAGO o Vista.PERFIL)
-        org.example.activa.util.Navegador.irA(Vista.METODOS_PAGO);
+        Navegador.irA(Vista.METODOS_PAGO);
     }
 
     // Formatea un importe numérico a euros con dos decimales
