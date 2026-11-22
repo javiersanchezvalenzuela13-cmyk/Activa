@@ -12,6 +12,7 @@ CREATE TABLE usuario (
     contrasena VARCHAR(255) NOT NULL,
     telefono VARCHAR(9),
     sobre_mi TEXT,
+    foto_perfil VARCHAR(255),
     rol ENUM('USUARIO', 'ADMINISTRADOR') NOT NULL DEFAULT 'USUARIO',
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
@@ -76,4 +77,17 @@ CREATE TABLE actividad_etiqueta (
     PRIMARY KEY (id_actividad, etiqueta),
     CONSTRAINT fk_ae_actividad FOREIGN KEY (id_actividad) 
         REFERENCES actividad(id_actividad) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- 7. Tabla USUARIO_METODO_PAGO
+CREATE TABLE usuario_metodo_pago (
+    id_metodo_pago INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    tipo ENUM('TARJETA', 'BIZUM') NOT NULL,
+    titular VARCHAR(100),
+    identificador VARCHAR(50) NOT NULL,
+    fecha_caducidad VARCHAR(7),
+    es_predeterminado BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT fk_ump_usuario FOREIGN KEY (id_usuario)
+        REFERENCES usuario(id_usuario) ON DELETE CASCADE
 ) ENGINE=InnoDB;
