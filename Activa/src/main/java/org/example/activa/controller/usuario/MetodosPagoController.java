@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -23,6 +24,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class MetodosPagoController {
+
+    @FXML
+    private ToggleGroup grupoPestanas;
 
     @FXML
     private VBox contenedorMetodos;
@@ -56,6 +60,14 @@ public class MetodosPagoController {
     // Configura la vista inicial rellenando el desplegable de opciones y mostrando las formas de pago guardadas en base de datos.
     @FXML
     public void initialize() {
+        if (grupoPestanas != null) {
+            grupoPestanas.selectedToggleProperty().addListener((obs, anterior, actual) -> {
+                if (actual == null && anterior != null) {
+                    anterior.setSelected(true);
+                }
+            });
+        }
+
         cmbTipo.getItems().addAll("TARJETA", "BIZUM");
         cmbTipo.setValue("TARJETA");
         cmbTipo.setOnAction(e -> actualizarCamposFormulario());
@@ -107,7 +119,7 @@ public class MetodosPagoController {
     private HBox crearFilaMetodo(MetodoPago metodo) {
         HBox fila = new HBox(16);
         fila.setAlignment(Pos.CENTER_LEFT);
-        fila.setStyle("-fx-background-color: #F8FAFC; -fx-background-radius: 12; -fx-padding: 16; -fx-border-color: #E2E8F0; -fx-border-radius: 12;");
+        fila.setStyle("-fx-background-color: -paper-2; -fx-background-radius: 12; -fx-padding: 16; -fx-border-color: -line; -fx-border-radius: 12;");
 
         VBox info = new VBox(4);
         String titulo = metodo.getTipo() + " · " + metodo.getIdentificador();

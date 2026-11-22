@@ -8,8 +8,8 @@ import javafx.scene.control.TextField;
 import org.example.activa.exception.AuthException;
 import org.example.activa.model.Usuario;
 import org.example.activa.service.AuthService;
-import org.example.activa.util.Sesion;
 import org.example.activa.util.Navegador;
+import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
 
 public class RegistroController {
@@ -28,11 +28,15 @@ public class RegistroController {
 
     private final AuthService authService = new AuthService();
 
-    // Valida la aceptación de términos, registra al nuevo usuario, inicia sesión y avanza a la selección de intereses.
+    // Valida la aceptación de términos y condiciones, registra al nuevo usuario y avanza a la selección de intereses.
     @FXML
     public void handleContinuar() {
         if (!terminosCheck.isSelected()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Términos y condiciones", "Debes aceptar las normas de la comunidad.");
+            mostrarAlerta(
+                    Alert.AlertType.WARNING,
+                    "Términos y condiciones",
+                    "Debes aceptar los términos y condiciones para crear una cuenta."
+            );
             return;
         }
 

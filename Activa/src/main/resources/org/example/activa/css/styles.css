@@ -580,6 +580,7 @@
     -fx-border-color: -line;
     -fx-border-radius: 11;
 }
+
 /* Títulos grandes */
 .eyebrow {
     -fx-font-size: 11px;
@@ -591,6 +592,7 @@
     -fx-font-family: "Georgia";
     -fx-font-size: 38px;
     -fx-fill: -ink;
+    -fx-text-fill: -ink;
 }
 
 .h1-em {
@@ -598,6 +600,7 @@
     -fx-font-size: 38px;
     -fx-font-style: italic;
     -fx-fill: -forest;
+    -fx-text-fill: -forest;
 }
 
 /* Pestañas */
@@ -721,6 +724,7 @@
     -fx-text-fill: -ink-2;
     -fx-text-alignment: center;
 }
+
 .boton-ghost {
     -fx-background-color: transparent;
     -fx-text-fill: -ink;
@@ -733,12 +737,14 @@
 .boton-ghost:hover {
     -fx-background-color: -paper-2;
 }
+
 /* Panel de administración */
 .h1-em-admin {
     -fx-font-family: "Georgia";
     -fx-font-size: 38px;
     -fx-font-style: italic;
     -fx-fill: -ciruela;
+    -fx-text-fill: -ciruela;
 }
 
 /* Tarjetas de resumen */
@@ -854,6 +860,7 @@
 .boton-apuntarme {
     -fx-graphic-text-gap: 8;
 }
+
 /* Formularios */
 .campo-etiqueta {
     -fx-font-size: 13px;
@@ -876,6 +883,7 @@
     -fx-border-color: -line;
     -fx-border-radius: 10;
     -fx-font-size: 14px;
+    -fx-text-fill: -ink;
 }
 
 .formulario .text-field,
@@ -935,6 +943,7 @@
 .tarjeta-dato {
     -fx-graphic-text-gap: 8;
 }
+
 /* Gestionar inscritos */
 .titulo-gestion {
     -fx-font-family: "Georgia";
@@ -996,6 +1005,7 @@
 /* =========================================================
    MODO OSCURO GLOBAL
    ========================================================= */
+.root.tema-oscuro,
 .tema-oscuro {
     -paper: #131715;
     -paper-2: #1b211e;
@@ -1031,8 +1041,12 @@
     -danger: #e56b5e;
     -danger-soft: #381d1a;
 
+    -fx-base: -card;
     -fx-background: -paper;
     -fx-background-color: -paper;
+    -fx-control-inner-background: -card;
+    -fx-text-base-color: -ink;
+    -fx-text-inner-color: -ink;
 }
 
 .tema-oscuro .avatar,
@@ -1100,6 +1114,7 @@
 .densidad-compacta .fila-tabla {
     -fx-padding: 9 14;
 }
+
 /* Etiquetas */
 .chip {
     -fx-background-color: -card;
@@ -1186,6 +1201,7 @@
 .context-menu .check-box:selected > .box > .mark {
     -fx-background-color: white;
 }
+
 /* Portadas (foto o color con icono) */
 .portada {
     -fx-background-radius: 14;
@@ -1199,6 +1215,7 @@
 .portada .icono {
     -fx-stroke-width: 1.5;
 }
+
 /* Avatar con foto: sin fondo de color */
 .avatar.con-foto {
     -fx-background-color: transparent;
@@ -1355,4 +1372,85 @@
 
 .notif-dot {
     -fx-fill: -terra;
+}
+
+/* TextArea, TextField y campos de texto ("Sobre mí" y "Descripción" al crear actividad) */
+.text-field,
+.password-field,
+.text-area,
+.formulario .text-area {
+    -fx-text-fill: -ink;
+    -fx-prompt-text-fill: -ink-3;
+}
+
+.text-area .scroll-pane,
+.text-area .scroll-pane .viewport,
+.text-area .content {
+    -fx-background-color: -card;
+}
+
+/* Spinner (Hora o selectores numéricos) */
+.spinner .text-field {
+    -fx-text-fill: -ink;
+    -fx-prompt-text-fill: -ink-3;
+    -fx-background-color: -card;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button {
+    -fx-background-color: -paper-2;
+}
+
+.spinner .increment-arrow-button .increment-arrow,
+.spinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: -ink;
+}
+
+/* DatePicker (selector de fecha) */
+.date-picker .text-field {
+    -fx-text-fill: -ink;
+    -fx-prompt-text-fill: -ink-3;
+}
+
+.date-picker-popup {
+    -fx-background-color: -card;
+    -fx-border-color: -line;
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: -paper-2;
+}
+
+.date-picker-popup .month-year-pane .label,
+.date-picker-popup .day-name-cell,
+.date-picker-popup .day-cell {
+    -fx-text-fill: -ink;
+}
+
+.date-picker-popup .day-cell:hover,
+.date-picker-popup .selected {
+    -fx-background-color: -forest;
+    -fx-text-fill: white;
+}
+
+/* ComboBox (desplegable de tipo de método de pago) */
+.combo-box .list-cell {
+    -fx-text-fill: -ink;
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -card;
+    -fx-border-color: -line;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-text-fill: -ink;
+    -fx-background-color: -card;
+}
+
+.combo-box-popup .list-view .list-cell:hover,
+.combo-box-popup .list-view .list-cell:selected {
+    -fx-background-color: -sage-soft;
+    -fx-text-fill: -ink;
 }
