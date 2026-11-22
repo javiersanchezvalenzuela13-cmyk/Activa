@@ -196,7 +196,7 @@ public class DetalleActividadController {
         return "Quedan " + libres + " plazas libres";
     }
 
-    // Pone la primera letra en mayúscula ("miércoles" → "Miércoles")
+    // Pone la primera letra en mayúscula (por ejemplo, "miércoles" pasa a "Miércoles")
     private String capitalizar(String texto) {
         return texto.isEmpty() ? texto : Character.toUpperCase(texto.charAt(0)) + texto.substring(1);
     }
@@ -208,9 +208,5 @@ public class DetalleActividadController {
 
     private void mostrarError(String mensaje) {
         AlertUtil.error(mensaje);
-    }
-
-    private boolean confirmar(String mensaje) {
-        return AlertUtil.confirmar(mensaje);
     }
 }

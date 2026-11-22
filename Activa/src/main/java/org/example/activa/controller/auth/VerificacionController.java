@@ -8,6 +8,7 @@ import org.example.activa.service.EmailService;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 public class VerificacionController {
 
@@ -92,12 +93,8 @@ public class VerificacionController {
         });
     }
 
-    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }

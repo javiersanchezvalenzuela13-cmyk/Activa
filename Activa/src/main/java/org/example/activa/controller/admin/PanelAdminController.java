@@ -2,7 +2,6 @@ package org.example.activa.controller.admin;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -49,7 +48,6 @@ public class PanelAdminController {
     @FXML private VBox panel;
     @FXML private Label lblTotal;
     @FXML private ToggleGroup grupoFiltro;
-    @FXML private ToggleButton tabProximas;
     @FXML private ToggleButton tabPasadas;
     @FXML private ToggleButton tabTodas;
     @FXML private HBox cabeceraTabla;
@@ -358,9 +356,5 @@ public class PanelAdminController {
 
     private void mostrarError(String mensaje) {
         AlertUtil.error(mensaje);
-    }
-
-    private boolean confirmar(String mensaje) {
-        return AlertUtil.confirmar(mensaje);
     }
 }

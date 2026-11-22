@@ -25,11 +25,11 @@ public class Actividad {
 
     // Constructores
 
-    // 1. Vacío
+    // Vacío
     public Actividad() {
     }
 
-    // 2. Sin id
+    // Sin id
     public Actividad(String nombreActividad, String descripcion, String lugar,
                      LocalDate fechaActividad, LocalTime horaInicio, LocalTime horaFin,
                      BigDecimal precio, int cupoMax, int idUsuario) {
@@ -45,7 +45,7 @@ public class Actividad {
         this.idUsuario = idUsuario;
     }
 
-    // 3. Completo
+    // Completo
     public Actividad(int idActividad, String nombreActividad, String descripcion, String lugar,
                      LocalDate fechaActividad, LocalTime horaInicio, LocalTime horaFin,
                      BigDecimal precio, int cupoActual, int cupoMax, int idUsuario) {

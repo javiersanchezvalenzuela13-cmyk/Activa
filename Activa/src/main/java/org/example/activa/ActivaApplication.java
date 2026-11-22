@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.example.activa.util.Navegador;
-import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
 
 import java.util.Objects;

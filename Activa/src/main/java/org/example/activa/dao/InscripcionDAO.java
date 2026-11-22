@@ -23,8 +23,6 @@ public class InscripcionDAO {
     private static final String SELECT_POR_USUARIO =
             "SELECT * FROM inscripcion WHERE id_usuario = ? ORDER BY fecha_inscripcion DESC";
 
-    private static final String SELECT_POR_ACTIVIDAD =
-            "SELECT * FROM inscripcion WHERE id_actividad = ? ORDER BY fecha_inscripcion";
 
     private static final String INSERT =
             "INSERT INTO inscripcion (estado_inscripcion, id_actividad, id_usuario) VALUES (?, ?, ?)";
@@ -59,10 +57,6 @@ public class InscripcionDAO {
         return listar(SELECT_POR_USUARIO, idUsuario);
     }
 
-    // Todas las inscripciones de una actividad (pantalla "Gestionar inscritos" del admin)
-    public List<Inscripcion> listarPorActividad(int idActividad) throws SQLException {
-        return listar(SELECT_POR_ACTIVIDAD, idActividad);
-    }
     // Inscritos de una actividad con su nombre y email (pantalla "Gestionar inscritos")
     public List<Inscrito> listarInscritosConUsuario(int idActividad) throws SQLException {
         List<Inscrito> lista = new ArrayList<>();

@@ -27,7 +27,6 @@ public final class Iconos {
         RUTAS.put("plus", "M5 12h14M12 5v14");
         RUTAS.put("users", "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0Z M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75");
         RUTAS.put("search", "M3 11a8 8 0 1 0 16 0a8 8 0 1 0 -16 0Z M21 21 l-4.3-4.3");
-        RUTAS.put("heart", "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z");
         RUTAS.put("bell", "M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0");
         RUTAS.put("chevDown", "M6 9 l6 6 6-6");
         RUTAS.put("chat", "M7.9 20A9 9 0 1 0 4 16.1L2 22Z");

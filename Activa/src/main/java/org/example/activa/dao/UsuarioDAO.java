@@ -74,24 +74,6 @@ public class UsuarioDAO {
         return null;
     }
 
-    // Busca y devuelve un usuario a partir de su correo
-    public Usuario obtenerUsuarioPorEmail(String email) {
-        String sql = "SELECT * FROM usuario WHERE email = ?";
-        try (Connection conn = ConexionBD.getConexion();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return mapearUsuario(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     // Busca y devuelve un usuario completo a partir de su ID
     public Usuario obtenerUsuarioPorId(int idUsuario) {
         String sql = "SELECT * FROM usuario WHERE id_usuario = ?";

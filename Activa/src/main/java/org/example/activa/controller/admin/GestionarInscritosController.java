@@ -336,8 +336,4 @@ public class GestionarInscritosController {
     private void mostrarError(String mensaje) {
         AlertUtil.error(mensaje);
     }
-
-    private boolean confirmar(String mensaje) {
-        return AlertUtil.confirmar(mensaje);
-    }
 }

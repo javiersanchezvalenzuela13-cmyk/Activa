@@ -1,7 +1,6 @@
 package org.example.activa.controller.usuario;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Toggle;
@@ -38,11 +37,8 @@ public class AjustesController {
     @FXML private ToggleButton tglCompacta;
 
     // Componentes de la tarjeta de vista previa
-    @FXML private Label lblPreviewBadge;
     @FXML private VBox boxPreviewBody;
-    @FXML private Label lblPreviewPlazas;
     @FXML private ProgressBar barPreviewPlazas;
-    @FXML private Button btnPreviewApuntarme;
 
     // Grupos para que solo haya una opción marcada por cada categoría
     private final ToggleGroup grupoTema = new ToggleGroup();

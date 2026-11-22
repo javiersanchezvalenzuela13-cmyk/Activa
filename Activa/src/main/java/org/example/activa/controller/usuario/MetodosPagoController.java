@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -19,9 +18,9 @@ import org.example.activa.model.MetodoPago;
 import org.example.activa.util.Navegador;
 import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
+import org.example.activa.util.AlertUtil;
 
 import java.util.List;
-import java.util.Optional;
 
 public class MetodosPagoController {
 
@@ -81,7 +80,7 @@ public class MetodosPagoController {
         boolean esTarjeta = "TARJETA".equals(cmbTipo.getValue());
 
         lblIdentificador.setText(esTarjeta ? "Número de tarjeta" : "Teléfono Bizum");
-        txtIdentificador.setPromptText(esTarjeta ? "1234 5678 9012 3456" : "600123456");
+        txtIdentificador.setPromptText(esTarjeta ? "1234 5678 9012 3456" : "612 345 678");
 
         lblTitular.setVisible(esTarjeta);
         lblTitular.setManaged(esTarjeta);
@@ -224,13 +223,11 @@ public class MetodosPagoController {
 
     // Pregunta al usuario si está seguro de querer borrar la tarjeta o cuenta seleccionada y la elimina de la base de datos.
     private void onEliminarMetodo(MetodoPago metodo) {
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Eliminar método de pago");
-        confirmacion.setHeaderText("¿Quieres eliminar " + metodo.getTipo() + " (" + metodo.getIdentificador() + ")?");
-        confirmacion.setContentText("Esta acción no se puede deshacer.");
-
-        Optional<ButtonType> resultado = confirmacion.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+        boolean eliminar = AlertUtil.confirmarPeligro(
+                "¿Eliminar " + metodo.getTipo() + " (" + metodo.getIdentificador() + ")?",
+                "Esta acción no se puede deshacer.",
+                "Eliminar", "Cancelar");
+        if (eliminar) {
             if (metodoPagoDAO.eliminarMetodoPago(metodo.getIdMetodoPago(), Sesion.getIdUsuario())) {
                 cargarMetodosPago();
             } else {
@@ -259,12 +256,8 @@ public class MetodosPagoController {
         Navegador.irA(Vista.ETIQUETAS);
     }
 
-    // Muestra un recuadro de mensaje informativo o de error estándar con un botón para cerrarlo.
+    // Muestra una alerta con el estilo de la app
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        AlertUtil.crear(tipo, titulo, mensaje).showAndWait();
     }
 }

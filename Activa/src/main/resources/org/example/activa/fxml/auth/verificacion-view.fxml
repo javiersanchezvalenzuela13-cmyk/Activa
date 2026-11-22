@@ -12,6 +12,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <HBox xmlns:fx="http://javafx.com/fxml"
       fx:controller="org.example.activa.controller.auth.VerificacionController"
@@ -69,22 +71,34 @@
         </HBox>
     </VBox>
 
-    <StackPane HBox.hgrow="ALWAYS" styleClass="right-panel-admin">
-        <GridPane hgap="15" vgap="15" alignment="CENTER">
-            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="0"
+    <StackPane fx:id="panelDerecho" HBox.hgrow="ALWAYS" styleClass="right-panel-admin">
+        <GridPane hgap="15" vgap="15">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50"/>
+                <ColumnConstraints percentWidth="50"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="50"/>
+                <RowConstraints percentHeight="50"/>
+            </rowConstraints>
+            <Region GridPane.columnIndex="0" GridPane.rowIndex="0"
                     style="-fx-background-color: #8C5C86; -fx-background-radius: 20;"/>
-            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="0"
+            <Region GridPane.columnIndex="1" GridPane.rowIndex="0"
                     style="-fx-background-color: #A3729C; -fx-background-radius: 20;"/>
-            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="0" GridPane.rowIndex="1"
+            <Region GridPane.columnIndex="0" GridPane.rowIndex="1"
                     style="-fx-background-color: #5C3858; -fx-background-radius: 20;"/>
-            <Region prefWidth="240" prefHeight="290" GridPane.columnIndex="1" GridPane.rowIndex="1"
+            <Region GridPane.columnIndex="1" GridPane.rowIndex="1"
                     style="-fx-background-color: #B889B1; -fx-background-radius: 20;"/>
         </GridPane>
 
-        <VBox maxWidth="270" maxHeight="90" alignment="CENTER_LEFT"
-              StackPane.alignment="CENTER" styleClass="floating-card">
+        <VBox maxWidth="270" maxHeight="-Infinity" alignment="CENTER_LEFT"
+              StackPane.alignment="CENTER" styleClass="floating-card"
+              scaleX="${panelDerecho.width / 720}" scaleY="${panelDerecho.width / 720}">
             <Label text="Acceso restringido al panel de control." wrapText="true"
-                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -ink;"/>
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
         </VBox>
     </StackPane>
 </HBox>

@@ -36,10 +36,9 @@
 }
 
 /* Mensaje (alineado con el título) */
-.dialogo > .content.label {
+.dialogo-mensaje {
     -fx-padding: 6 22 20 78;
     -fx-text-fill: -ink-2;
-    -fx-wrap-text: true;
 }
 
 /* Botones */
@@ -111,4 +110,12 @@
 .dialogo-peligro .button:default:hover {
     -fx-background-color: derive(-danger, -12%);
     -fx-border-color: derive(-danger, -12%);
+}
+/* Contenido personalizado (texto + desplegable) */
+.dialogo-contenido {
+    -fx-padding: 6 22 20 78;
+}
+
+.dialogo-contenido > .label {
+    -fx-text-fill: -ink-2;
 }

@@ -1,15 +1,18 @@
 package org.example.activa.util;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,7 +58,6 @@ public final class AlertUtil {
         Alert alerta = new Alert(tipo);
         alerta.initStyle(StageStyle.TRANSPARENT);
         alerta.setTitle("Activa");
-        alerta.setContentText(mensaje);
         if (botones.length > 0) {
             alerta.getButtonTypes().setAll(botones);
         }
@@ -69,6 +71,12 @@ public final class AlertUtil {
 
         DialogPane panel = alerta.getDialogPane();
         panel.setMinHeight(Region.USE_PREF_SIZE);
+        Label texto = new Label(mensaje);
+        texto.setWrapText(true);
+        texto.setPrefWidth(420);
+        texto.setMinHeight(Region.USE_PREF_SIZE);
+        texto.getStyleClass().add("dialogo-mensaje");
+        panel.setContent(texto);
         panel.setHeader(crearCabecera(tipo, titulo));
         panel.getStylesheets().addAll(
                 Objects.requireNonNull(AlertUtil.class.getResource(CSS_COLORES)).toExternalForm(),
@@ -139,5 +147,28 @@ public final class AlertUtil {
         if (raiz.getStyle() != null) {
             panel.setStyle(raiz.getStyle());
         }
+    }
+
+    // Pregunta eligiendo una opción de un desplegable (vacío si cancela)
+    public static Optional<String> elegir(String titulo, String mensaje, List<String> opciones, String porDefecto) {
+        ButtonType aceptar = new ButtonType("Continuar", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+        Alert alerta = crear(Alert.AlertType.CONFIRMATION, titulo, mensaje, aceptar, cancelar);
+
+        Label texto = new Label(mensaje);
+        texto.setWrapText(true);
+        ComboBox<String> desplegable = new ComboBox<>(FXCollections.observableArrayList(opciones));
+        desplegable.setValue(porDefecto);
+        desplegable.setMaxWidth(Double.MAX_VALUE);
+
+        VBox contenido = new VBox(12, texto, desplegable);
+        contenido.getStyleClass().add("dialogo-contenido");
+        alerta.getDialogPane().setContent(contenido);
+
+        Optional<ButtonType> respuesta = alerta.showAndWait();
+        if (respuesta.isPresent() && respuesta.get() == aceptar) {
+            return Optional.ofNullable(desplegable.getValue());
+        }
+        return Optional.empty();
     }
 }

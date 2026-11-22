@@ -535,34 +535,6 @@
     -fx-text-fill: -ink;
 }
 
-/* Etiquetas de estado */
-.estado-chip {
-    -fx-background-radius: 99;
-    -fx-padding: 4 10;
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-}
-
-.estado-chip.confirmada {
-    -fx-background-color: -ok-soft;
-    -fx-text-fill: -ok;
-}
-
-.estado-chip.pendiente {
-    -fx-background-color: -warn-soft;
-    -fx-text-fill: -warn;
-}
-
-.estado-chip.cancelada {
-    -fx-background-color: -danger-soft;
-    -fx-text-fill: -danger;
-}
-
-.estado-chip.pasada {
-    -fx-background-color: -paper-2;
-    -fx-text-fill: -ink-2;
-}
-
 .boton-cancelar-pequeno {
     -fx-background-color: -danger-soft;
     -fx-text-fill: -danger;
