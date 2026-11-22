@@ -60,6 +60,7 @@ public final class Iconos {
         RUTAS.put("alert", "M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0Z M12 8v4M12 16h.01");
         RUTAS.put("x", "M18 6 6 18M6 6l12 12");
         RUTAS.put("alertCircle", "M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20ZM12 8v4M12 16h.01");
+        RUTAS.put("lock", "M5 11h14a2 2 0 0 1 2 2v7a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-7a2 2 0 0 1 2 -2Z M7 11V7a5 5 0 0 1 10 0v4");
     }
 
     private Iconos() {
