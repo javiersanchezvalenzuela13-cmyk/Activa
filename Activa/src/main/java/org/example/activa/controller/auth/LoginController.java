@@ -84,6 +84,16 @@ public class LoginController {
         }
     }
 
+    // Elimina los datos guardados de "Recordarme" si coinciden con el correo de la cuenta eliminada.
+    public static void limpiarRecordarme(String email) {
+        String emailGuardado = PREFS.get(PREF_EMAIL, "").replace(".admin@", "@");
+        if (email != null && email.trim().equalsIgnoreCase(emailGuardado.trim())) {
+            PREFS.remove(PREF_RECORDAR);
+            PREFS.remove(PREF_EMAIL);
+            PREFS.remove(PREF_CLAVE);
+        }
+    }
+
     // Cierra cualquier sesión activa existente y abre la aplicación en modo invitado.
     @FXML
     public void handleExplorarSinCuenta() {
