@@ -1091,3 +1091,8 @@
 .portada .icono {
     -fx-stroke-width: 1.5;
 }
+/* Avatar con foto: sin fondo de color */
+.avatar.con-foto {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}

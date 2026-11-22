@@ -1,5 +1,8 @@
 package org.example.activa.util;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 public final class Sesion {
 
     // Datos del usuario conectado (null si no hay nadie)
@@ -7,6 +10,8 @@ public final class Sesion {
     private static String nombre;
     private static String email;
     private static boolean admin;
+    // Foto de perfil del usuario conectado (avisa cuando cambia)
+    private static final ObjectProperty<byte[]> foto = new SimpleObjectProperty<>();
 
     private Sesion() {
     }
@@ -25,6 +30,7 @@ public final class Sesion {
         nombre = null;
         email = null;
         admin = false;
+        foto.set(null);
     }
 
     public static boolean haySesion() {
@@ -61,5 +67,16 @@ public final class Sesion {
             iniciales += partes[1].substring(0, 1);
         }
         return iniciales.toUpperCase();
+    }
+    public static byte[] getFoto() {
+        return foto.get();
+    }
+
+    public static void setFoto(byte[] nuevaFoto) {
+        foto.set(nuevaFoto);
+    }
+
+    public static ObjectProperty<byte[]> fotoProperty() {
+        return foto;
     }
 }

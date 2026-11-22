@@ -21,6 +21,10 @@ import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import org.example.activa.util.Etiquetas;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.WeakChangeListener;
+import javafx.scene.image.ImageView;
+import org.example.activa.util.Imagenes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,8 @@ public class MainController {
 
     // Pantalla que se está viendo
     private Vista vistaActual;
+    // Se ejecuta cuando cambia la foto de perfil
+    private final ChangeListener<byte[]> alCambiarFoto = (obs, antes, ahora) -> pintarAvatar();
     // Casillas del filtro de etiquetas
     private final List<CheckBox> casillasEtiquetas = new ArrayList<>();
 
@@ -137,7 +143,8 @@ public class MainController {
         if (conCuenta) {
             lblUsuario.setText(Sesion.getNombre());
             lblRol.setText(Sesion.isAdmin() ? "Administración" : "Miembro de Activa");
-            lblInicial.setText(Sesion.getIniciales());
+            pintarAvatar();
+            Sesion.fotoProperty().addListener(new WeakChangeListener<>(alCambiarFoto));
         }
     }
 
@@ -224,6 +231,19 @@ public class MainController {
         menuEtiquetas.getStyleClass().remove("activo");
         if (marcadas > 0) {
             menuEtiquetas.getStyleClass().add("activo");
+        }
+    }
+    // Foto de perfil si la hay; si no, las iniciales
+    private void pintarAvatar() {
+        ImageView foto = Imagenes.circular(Sesion.getFoto(), 38);
+        if (foto != null) {
+            lblInicial.setText("");
+            lblInicial.setGraphic(foto);
+            lblInicial.getStyleClass().add("con-foto");
+        } else {
+            lblInicial.setGraphic(null);
+            lblInicial.setText(Sesion.getIniciales());
+            lblInicial.getStyleClass().remove("con-foto");
         }
     }
 }
