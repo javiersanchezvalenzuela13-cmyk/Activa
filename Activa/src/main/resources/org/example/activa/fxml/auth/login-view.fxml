@@ -27,7 +27,7 @@
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="activa"
-                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic; -fx-text-fill: -ink;"/>
         </HBox>
 
         <VBox spacing="5">
@@ -53,10 +53,10 @@
             </VBox>
 
             <HBox alignment="CENTER">
-                <CheckBox text="Recordarme" style="-fx-text-fill: #666;"/>
+                <CheckBox fx:id="recordarmeCheck" text="Recordarme"/>
                 <Region HBox.hgrow="ALWAYS"/>
                 <Hyperlink text="¿Olvidaste la contraseña?"
-                           style="-fx-text-fill: #666; -fx-underline: false;"
+                           style="-fx-text-fill: -ink-3; -fx-underline: false;"
                            onAction="#handleOlvidarContrasena"/>
             </HBox>
 
@@ -65,19 +65,17 @@
         </VBox>
 
         <Label text="o" alignment="CENTER" maxWidth="Infinity"
-               style="-fx-text-fill: #999;"/>
+               style="-fx-text-fill: -ink-3;"/>
 
         <HBox spacing="10">
-            <Button text="Continuar con Google" maxWidth="Infinity" HBox.hgrow="ALWAYS"
-                    styleClass="btn-secondary" onAction="#handleGoogleLogin"/>
             <Button text="Explorar sin cuenta" maxWidth="Infinity" HBox.hgrow="ALWAYS"
                     styleClass="btn-secondary" onAction="#handleExplorarSinCuenta"/>
         </HBox>
 
         <HBox spacing="5" alignment="CENTER_LEFT">
-            <Label text="¿Aún no tienes cuenta?" style="-fx-text-fill: #666;"/>
+            <Label text="¿Aún no tienes cuenta?" style="-fx-text-fill: -ink-3;"/>
             <Hyperlink text="Crear cuenta"
-                       style="-fx-text-fill: #215745; -fx-font-weight: bold;"
+                       style="-fx-text-fill: -forest; -fx-font-weight: bold;"
                        onAction="#handleCrearCuenta"/>
         </HBox>
     </VBox>
@@ -97,9 +95,9 @@
         <VBox spacing="5" maxWidth="350" maxHeight="100" alignment="CENTER_LEFT"
               StackPane.alignment="CENTER" styleClass="floating-card">
             <Label text="142 actividades este mes cerca de ti." wrapText="true"
-                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -ink;"/>
             <Label text="Yoga en el parque, talleres, rutas y huertos. Apúntate en dos toques." wrapText="true"
-                   style="-fx-font-size: 11px; -fx-text-fill: #666;"/>
+                   style="-fx-font-size: 11px; -fx-text-fill: -ink-3;"/>
         </VBox>
     </StackPane>
 </HBox>

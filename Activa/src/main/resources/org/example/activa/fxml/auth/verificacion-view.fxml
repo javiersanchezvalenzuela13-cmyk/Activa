@@ -25,7 +25,7 @@
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="activa"
-                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic;"/>
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-font-family: 'Georgia'; -fx-font-style: italic; -fx-text-fill: -ink;"/>
             <Label text="Administración" styleClass="badge-admin"/>
         </HBox>
 
@@ -60,11 +60,11 @@
 
         <HBox spacing="15" alignment="CENTER_LEFT">
             <Hyperlink text="Usar otra cuenta"
-                       style="-fx-text-fill: #666; -fx-underline: false;"
+                       style="-fx-text-fill: -ink-3; -fx-underline: false;"
                        onAction="#handleUsarOtraCuenta"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Hyperlink text="Reenviar por correo"
-                       style="-fx-text-fill: #73486E; -fx-underline: false;"
+                       style="-fx-text-fill: -ciruela; -fx-underline: false;"
                        onAction="#handleReenviar"/>
         </HBox>
     </VBox>
@@ -84,7 +84,7 @@
         <VBox maxWidth="270" maxHeight="90" alignment="CENTER_LEFT"
               StackPane.alignment="CENTER" styleClass="floating-card">
             <Label text="Acceso restringido al panel de control." wrapText="true"
-                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                   style="-fx-font-family: 'Georgia'; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: -ink;"/>
         </VBox>
     </StackPane>
 </HBox>

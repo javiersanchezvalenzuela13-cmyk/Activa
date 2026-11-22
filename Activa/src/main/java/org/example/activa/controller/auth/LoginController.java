@@ -1,20 +1,26 @@
 package org.example.activa.controller.auth;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
-import java.util.Optional;
 import org.example.activa.exception.AuthException;
 import org.example.activa.model.Usuario;
 import org.example.activa.service.AuthService;
-import org.example.activa.util.Sesion;
+import org.example.activa.service.EmailService;
 import org.example.activa.util.Navegador;
+import org.example.activa.util.Sesion;
 import org.example.activa.util.Vista;
 
+import java.util.prefs.Preferences;
+
 public class LoginController {
+
+    private static final Preferences PREFS = Preferences.userNodeForPackage(LoginController.class);
+    private static final String PREF_RECORDAR = "login_recordar";
+    private static final String PREF_EMAIL = "login_email";
+    private static final String PREF_CLAVE = "login_clave";
 
     @FXML
     private TextField emailField;
@@ -22,84 +28,82 @@ public class LoginController {
     @FXML
     private PasswordField passwordField;
 
+    @FXML
+    private CheckBox recordarmeCheck;
+
     private final AuthService authService = new AuthService();
 
-    // Inicializa el controlador de la vista
+    // Rellena los datos guardados si el usuario marcó "Recordarme" en el último inicio de sesión.
     @FXML
     public void initialize() {
+        if (recordarmeCheck != null && PREFS.getBoolean(PREF_RECORDAR, false)) {
+            emailField.setText(PREFS.get(PREF_EMAIL, ""));
+            passwordField.setText(PREFS.get(PREF_CLAVE, ""));
+            recordarmeCheck.setSelected(true);
+        }
     }
 
-    // Autentica al usuario y abre la sesión o pide verificación 2FA si es admin
+    // Autentica al usuario e inicia sesión, o redirige a verificación en dos pasos si es administrador.
     @FXML
-    public void handleLogin(ActionEvent event) {
+    public void handleLogin() {
         try {
             String emailIngresado = emailField.getText();
-
-            // Si el correo tiene .admin, lo quitamos para poder buscar el correo real en la BD
+            String claveIngresada = passwordField.getText();
             String emailReal = emailIngresado.replace(".admin@", "@");
             boolean intentoAdmin = emailIngresado.contains(".admin@");
 
-            // Pasamos el correo real a la validación
-            Usuario usuario = authService.login(emailReal, passwordField.getText());
+            Usuario usuario = authService.login(emailReal, claveIngresada);
+            guardarPreferenciasLogin(emailIngresado, claveIngresada);
 
             // Comprobamos si es admin real en la BD o si usó el truco del .admin
             if (usuario.esAdmin() || intentoAdmin) {
-                cargarVerificacionAdmin(usuario);
+                String codigo2FA = EmailService.generarCodigo();
+                EmailService.enviarCodigo(usuario.getEmail(), codigo2FA, "Activa - Código de acceso Administrador");
+
+                VerificacionController.setDatosTemporales(usuario, codigo2FA);
+                Navegador.mostrarPantallaCompleta(Vista.VERIFICACION);
             } else {
                 Sesion.iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), false);
                 Navegador.mostrarPantallaCompleta(Vista.MAIN);
             }
         } catch (AuthException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de acceso", e.getMessage());
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", e.getMessage());
         }
     }
 
-    // Inicia la aplicación en modo invitado asegurando que no hay sesión abierta
+    // Guarda o borra las credenciales localmente según esté marcada la casilla "Recordarme".
+    private void guardarPreferenciasLogin(String email, String clave) {
+        if (recordarmeCheck != null && recordarmeCheck.isSelected()) {
+            PREFS.putBoolean(PREF_RECORDAR, true);
+            PREFS.put(PREF_EMAIL, email);
+            PREFS.put(PREF_CLAVE, clave);
+        } else {
+            PREFS.remove(PREF_RECORDAR);
+            PREFS.remove(PREF_EMAIL);
+            PREFS.remove(PREF_CLAVE);
+        }
+    }
+
+    // Cierra cualquier sesión activa existente y abre la aplicación en modo invitado.
     @FXML
-    public void handleExplorarSinCuenta(ActionEvent event) {
+    public void handleExplorarSinCuenta() {
         Sesion.cerrar();
         Navegador.mostrarPantallaCompleta(Vista.MAIN);
     }
 
-    // Gestiona el acceso mediante cuenta de Google
+    // Redirige al usuario a la pantalla de registro para crear una nueva cuenta.
     @FXML
-    public void handleGoogleLogin(ActionEvent event) {
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Inicio de sesión con Google");
-        dialog.setHeaderText("Simulación de Google Login");
-        dialog.setContentText("Introduce tu correo de Gmail:");
-
-        Optional<String> result = dialog.showAndWait();
-        result.ifPresent(emailGoogle -> {
-            try {
-                Usuario usuario = authService.loginConGoogle(emailGoogle);
-                Sesion.iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.esAdmin());
-                Navegador.mostrarPantallaCompleta(Vista.MAIN);
-            } catch (AuthException e) {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", e.getMessage());
-            }
-        });
-    }
-
-    // Navega hacia la pantalla de registro
-    @FXML
-    public void handleCrearCuenta(ActionEvent event) {
+    public void handleCrearCuenta() {
         Navegador.mostrarPantallaCompleta(Vista.REGISTRO);
     }
 
-    // Navega hacia la pantalla de recuperación de contraseña
+    // Redirige al usuario a la pantalla de recuperación de contraseña.
     @FXML
-    public void handleOlvidarContrasena(ActionEvent event) {
+    public void handleOlvidarContrasena() {
         Navegador.mostrarPantallaCompleta(Vista.RECUPERAR_CLAVE);
     }
 
-    // Carga la vista de verificación 2FA pasándole los datos del administrador
-    private void cargarVerificacionAdmin(Usuario admin) {
-        VerificacionController.setAdminPendienteTemporal(admin);
-        Navegador.mostrarPantallaCompleta(Vista.VERIFICACION);
-    }
-
-    // Muestra una ventana emergente con el mensaje indicado
+    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

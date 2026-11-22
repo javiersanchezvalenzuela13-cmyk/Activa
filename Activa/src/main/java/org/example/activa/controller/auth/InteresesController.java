@@ -2,7 +2,6 @@ package org.example.activa.controller.auth;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -23,11 +22,13 @@ public class InteresesController {
 
     private final List<String> etiquetasSeleccionadas = new ArrayList<>();
 
+    // Desactiva el botón principal al iniciar hasta que se cumpla el mínimo de etiquetas.
     @FXML
     public void initialize() {
         btnEmpezar.setDisable(true);
     }
 
+    // Gestiona la selección y deselección de etiquetas, actualizando la lista y el diseño.
     @FXML
     public void handleSeleccionEtiqueta(ActionEvent event) {
         ToggleButton botonPresionado = (ToggleButton) event.getSource();
@@ -43,30 +44,25 @@ public class InteresesController {
         actualizarUI();
     }
 
+    // Actualiza el texto del contador y desbloquea el botón si hay al menos 3 etiquetas.
     private void actualizarUI() {
         contadorLabel.setText("✦ " + etiquetasSeleccionadas.size() + " elegidas");
         btnEmpezar.setDisable(etiquetasSeleccionadas.size() < 3);
     }
 
+    // Salta este paso y lleva al usuario a la pantalla principal sin guardar cambios.
     @FXML
-    public void handleOmitir(ActionEvent event) {
+    public void handleOmitir() {
         Navegador.mostrarPantallaCompleta(Vista.MAIN);
     }
 
+    // Guarda las etiquetas en la cuenta del usuario activo y redirige al menú principal.
     @FXML
-    public void handleFinalizar(ActionEvent event) {
+    public void handleFinalizar() {
         if (Sesion.haySesion()) {
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             usuarioDAO.guardarIntereses(Sesion.getIdUsuario(), etiquetasSeleccionadas);
         }
         Navegador.mostrarPantallaCompleta(Vista.MAIN);
-    }
-
-    private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
     }
 }

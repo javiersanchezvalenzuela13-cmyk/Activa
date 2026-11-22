@@ -1,14 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox spacing="24.0" styleClass="contenido" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.activa.controller.usuario.PerfilController">
 
-</AnchorPane>
+    <VBox spacing="4.0">
+        <Label text="TU CUENTA" styleClass="eyebrow" />
+        <Label text="Mi perfil" styleClass="h1" />
+    </VBox>
+
+    <HBox styleClass="seg" alignment="CENTER_LEFT">
+        <fx:define>
+            <ToggleGroup fx:id="grupoPestanas" />
+        </fx:define>
+        <ToggleButton text="Datos" selected="true" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Mis etiquetas" onAction="#onIrAEtiquetas" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+        <ToggleButton text="Métodos de pago" onAction="#onIrAMetodosPago" toggleGroup="$grupoPestanas" styleClass="seg-boton" />
+    </HBox>
+
+    <VBox spacing="32.0" styleClass="bloque">
+
+        <HBox alignment="CENTER_LEFT" spacing="16.0">
+            <StackPane styleClass="avatar" style="-fx-min-width: 64; -fx-min-height: 64; -fx-max-width: 64; -fx-max-height: 64; -fx-background-radius: 32;">
+                <Label fx:id="lblIniciales" text="J" style="-fx-font-size: 20px;" />
+                <ImageView fx:id="imgAvatar" fitWidth="64.0" fitHeight="64.0" preserveRatio="false" />
+            </StackPane>
+            <VBox spacing="4.0">
+                <Label fx:id="lblNombreHeader" text="Jose" styleClass="bloque-titulo" />
+                <Label text="Miembro de Activa" styleClass="seccion-subtitulo" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Cambiar foto" onAction="#onCambiarFoto" styleClass="boton-ghost-borde" />
+        </HBox>
+
+        <VBox spacing="20.0" styleClass="formulario">
+            <GridPane hgap="24.0" vgap="16.0">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50.0" />
+                    <ColumnConstraints percentWidth="50.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+
+                <Label text="Nombre de usuario" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtNombreUsuario" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                <Label text="Correo electrónico" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtCorreo" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="campo-etiqueta" />
+                <TextField fx:id="txtTelefono" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            </GridPane>
+
+            <VBox spacing="8.0">
+                <Label text="Sobre mí" styleClass="campo-etiqueta" />
+                <TextArea fx:id="txtSobreMi" prefRowCount="3" wrapText="true" />
+            </VBox>
+        </VBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="12.0">
+            <Button text="Descartar" onAction="#onDescartar" styleClass="boton-ghost" />
+            <Button text="Guardar cambios" onAction="#onGuardarCambios" styleClass="boton-apuntarme" />
+        </HBox>
+
+        <HBox alignment="CENTER_LEFT" spacing="16.0" style="-fx-background-color: -danger-soft; -fx-background-radius: 12; -fx-padding: 20;">
+            <VBox spacing="4.0">
+                <Label text="Eliminar cuenta" styleClass="fila-nombre" style="-fx-text-fill: -danger;" />
+                <Label text="Se borrarán tu historial, etiquetas y métodos de pago. No se puede deshacer." styleClass="fila-datos" style="-fx-text-fill: -danger;" />
+            </VBox>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Eliminar cuenta" onAction="#onEliminarCuenta" styleClass="boton-cancelar" />
+        </HBox>
+
+    </VBox>
+</VBox>
