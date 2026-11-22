@@ -1,13 +1,11 @@
 package org.example.activa.controller.usuario;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
@@ -22,9 +20,6 @@ import java.io.File;
 import java.util.Optional;
 
 public class PerfilController {
-
-    @FXML
-    private ToggleGroup grupoPestanas;
 
     @FXML
     private Label lblIniciales;
@@ -49,11 +44,13 @@ public class PerfilController {
 
     private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+    // Inicializa la vista cargando los datos del usuario activo desde la base de datos.
     @FXML
     public void initialize() {
         cargarDatosUsuario();
     }
 
+    // Consulta la base de datos para obtener los datos del perfil y actualiza los campos visuales correspondientes.
     private void cargarDatosUsuario() {
         if (!Sesion.haySesion()) {
             return;
@@ -94,8 +91,9 @@ public class PerfilController {
         }
     }
 
+    // Abre un selector de archivos para que el usuario elija una nueva foto de perfil y la guarda.
     @FXML
-    void onCambiarFoto(ActionEvent event) {
+    void onCambiarFoto() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar foto de perfil");
         fileChooser.getExtensionFilters().add(
@@ -114,6 +112,7 @@ public class PerfilController {
         }
     }
 
+    // Carga la imagen desde la ruta especificada y le aplica un recorte circular para mostrarla como avatar.
     private void mostrarImagenCircular(String rutaUri) {
         if (imgAvatar == null) {
             return;
@@ -132,8 +131,9 @@ public class PerfilController {
         }
     }
 
+    // Valida los datos ingresados en el formulario y los actualiza en la base de datos y en la sesión activa.
     @FXML
-    void onGuardarCambios(ActionEvent event) {
+    void onGuardarCambios() {
         String nuevoNombre = txtNombreUsuario.getText().trim();
         String nuevoTelefono = txtTelefono.getText().trim();
         String nuevoSobreMi = txtSobreMi.getText().trim();
@@ -169,13 +169,15 @@ public class PerfilController {
         }
     }
 
+    // Restablece el formulario a los últimos datos guardados, deshaciendo los cambios no guardados.
     @FXML
-    void onDescartar(ActionEvent event) {
+    void onDescartar() {
         cargarDatosUsuario();
     }
 
+    // Muestra un diálogo de confirmación y, si se acepta, elimina la cuenta de usuario de la base de datos de forma permanente.
     @FXML
-    void onEliminarCuenta(ActionEvent event) {
+    void onEliminarCuenta() {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Eliminar cuenta");
         confirmacion.setHeaderText("¿Estás seguro de que quieres eliminar tu cuenta?");
@@ -195,16 +197,19 @@ public class PerfilController {
         }
     }
 
+    // Cambia la vista interna de la sección de perfil a la pestaña de gestión de etiquetas.
     @FXML
-    void onIrAEtiquetas(ActionEvent event) {
+    void onIrAEtiquetas() {
         Navegador.irA(Vista.ETIQUETAS);
     }
 
+    // Cambia la vista interna de la sección de perfil a la pestaña de gestión de métodos de pago.
     @FXML
-    void onIrAMetodosPago(ActionEvent event) {
+    void onIrAMetodosPago() {
         Navegador.irA(Vista.METODOS_PAGO);
     }
 
+    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

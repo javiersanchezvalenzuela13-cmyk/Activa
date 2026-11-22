@@ -1,6 +1,5 @@
 package org.example.activa.controller.usuario;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -10,7 +9,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -25,9 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class MetodosPagoController {
-
-    @FXML
-    private ToggleGroup grupoPestanas;
 
     @FXML
     private VBox contenedorMetodos;
@@ -58,7 +53,7 @@ public class MetodosPagoController {
 
     private final MetodoPagoDAO metodoPagoDAO = new MetodoPagoDAO();
 
-    // Inicializa el selector de tipo y carga los métodos de pago del usuario
+    // Configura la vista inicial rellenando el desplegable de opciones y mostrando las formas de pago guardadas en base de datos.
     @FXML
     public void initialize() {
         cmbTipo.getItems().addAll("TARJETA", "BIZUM");
@@ -69,7 +64,7 @@ public class MetodosPagoController {
         cargarMetodosPago();
     }
 
-    // Adapta las etiquetas y visibilidad del formulario según sea Tarjeta o Bizum
+    // Modifica dinámicamente qué cajas de texto y etiquetas se muestran según si se selecciona Tarjeta de crédito o Bizum.
     private void actualizarCamposFormulario() {
         boolean esTarjeta = "TARJETA".equals(cmbTipo.getValue());
 
@@ -87,7 +82,7 @@ public class MetodosPagoController {
         txtCaducidad.setManaged(esTarjeta);
     }
 
-    // Consulta la base de datos y renderiza la lista de métodos guardados
+    // Pide a la base de datos todos los métodos asociados al usuario logueado y los añade visualmente, o muestra un mensaje vacío si no hay ninguno.
     private void cargarMetodosPago() {
         if (!Sesion.haySesion()) {
             return;
@@ -108,7 +103,7 @@ public class MetodosPagoController {
         }
     }
 
-    // Construye visualmente cada tarjeta/Bizum guardado con sus acciones
+    // Genera el bloque visual de cada método de pago de la lista, con sus datos enmascarados y los botones de gestión.
     private HBox crearFilaMetodo(MetodoPago metodo) {
         HBox fila = new HBox(16);
         fila.setAlignment(Pos.CENTER_LEFT);
@@ -152,9 +147,9 @@ public class MetodosPagoController {
         return fila;
     }
 
-    // Valida los datos introducidos y guarda el nuevo método de pago en BD
+    // Recoge los datos del formulario, verifica que el formato sea correcto, enmascara el número si es tarjeta y lo almacena en la base de datos.
     @FXML
-    void onAgregarMetodo(ActionEvent event) {
+    void onAgregarMetodo() {
         String tipo = cmbTipo.getValue();
         String identificadorRaw = txtIdentificador.getText().replaceAll("\\s+", "");
         String titular = txtTitular.getText().trim();
@@ -206,7 +201,7 @@ public class MetodosPagoController {
         }
     }
 
-    // Establece un método existente como predeterminado y refresca la lista
+    // Asigna el estado de predeterminado a un método concreto y elimina esa condición del resto, actualizando la vista después.
     private void onMarcarPredeterminado(int idMetodoPago) {
         if (metodoPagoDAO.establecerPredeterminado(Sesion.getIdUsuario(), idMetodoPago)) {
             cargarMetodosPago();
@@ -215,7 +210,7 @@ public class MetodosPagoController {
         }
     }
 
-    // Solicita confirmación y elimina el método de pago seleccionado
+    // Pregunta al usuario si está seguro de querer borrar la tarjeta o cuenta seleccionada y la elimina de la base de datos.
     private void onEliminarMetodo(MetodoPago metodo) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         confirmacion.setTitle("Eliminar método de pago");
@@ -232,7 +227,7 @@ public class MetodosPagoController {
         }
     }
 
-    // Restablece los campos del formulario tras guardar
+    // Vacía todos los campos de texto y desmarca la casilla del formulario de nuevo método.
     private void limpiarFormulario() {
         txtIdentificador.clear();
         txtTitular.clear();
@@ -240,19 +235,19 @@ public class MetodosPagoController {
         chkPredeterminado.setSelected(false);
     }
 
-    // Navega de vuelta a la pestaña de datos personales
+    // Cambia la zona central de la ventana para mostrar la sección de edición del perfil de usuario.
     @FXML
-    void onIrADatos(ActionEvent event) {
+    void onIrADatos() {
         Navegador.irA(Vista.PERFIL);
     }
 
-    // Navega a la pestaña de gestión de etiquetas
+    // Cambia la zona central de la ventana para mostrar la configuración de intereses o etiquetas.
     @FXML
-    void onIrAEtiquetas(ActionEvent event) {
+    void onIrAEtiquetas() {
         Navegador.irA(Vista.ETIQUETAS);
     }
 
-    // Muestra una ventana emergente con el mensaje indicado
+    // Muestra un recuadro de mensaje informativo o de error estándar con un botón para cerrarlo.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

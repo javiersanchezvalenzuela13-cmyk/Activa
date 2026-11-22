@@ -11,7 +11,7 @@ import java.util.List;
 
 public class EtiquetaDAO {
 
-    // Obtiene todas las etiquetas guardadas de un usuario ordenadas alfabéticamente
+    // Obtiene todas las etiquetas guardadas de un usuario en la base de datos ordenadas alfabéticamente.
     public List<String> obtenerEtiquetasPorUsuario(int idUsuario) {
         List<String> etiquetas = new ArrayList<>();
         String sql = "SELECT etiqueta FROM usuario_etiqueta WHERE id_usuario = ? ORDER BY etiqueta ASC";
@@ -31,7 +31,7 @@ public class EtiquetaDAO {
         return etiquetas;
     }
 
-    // Elimina las etiquetas previas del usuario e inserta las nuevas seleccionadas
+    // Reemplaza las etiquetas del usuario eliminando las anteriores e insertando las nuevas mediante una transacción.
     public boolean guardarEtiquetasUsuario(int idUsuario, List<String> etiquetas) {
         String sqlDelete = "DELETE FROM usuario_etiqueta WHERE id_usuario = ?";
         String sqlInsert = "INSERT INTO usuario_etiqueta (id_usuario, etiqueta) VALUES (?, ?)";

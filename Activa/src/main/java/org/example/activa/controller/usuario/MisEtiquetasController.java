@@ -1,11 +1,9 @@
 package org.example.activa.controller.usuario;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.FlowPane;
 import org.example.activa.dao.EtiquetaDAO;
 import org.example.activa.util.Navegador;
@@ -16,9 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MisEtiquetasController {
-
-    @FXML
-    private ToggleGroup grupoPestanas;
 
     @FXML
     private FlowPane flowDeporte;
@@ -52,13 +47,13 @@ public class MisEtiquetasController {
     private static final String COLOR_CULTURA = "#9E7D1D";
     private static final String COLOR_COMUNIDAD = "#6B436B";
 
-    // Carga las etiquetas guardadas del usuario al iniciar la pantalla
+    // Inicializa el controlador cargando las preferencias de etiquetas guardadas en la base de datos para el usuario activo.
     @FXML
     public void initialize() {
         cargarEtiquetas();
     }
 
-    // Rellena cada categoría con sus etiquetas marcando las que el usuario tiene en BD
+    // Consulta la base de datos y genera visualmente las etiquetas, dejando marcadas las que el usuario ya tenía seleccionadas.
     private void cargarEtiquetas() {
         List<String> guardadas = Sesion.haySesion()
                 ? etiquetaDAO.obtenerEtiquetasPorUsuario(Sesion.getIdUsuario())
@@ -70,7 +65,7 @@ public class MisEtiquetasController {
         poblarCategoria(flowComunidad, ETIQUETAS_COMUNIDAD, COLOR_COMUNIDAD, guardadas);
     }
 
-    // Genera los botones de una categoría dentro de su FlowPane correspondiente
+    // Recorre la lista de nombres proporcionada creando un botón por etiqueta y lo añade al contenedor visual correspondiente.
     private void poblarCategoria(FlowPane contenedor, List<String> etiquetas, String colorActivo, List<String> guardadas) {
         contenedor.getChildren().clear();
 
@@ -81,7 +76,7 @@ public class MisEtiquetasController {
         }
     }
 
-    // Crea un botón tipo píldora que cambia de prefijo (+ / ✓) y color al pulsarlo
+    // Genera un componente interactivo que alterna su estado, prefijo textual y color cuando el usuario hace clic sobre él.
     private ToggleButton crearBotonEtiqueta(String nombreEtiqueta, String colorActivo, boolean seleccionada) {
         ToggleButton btn = new ToggleButton();
         btn.setUserData(nombreEtiqueta);
@@ -95,7 +90,7 @@ public class MisEtiquetasController {
         return btn;
     }
 
-    // Aplica el texto y estilo visual según si la etiqueta está seleccionada o no
+    // Modifica los estilos CSS del botón para mostrar un fondo sólido con un check si está activo, o un fondo claro con un '+' si no lo está.
     private void actualizarAparienciaBoton(ToggleButton btn, String nombreEtiqueta, String colorActivo, boolean activa) {
         if (activa) {
             btn.setText("✓  " + nombreEtiqueta);
@@ -112,9 +107,9 @@ public class MisEtiquetasController {
         }
     }
 
-    // Recoge todas las etiquetas marcadas, borra las anteriores en BD y guarda las actuales
+    // Recopila los botones actualmente seleccionados y sobreescribe las preferencias del usuario en la base de datos.
     @FXML
-    void onGuardarCambios(ActionEvent event) {
+    void onGuardarCambios() {
         List<String> seleccionadas = new ArrayList<>();
 
         recogerSeleccionadas(flowDeporte, seleccionadas);
@@ -131,7 +126,7 @@ public class MisEtiquetasController {
         }
     }
 
-    // Añade a la lista los nombres limpios de los botones seleccionados de un contenedor
+    // Extrae el valor textual interno de todos los botones marcados dentro de un contenedor y los añade a una lista.
     private void recogerSeleccionadas(FlowPane contenedor, List<String> destino) {
         for (Node nodo : contenedor.getChildren()) {
             if (nodo instanceof ToggleButton btn && btn.isSelected()) {
@@ -140,9 +135,9 @@ public class MisEtiquetasController {
         }
     }
 
-    // Descarta las selecciones sin guardar y deja marcadas únicamente las etiquetas de la BD
+    // Revierte cualquier cambio no guardado en pantalla restaurando el estado visual a los datos almacenados en la base de datos.
     @FXML
-    void onDescartar(ActionEvent event) {
+    void onDescartar() {
         List<String> guardadas = Sesion.haySesion()
                 ? etiquetaDAO.obtenerEtiquetasPorUsuario(Sesion.getIdUsuario())
                 : List.of();
@@ -153,7 +148,7 @@ public class MisEtiquetasController {
         restaurarCategoria(flowComunidad, COLOR_COMUNIDAD, guardadas);
     }
 
-    // Sincroniza la selección y el estilo visual de cada botón con las etiquetas guardadas en BD
+    // Recorre un contenedor de botones forzando el estado activo o inactivo de cada uno basándose en una lista de valores guardados.
     private void restaurarCategoria(FlowPane contenedor, String colorActivo, List<String> guardadas) {
         for (Node nodo : contenedor.getChildren()) {
             if (nodo instanceof ToggleButton btn) {
@@ -165,19 +160,19 @@ public class MisEtiquetasController {
         }
     }
 
-    // Navega de vuelta a la pestaña de datos personales
+    // Cambia la vista activa de la zona central a la sección de edición del perfil personal.
     @FXML
-    void onIrADatos(ActionEvent event) {
+    void onIrADatos() {
         Navegador.irA(Vista.PERFIL);
     }
 
-    // Navega a la pestaña de métodos de pago
+    // Cambia la vista activa de la zona central a la sección de gestión de tarjetas bancarias.
     @FXML
-    void onIrAMetodosPago(ActionEvent event) {
+    void onIrAMetodosPago() {
         Navegador.irA(Vista.METODOS_PAGO);
     }
 
-    // Comprueba si una lista contiene un texto sin distinguir mayúsculas o minúsculas
+    // Verifica si un término exacto se encuentra dentro de una lista de cadenas sin tener en cuenta variaciones de capitalización.
     private boolean contieneIgnorandoMayusculas(List<String> lista, String objetivo) {
         for (String item : lista) {
             if (item.trim().equalsIgnoreCase(objetivo.trim())) {
@@ -187,7 +182,7 @@ public class MisEtiquetasController {
         return false;
     }
 
-    // Muestra una ventana emergente con el mensaje indicado
+    // Muestra una ventana emergente de alerta estándar con un título y mensaje personalizados.
     private void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);

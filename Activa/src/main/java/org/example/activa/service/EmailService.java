@@ -5,10 +5,12 @@ import java.util.Random;
 
 public class EmailService {
 
+    // Genera un código numérico aleatorio de 6 dígitos formateado con ceros a la izquierda si es necesario.
     public static String generarCodigo() {
         return String.format("%06d", new Random().nextInt(1000000));
     }
 
+    // Simula el envío de un correo electrónico mostrando el código generado en la consola y en una ventana emergente.
     public static boolean enviarCodigo(String destinatario, String codigo, String asunto) {
         // Imprimir en consola
         System.out.println("\n==========================================");

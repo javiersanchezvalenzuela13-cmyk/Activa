@@ -16,11 +16,11 @@ public class Usuario {
     private String sobreMi;
     private String fotoPerfil;
 
-    // Constructor vacío
+    // Inicializa un objeto Usuario sin atributos predefinidos.
     public Usuario() {
     }
 
-    // Constructor para registro de nuevos usuarios
+    // Crea un nuevo usuario con los datos básicos de registro y le asigna el rol estándar por defecto.
     public Usuario(String nombreUsuario, String email, String contrasena) {
         this.nombreUsuario = nombreUsuario;
         this.email = email;
@@ -28,7 +28,7 @@ public class Usuario {
         this.rol = Rol.USUARIO;
     }
 
-    // Comprueba si el usuario tiene rol de administrador
+    // Verifica si el usuario actual tiene privilegios de administrador.
     public boolean esAdmin() {
         return rol == Rol.ADMINISTRADOR;
     }
@@ -60,7 +60,7 @@ public class Usuario {
     public String getFotoPerfil() { return fotoPerfil; }
     public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 
-    // Devuelve una representación en texto del usuario
+    // Devuelve una representación en texto del usuario con su nombre y correo electrónico.
     @Override
     public String toString() {
         return nombreUsuario + " (" + email + ")";

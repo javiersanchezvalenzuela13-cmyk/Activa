@@ -1,65 +1,83 @@
 package org.example.activa.util;
 
-public final class Sesion {
+import org.example.activa.dao.UsuarioDAO;
+import org.example.activa.model.Usuario;
+import java.util.prefs.Preferences;
 
-    // Datos del usuario conectado (null si no hay nadie)
-    private static Integer idUsuario;
-    private static String nombre;
+public class Sesion {
+
+    private static int idUsuario = -1;
+    private static String nombreUsuario;
     private static String email;
-    private static boolean admin;
+    private static boolean esAdmin;
 
-    private Sesion() {
+    // Nodo de preferencias del sistema para guardar datos persistentes de esta clase.
+    private static final Preferences prefs = Preferences.userNodeForPackage(Sesion.class);
+    private static final String PREF_ID_USUARIO = "activa_usuario_id";
+
+    // Guarda los datos del usuario en la memoria del programa durante la ejecución.
+    public static void iniciar(int id, String nombre, String correo, boolean admin) {
+        idUsuario = id;
+        nombreUsuario = nombre;
+        email = correo;
+        esAdmin = admin;
     }
 
-    // Lo llama el login al entrar
-    public static void iniciar(int idUsuario, String nombre, String email, boolean admin) {
-        Sesion.idUsuario = idUsuario;
-        Sesion.nombre = nombre;
-        Sesion.email = email;
-        Sesion.admin = admin;
-    }
+    // Busca un ID guardado en Windows/Mac, consulta la BD y autocompleta la sesión.
+    public static boolean comprobarSesionGuardada() {
+        int idGuardado = prefs.getInt(PREF_ID_USUARIO, -1);
+        if (idGuardado != -1) {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            Usuario usuario = usuarioDAO.obtenerUsuarioPorId(idGuardado);
 
-    // Lo llama "Cerrar sesión"
-    public static void cerrar() {
-        idUsuario = null;
-        nombre = null;
-        email = null;
-        admin = false;
-    }
-
-    public static boolean haySesion() {
-        return idUsuario != null;
-    }
-
-    public static int getIdUsuario() {
-        if (idUsuario == null) {
-            throw new IllegalStateException("No hay ninguna sesión iniciada.");
+            if (usuario != null) {
+                iniciar(usuario.getIdUsuario(), usuario.getNombreUsuario(), usuario.getEmail(), usuario.esAdmin());
+                return true;
+            }
         }
+        return false;
+    }
+
+    // Guarda el ID del usuario en el sistema operativo para recordarlo al reabrir.
+    public static void guardarSesionRecordada(int id) {
+        prefs.putInt(PREF_ID_USUARIO, id);
+    }
+
+    // Borra el rastro guardado en el sistema operativo para que no entre solo.
+    public static void limpiarSesionRecordada() {
+        prefs.remove(PREF_ID_USUARIO);
+    }
+
+    // Devuelve el ID del usuario logueado actualmente.
+    public static int getIdUsuario() {
         return idUsuario;
     }
 
-    public static String getNombre() {
-        return nombre;
+    // Devuelve el nombre del usuario logueado actualmente.
+    public static String getNombreUsuario() {
+        return nombreUsuario;
     }
 
+    // Devuelve el correo del usuario logueado actualmente.
     public static String getEmail() {
         return email;
     }
 
-    public static boolean isAdmin() {
-        return admin;
+    // Indica si el usuario actual tiene rol de administrador.
+    public static boolean isEsAdmin() {
+        return esAdmin;
     }
 
-    // Iniciales para el avatar ("Laura Méndez" → "LM")
-    public static String getIniciales() {
-        if (nombre == null || nombre.isBlank()) {
-            return "?";
-        }
-        String[] partes = nombre.trim().split("\\s+");
-        String iniciales = partes[0].substring(0, 1);
-        if (partes.length > 1) {
-            iniciales += partes[1].substring(0, 1);
-        }
-        return iniciales.toUpperCase();
+    // Comprueba si hay alguien logueado revisando si el ID es válido.
+    public static boolean haySesion() {
+        return idUsuario != -1;
+    }
+
+    // Borra todas las variables de memoria al cerrar sesión manualmente.
+    public static void cerrarSesion() {
+        idUsuario = -1;
+        nombreUsuario = null;
+        email = null;
+        esAdmin = false;
     }
 }
