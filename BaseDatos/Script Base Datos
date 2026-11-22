@@ -30,6 +30,7 @@ CREATE TABLE actividad (
     cupo_actual INT NOT NULL DEFAULT 0 CHECK (cupo_actual >= 0),
     cupo_max INT NOT NULL CHECK (cupo_max > 0),
     id_usuario INT NOT NULL,
+    imagen MEDIUMBLOB NULL,
     CONSTRAINT fk_actividad_usuario FOREIGN KEY (id_usuario)
         REFERENCES usuario(id_usuario) ON DELETE CASCADE,
     CONSTRAINT chk_cupo_valido CHECK (cupo_actual <= cupo_max)
